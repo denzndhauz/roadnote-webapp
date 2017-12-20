@@ -1,0 +1,25 @@
+{
+  "name": "roadnote-webapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://denzndhauz@bitbucket.org/denzndhauz/roadnote-webapp.git"
+  },
+  "author": "Arman Arco",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/denzndhauz/roadnote-webapp#readme",
+  "dependencies": {
+    "angular": "^1.6.7",
+    "angular-ui-router": "^0.4.3",
+    "angularfire": "^2.3.0",
+    "angularjs": "0.0.1",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1",
+    "sweetalert2": "^7.1.0"
+  }
+}
