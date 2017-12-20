@@ -15,6 +15,10 @@
 			    name: 'home',
 			    url: '/home',
 			    templateUrl: './assets/app/views/home.html'
+			}).state({
+			    name: 'about',
+			    url: '/about',
+			    templateUrl: './assets/app/views/about.html'
 			});
 
 		$urlRouterProvider.otherwise('/login');
