@@ -9,6 +9,15 @@
 	<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<style type="text/css">
+    #map {
+      width: 400px;
+      height: 400px;
+    }
+  </style>
+  <script>
+    
+</script>
 </head>
 <body>
 	<div class="nav-side-menu">
@@ -59,22 +68,25 @@
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtLbU3jgtpnBDE4u5fgSNjByB8Q5dGuWY"></script>
 
 <script src="node_modules/angular/angular.min.js"></script>
 <script src="node_modules/firebase/firebase.js"></script>
 <script src="node_modules/angularfire/dist/angularfire.min.js"></script>
 <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="node_modules/ngmap/build/scripts/ng-map.js"></script>
 
 <script>
   // Initialize the Firebase SDK
   var config = {
-    apiKey: 'AIzaSyBiNoGGTtO9EN7_HMNmBCITnZEoHkZiq0E',
-    authDomain: 'db-93864.firebaseapp.com',
-    databaseURL: 'https://db-93864.firebaseio.com',
-    storageBucket: 'gs://db-93864.appspot.com'
+  	apiKey: 'AIzaSyBiNoGGTtO9EN7_HMNmBCITnZEoHkZiq0E',
+  	authDomain: 'db-93864.firebaseapp.com',
+  	databaseURL: 'https://db-93864.firebaseio.com',
+  	storageBucket: 'gs://db-93864.appspot.com'
   };
   firebase.initializeApp(config);
 </script>
+
 
 <!-- Angular -->
 <script src="assets/app/app.module.js"></script>
