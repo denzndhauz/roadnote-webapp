@@ -16,9 +16,9 @@
 			    url: '/home',
 			    templateUrl: './assets/app/views/home.html'
 			}).state({
-			    name: 'about',
-			    url: '/about',
-			    templateUrl: './assets/app/views/about.html'
+			    name: 'complain',
+			    url: '/complain',
+			    templateUrl: './assets/app/views/complain.html'
 			});
 
 		$urlRouterProvider.otherwise('/login');

@@ -1,14 +1,14 @@
-
-
-
 <div class="col-md-12">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="panel-title">Home</div>
 		</div>
-		<div class="panel-body">
-			  <ng-map center="41,-87" zoom="3"></ng-map>
+		<div class="panel-body" >
+			<ng-map center="‎{{main.default_city}}" zoom="15"></ng-map>
+		    <div id="bar">
+		      <p class="auto"><input type="text" id="autoc"/></p>
+		      <p><a id="clear" href="#">Click here</a> to clear map.</p>
+		    </div>
 		</div>
 	</div>
 </div>
-

@@ -14,7 +14,7 @@
 
 
 	    	if (user) {
-			  $state.go('home');
+				$state.go('home');
 			}
 
 	    	vm.user = {
@@ -27,7 +27,7 @@
 	    	function user_auth(username, password) {
 	    		vm.login_loading = true;
 	    		auth.$signInWithEmailAndPassword(username, password).then(function(firebaseUser) {
-			    	$state.go('home');
+			    	$state.go('complain');
 			    vm.login_loading = false;
 			  	}).catch(function(error) {
 			    	console.log("Authentication failed:", error);

@@ -43,8 +43,8 @@
 	                </ul>
 
 
-	                 <li ui-sref-active="active" ng-click="main.routeTo('about')">
-	                  <a ui-sref="about">
+	                 <li ui-sref-active="active" ng-click="main.routeTo('complain')">
+	                  <a ui-sref="complain">
 	                  <i class="fa fa-user fa-lg"></i> Profile
 	                  </a>
 	                  </li>
@@ -68,9 +68,9 @@
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtLbU3jgtpnBDE4u5fgSNjByB8Q5dGuWY"></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtLbU3jgtpnBDE4u5fgSNjByB8Q5dGuWY&libraries=drawing,places"></script>
 <script src="node_modules/angular/angular.min.js"></script>
+<script src="//cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
 <script src="node_modules/firebase/firebase.js"></script>
 <script src="node_modules/angularfire/dist/angularfire.min.js"></script>
 <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
@@ -97,5 +97,7 @@
 <!-- Controllers -->
 <script src="assets/app/controllers/main.controller.js"></script>
 <script src="assets/app/controllers/login.controller.js"></script>
+<script src="assets/app/controllers/complain.controller.js"></script>
+
 </body>
 </html>
