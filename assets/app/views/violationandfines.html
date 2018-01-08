@@ -1,0 +1,40 @@
+<div class="col-md-12" >
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-title">Violation And Fines</div>
+		</div>
+		<div class="panel-body" ng-controller="VioFinesCtrl as vioFines">
+			<table class="table table-bordered">
+				<thead class="text-center">
+					<tr class="bg-primary">
+						<th class="text-center col-sm-6 col-md-8">Violation</th>
+						<th class="text-center col-md-1">Fines</th>
+						<th class="text-center col-md-1"><input type="checkbox"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr viofines in vioFines.viofines>
+						<th class="text-center ">a</th>
+						<th class="text-center">a</th>
+						<th class="text-center"><input type="checkbox"></th>
+							<!-- ng-repeat="cat in comp.cats" -->
+						<!-- <th></th>
+						<td></td>
+						<td></td>
+						<td ></td>
+					--><!-- <td><input type="text" ng-model="cat.code" ng-change="comp.cats.$save(cat)"></td> for saving realtime-->
+					<!-- <td><input type="text" ng-model="cat.code" ng-change="comp.cats.$add(cat)"></td> <== for adding in cats database -->
+				</tr>
+			</tbody>
+		</table>
+			<button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
+			<button type="button" class="btn btn-primary" id="btnAdd">Add</button>
+		</div>
+	</div>
+</div>
+<div class="modal" id="delModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="header"></div>
+	</div>
+</div>
+

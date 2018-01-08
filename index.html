@@ -45,7 +45,13 @@
 
 	                 <li ui-sref-active="active" ng-click="main.routeTo('complain')">
 	                  <a ui-sref="complain">
-	                  <i class="fa fa-user fa-lg"></i> Profile
+	                  <i class="fa fa-user fa-lg"></i> Complains
+	                  </a>
+	                  </li>
+	                  <!-- for violation fines -->
+	                  <li ui-sref-active="active" ng-click="main.routeTo('violationandfines')">
+	                  <a ui-sref="violationandfines">
+	                  <i class="fa fa-user fa-lg"></i> Violation and Fines
 	                  </a>
 	                  </li>
 
@@ -64,7 +70,6 @@
 			</div>
 		</div>
 	</div>
-
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
@@ -98,6 +103,6 @@
 <script src="assets/app/controllers/main.controller.js"></script>
 <script src="assets/app/controllers/login.controller.js"></script>
 <script src="assets/app/controllers/complain.controller.js"></script>
-
+<script src="assets/app/controllers/violationandfines.controller.js"></script>
 </body>
 </html>

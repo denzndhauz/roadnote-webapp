@@ -1,0 +1,87 @@
+=================================
+user_profile
+=================================
+user_id//	as primary key
+user_password
+user_birthdate
+user_firstname
+user_middlename
+user_familyname
+user_position
+user_secretquestion
+user_secretanswer
+user_status
+=================================
+---------------------------------
+
+=================================
+violation_fines//forgot to add for city ordinance
+=================================
+vf_id//		as primary key
+vf_user_id
+vf_name
+vf_description
+vf_datestarted
+vf_status
+=================================
+---------------------------------
+
+=================================
+report_a_complain
+=================================
+rac_id//	as primary key
+rac_user_id
+rac_message
+rac_lat
+rac_long
+rac_status
+=================================
+---------------------------------
+
+=================================
+raci
+=================================
+raci_image //can have many image
+=================================
+---------------------------------
+
+=================================
+traffic_sign -> auto_generated -> ts_(what sign?)
+=================================
+ts_dateimplemented
+ts_status
+
+ts_image // maybe not necessary
+=================================
+---------------------------------
+
+=================================
+ts_location
+=================================
+tsl_id
+tsl_latitude
+tsl_longhitude
+=================================
+---------------------------------
+
+=================================
+road_block_sign
+=================================
+rbs_name
+rbs_desc
+rbs_startdatetime
+rbs_enddatetime
+rbs_status
+=================================
+---------------------------------
+
+=================================
+rbs_location
+=================================
+rbs_latitude
+rbs_longhitude
+rbs_id
+=================================
+---------------------------------
+
+

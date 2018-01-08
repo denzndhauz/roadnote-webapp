@@ -19,7 +19,9 @@
 			      <th>{{ cat.$id }}</th>
 			      <td><input type="text" ng-model="cat.name" ng-change="comp.cats.$save(cat)"></td>
 			      <td><input type="number" ng-model="cat.age" ng-change="comp.cats.$save(cat)"></td>
-			      <td><input type="text" ng-model="cat.code" ng-change="comp.cats.$save(cat)"></td>
+			      <td ng-bind="cat.$getRecord(cat.age)"></td>
+			      <!-- <td><input type="text" ng-model="cat.code" ng-change="comp.cats.$save(cat)"></td> for saving realtime-->
+			      <!-- <td><input type="text" ng-model="cat.code" ng-change="comp.cats.$add(cat)"></td> <== for adding in cats database -->
 			    </tr>
 			  </tbody>
 			</table>

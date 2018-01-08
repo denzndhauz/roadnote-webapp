@@ -19,6 +19,10 @@
 			    name: 'complain',
 			    url: '/complain',
 			    templateUrl: './assets/app/views/complain.html'
+			}).state({
+			    name: 'violationandfines',
+			    url: '/violationandfines',
+			    templateUrl: './assets/app/views/violationandfines.html'
 			});
 
 		$urlRouterProvider.otherwise('/login');
