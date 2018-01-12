@@ -158,14 +158,29 @@ body {
 #ccomplain{
   float:right;
  }
-#btnDelete{
-  float:right;
-  padding-left: 10px;
-  margin-left: 10px;
-}
+
 #btnAdd{
   float:right;
 }
+/*========================*/
+/*for violation fines*/
+#btnmodalAdd{
+  float: right;
+  text-align: center;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+#btnmodalclose{
+  float: right;
+  text-align: center;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+#modalfinestxt{
+  resize: vertical;
+}
+
+/*==========================*/
 /* #olap{
   position: absolute;
   top: 5px;
