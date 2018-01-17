@@ -27,17 +27,62 @@
 
 		var vm = this;
 		var ref = firebase.database().ref();
+		vm._fine_obj = {
+			vf_name: '',
+			vf_datestarted: new Date(),
+			vf_status: 'active',
+			vf_fine: '',
+			vf_description: '',
+		}
+		vm.fine_obj = {};
+		vm.loading = false;
 
 		
 		// download the data into a local object
 		// synchronize the object with a three-way data binding
 		// click on `index.html` above to see it used in the DOM!
 		vm.dogs = $firebaseArray(ref.child('dogs'));
-		vm.viofines = $firebaseArray(ref.child('violation_fines'));
+		vm.fine_list = $firebaseArray(ref.child('violation_fines'));
+
+		vm.loading = true;
+		vm.fine_list.$loaded().then(function() {
+			vm.loading = false;
+		});
 
 
 		//vm.cats.$add({ code: "bar"}); for adding to database
 		//==================================
+
+		vm.addviolation_fine_modal = function() {
+			vm.fine_obj = angular.copy(vm._fine_obj);
+			$('#addFine').modal('show');
+		}
+
+		vm.editviolation_fine = function(id) {
+			vm.edit_fine = $firebaseObject(ref.child('violation_fines').child(id));
+
+			vm.edit_fine.$loaded().then(function() {
+				// Parse date string to date object
+				vm.edit_fine.vf_datestarted = moment(vm.edit_fine.vf_datestarted, 'MM-DD-YYYY').toDate();
+			});
+			$('#editFine').modal('show');
+		}
+
+		vm.save_fine = function(type) {
+			if(type == 'add') {
+				swal('Success!', 'SAVE!', 'success');
+			} else {
+				// Parse date object to date string
+				vm.edit_fine.vf_datestarted = moment(vm.edit_fine.vf_datestarted).format('MM-DD-YYYY');
+				vm.edit_fine.$save().then(function(ref) {
+				  swal('Success!', 'SAVE!', 'success');
+				}, function(error) {
+				  swal('Error!', error, 'error');
+				});
+
+				$('#editFine').modal('hide');
+			}
+		}
 
 	}
 	
