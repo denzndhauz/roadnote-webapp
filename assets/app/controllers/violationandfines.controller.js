@@ -70,17 +70,24 @@
 
 		vm.save_fine = function(type) {
 			if(type == 'add') {
-				swal('Success!', 'SAVE!', 'success');
+				vm.fine_obj.vf_datestarted = moment(vm.fine_obj.vf_datestarted).format('MM-DD-YYYY');
+				vm.fine_list.$add(vm.fine_obj).then(function(ref) {
+					swal('Success!', 'Added New Data!', 'success');
+					$('#addFine').modal('hide');
+				}, function(error) {
+					swal('Error!', error, 'error');
+				});
 			} else {
 				// Parse date object to date string
 				vm.edit_fine.vf_datestarted = moment(vm.edit_fine.vf_datestarted).format('MM-DD-YYYY');
 				vm.edit_fine.$save().then(function(ref) {
-				  swal('Success!', 'SAVE!', 'success');
+				  swal('Success!', 'Updated!', 'success');
+				  $('#editFine').modal('hide');
 				}, function(error) {
 				  swal('Error!', error, 'error');
 				});
 
-				$('#editFine').modal('hide');
+				
 			}
 		}
 
