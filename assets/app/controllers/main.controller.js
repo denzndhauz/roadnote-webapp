@@ -52,7 +52,7 @@
 
 		vm.routeTo = routeTo;
     vm.default_city = 'Cebu City';
-		var apiKey = 'AIzaSyDtLbU3jgtpnBDE4u5fgSNjByB8Q5dGuWY';
+		var apiKey = "AIzaSyDtLbU3jgtpnBDE4u5fgSNjByB8Q5dGuWY";
 
 		var map;
 		var drawingManager;
@@ -73,61 +73,39 @@
 		NgMap.getMap().then(function(map) {
 			var bangalore = { lat: 10.333333, lng: 123.933334 };
 
-			addMarker(bangalore, map)
-		});
+      // Adds a Places search box. Searching for a place will center the map on that
+      // location.
+      map.controls[google.maps.ControlPosition.RIGHT_TOP].push(
+          document.getElementById('bar'));
+      var autocomplete = new google.maps.places.Autocomplete(
+          document.getElementById('autoc'));
+      autocomplete.bindTo('bounds', map);
+      autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+        if (place.geometry.viewport) {
+          map.fitBounds(place.geometry.viewport);
+        } else {
+          map.setCenter(place.geometry.location);
+          map.setZoom(17);
+        }
+      });
 
-
-		function addMarker(location, map) {
-		        // Add the marker at the clicked location, and add the next-available label
-		        // from the array of alphabetical characters.
-		        var marker = new google.maps.Marker({
-		        	position: location,
-		        	label: 'test',
-		        	map: map
-		        });
-		    }
-
-
-  function initialize(map) {
-  var mapOptions = {
-    zoom: 17,
-    center: {lat: -33.8667, lng: 151.1955}
-  };
-  map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-  // Adds a Places search box. Searching for a place will center the map on that
-  // location.
-  map.controls[google.maps.ControlPosition.RIGHT_TOP].push(
-      document.getElementById('bar'));
-  var autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('autoc'));
-  autocomplete.bindTo('bounds', map);
-  autocomplete.addListener('place_changed', function() {
-    var place = autocomplete.getPlace();
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
-    }
-  });
-
-  // Enables the polyline drawing control. Click on the map to start drawing a
-  // polyline. Each click will add a new vertice. Double-click to stop drawing.
-  drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.POLYLINE,
-    drawingControl: true,
-    drawingControlOptions: {
-      position: google.maps.ControlPosition.TOP_CENTER,
-      drawingModes: [
-        google.maps.drawing.OverlayType.POLYLINE
-      ]
-    },
-    polylineOptions: {
-      strokeColor: '#696969',
-      strokeWeight: 2
-    }
-  });
+    // Enables the polyline drawing control. Click on the map to start drawing a
+    // polyline. Each click will add a new vertice. Double-click to stop drawing.
+    drawingManager = new google.maps.drawing.DrawingManager({
+      drawingMode: google.maps.drawing.OverlayType.POLYLINE,
+      drawingControl: true,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.TOP_CENTER,
+        drawingModes: [
+          google.maps.drawing.OverlayType.POLYLINE
+        ]
+      },
+      polylineOptions: {
+        strokeColor: '#696969',
+        strokeWeight: 2
+      }
+    });
   drawingManager.setMap(map);
 
   // Snap-to-road when the polyline is completed.
@@ -147,7 +125,20 @@
     ev.preventDefault();
     return false;
   });
-}
+
+			addMarker(bangalore, map)
+		});
+
+
+		function addMarker(location, map) {
+		        // Add the marker at the clicked location, and add the next-available label
+		        // from the array of alphabetical characters.
+		        var marker = new google.maps.Marker({
+		        	position: location,
+		        	label: 'test',
+		        	map: map
+		        });
+		    }
 
 // Snap a user-created polyline to roads and draw the snapped path
 function runSnapToRoad(path) {
@@ -211,6 +202,7 @@ function drawSpeedLimits(start, end) {
     var placeIdQuery = '';
     for (var i = start; i < end; i++) {
       placeIdQuery += '&placeId=' + placeIdArray[i];
+      console.log(end);
     }
 
     $.get('https://roads.googleapis.com/v1/speedLimits',
@@ -226,7 +218,7 @@ function processSpeedLimitResponse(speedData, start) {
   var end = start + speedData.speedLimits.length;
   for (var i = 0; i < speedData.speedLimits.length - 1; i++) {
     var speedLimit = speedData.speedLimits[i].speedLimit;
-    var color = getColorForSpeed(speedLimit);
+    var color = red;
 
     // Take two points for a single-segment polyline.
     var coords = snappedCoordinates.slice(start + i, start + i + 2);
@@ -241,24 +233,24 @@ function processSpeedLimitResponse(speedData, start) {
   }
 }
 
-function getColorForSpeed(speed_kph) {
-  if (speed_kph <= 40) {
-    return 'purple';
-  }
-  if (speed_kph <= 50) {
-    return 'blue';
-  }
-  if (speed_kph <= 60) {
-    return 'green';
-  }
-  if (speed_kph <= 80) {
-    return 'yellow';
-  }
-  if (speed_kph <= 100) {
-    return 'orange';
-  }
-  return 'red';
-}
+// function getColorForSpeed(speed_kph) {
+//   if (speed_kph <= 40) {
+//     return 'purple';
+//   }
+//   if (speed_kph <= 50) {
+//     return 'blue';
+//   }
+//   if (speed_kph <= 60) {
+//     return 'green';
+//   }
+//   if (speed_kph <= 80) {
+//     return 'yellow';
+//   }
+//   if (speed_kph <= 100) {
+//     return 'orange';
+//   }
+//   return 'red';
+// }
 
   }
 })();

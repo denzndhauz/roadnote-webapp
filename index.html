@@ -9,12 +9,6 @@
 	<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<style type="text/css">
-    #map {
-      width: 400px;
-      height: 400px;
-    }
-  </style>
   <script>
     
 </script>
@@ -54,7 +48,11 @@
 	                  <i class="fa fa-user fa-lg"></i> Violation and Fines
 	                  </a>
 	                  </li>
-
+	                 <li ui-sref-active="active" ng-click="main.routeTo('developersmapping')">
+	                  <a ui-sref="developersmapping">
+	                  <i class="fa fa-map-marker"></i> Developers mapping
+	                  </a>
+	                </li>
 	                 <li>
 	                  <a href="#">
 	                  <i class="fa fa-users fa-lg"></i> Users
@@ -75,13 +73,13 @@
 <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <script src="node_modules/moment/moment.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtLbU3jgtpnBDE4u5fgSNjByB8Q5dGuWY&libraries=drawing,places"></script>
+
 <script src="node_modules/angular/angular.min.js"></script>
 <script src="//cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
 <script src="node_modules/firebase/firebase.js"></script>
 <script src="node_modules/angularfire/dist/angularfire.min.js"></script>
 <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="node_modules/ngmap/build/scripts/ng-map.js"></script>
-
 <script>
   // Initialize the Firebase SDK
   var config = {
@@ -90,7 +88,7 @@
   	databaseURL: 'https://db-93864.firebaseio.com',
   	storageBucket: 'gs://db-93864.appspot.com'
   };
-  firebase.initializeApp(config);
+  firebase.initializeApp(config);		
 </script>
 
 
@@ -105,5 +103,6 @@
 <script src="assets/app/controllers/login.controller.js"></script>
 <script src="assets/app/controllers/complain.controller.js"></script>
 <script src="assets/app/controllers/violationandfines.controller.js"></script>
+<script src="assets/app/controllers/developersmapping.controller.js"></script>
 </body>
 </html>

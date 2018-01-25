@@ -6,24 +6,73 @@
 	.controller('VioFinesCtrl', VioFinesController);
 
 	function VioFinesController($scope, $state, $firebaseAuth, $firebaseObject, $firebaseArray) {
+		var vm = this;
+		var ref = firebase.database().ref();
+		vm.viofines = $firebaseArray(ref.child('violation_fines'));
+		var ref = firebase.database().ref("violation_fines");
+		vm.data = $firebaseArray(ref);
 		
-		// var list = $firebaseArray(ref);
-		// var rec = list.$getRecord("foo"); // record with $id === "foo" or null
-		//==========================================
-		// Alert message IDs
-		// var alertObject = {};
-		// alertObject.strAlertDivID = "alertMessageDiv";
-		// alertObject.strAlertDivTitle = "alertMessageTitle";
-		// alertObject.strAlertDivBody = "alertMessageBody";
-		// alertObject.strAlertDivClose = "alertMessageClose";
-		// // $(document).ready(function(){
-		// 	$(".btnDelete").click(function(){ 
-		// 		alert("Hello! I am an alert box!!");}
-		// 	});
+		vm.violation_fines = {
+			vf_name: '',
+			vf_datestarted: '',
+			vf_description: '',
+			vf_fines: '',
+			vf_status: ''
+		}
+		
+		//==========add
+		vm.addviolation_fines = function(){
+			vm.msg2="";
+			console.log(vm.violation_fines);
+			var ref = firebase.database().ref("violation_fines");
+			$firebaseArray(ref).$add(vm.violation_fines)
+			.then(
+				function(ref){
+					vm.violation_fines.vf_name = "";
+					vm.violation_fines.vf_datestarted = "";
+					vm.violation_fines.vf_description = "";
+					vm.violation_fines.vf_status = "";
 
-			// $alertMessage("error","Something went wrong: "+ error, alertObject);
-		// });
+					$scope.msg2= "Student added successfully.";
+					window.setTimeout(function(){
+						$scope.$apply(function(){
+							$scope.msg2 = false;
+						})
+					},2000)
+				},
+				function(error){
+					console.log(error);
+				}
+				)
+		};
 
+		 //======delete 
+
+		 	 vm.deleteviolation_fines = function($id){
+		 	 	//$id = key
+		 	 	//remove
+		 	 	console.log($id);
+		 	 	var refDel = firebase.database().ref();
+		 	 	refDel.child('violation_fines/'+$id+'/').remove();
+
+
+		 	//  vm.data
+		 	// .$remove(info)
+		 	// .then(
+		 	// 	function(ref){
+		 	// 		vm.msg1 = "violation/fine deleted successfully.";
+		 	// 		window.setTimeout(function(){
+		 	// 			vm.$apply(function(){
+		 	// 				vm.msg1 = false;
+		 	// 			})
+		 	// 		},2000)
+		 	// 		console.log(info);
+		 	// 	},
+		 	// 	function(error){
+		 	// 		console.log(error);
+		 	// 	}
+		 	// 	)
+		 };
 
 		var vm = this;
 		var ref = firebase.database().ref();

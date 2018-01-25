@@ -1,0 +1,17 @@
+<div class="col-md-12" ng-controller="DevsCtrl as devs">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-title"><label>Developers Mapping</label></div>
+		</div>
+		<div class="panel-body">
+			<div id="wrapper">
+				<ng-map id="map" center="‎{{devs.default_city}}" zoom="17"></ng-map>
+			
+		    <div id="bar">
+		      <p class="auto"><input type="text" id="autoc"/></p>
+		      <p><a id="clear" href="#">Click here</a> to clear map.</p>
+		    </div>
+		    </div>
+		</div>
+	</div>
+</div>

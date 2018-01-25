@@ -5,7 +5,7 @@
 	.module('app')
 	.controller('CompCtrl', CompController);
 
-	function CompController($scope, $state, $firebaseAuth, $firebaseObject, $firebaseArray) {
+	function CompController($scope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, $firebaseStorage) {
 		// var list = $firebaseArray(ref);
 		// var rec = list.$getRecord("foo"); // record with $id === "foo" or null
 		//==========================================
@@ -17,11 +17,13 @@
 		// synchronize the object with a three-way data binding
 		// click on `index.html` above to see it used in the DOM!
 		vm.dogs = $firebaseArray(ref.child('dogs'));
-		vm.cats = $firebaseArray(ref.child('cats'));
-
+		vm.report_a_complain = $firebaseArray(ref.child('report_a_complain'));
+		var storageRef = firebase.storage().ref("images");
+    	vm.storage = $firebaseStorage(storageRef);
 
 		//vm.cats.$add({ code: "bar"}); for adding to database
 		//==================================
+			//======
 	}
 	
 })();

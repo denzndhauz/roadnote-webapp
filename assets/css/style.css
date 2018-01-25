@@ -139,60 +139,6 @@
     display: block;
   }
 }
-body {
-  margin: 0px;
-  padding: 0px;
-}
-#bar {
-  width: 240px;
-  background-color: rgba(255, 255, 255, 0.75);
-  margin: 8px;
-  padding: 4px;
-  border-radius: 4px;
-}
-
-#autoc {
-  width: 100%;
-  box-sizing: border-box;
-}
-#ccomplain{
-  float:right;
- }
-
-#btnAdd{
-  float:right;
-}
-/*========================*/
-/*for violation fines*/
-#btnmodalAdd{
-  float: right;
-  text-align: center;
-  padding-left: 10px;
-  margin-left: 10px;
-}
-#btnmodalclose{
-  float: right;
-  text-align: center;
-  padding-left: 10px;
-  margin-left: 10px;
-}
-#modalfinestxt{
-  resize: vertical;
-}
-
-/*==========================*/
-/* #olap{
-  position: absolute;
-  top: 5px;
-  left: 50%;
-  margin-left: -180px;
-  z-index: 5;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
-}
-*/
-
 .spinner {
   margin: 50px auto;
   width: 50px;
@@ -245,3 +191,212 @@ body {
     -webkit-transform: scaleY(1.0);
   }
 }
+body {
+  margin: 0px;
+  padding: 0px;
+}
+/*for dashboard*/
+#bar {
+  width: 240px;
+  background-color: rgba(255, 255, 255, 0.75);
+  margin: 8px;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+#autoc {
+  width: 100%;
+  box-sizing: border-box;
+}
+#ccomplain{
+  float:right;
+ }
+
+#btnAdd{
+  float:right;
+}
+/*========================*/
+/*for violation fines*/
+#btnmodalAdd{
+  float: right;
+  text-align: center;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+#btnmodalclose{
+  float: right;
+  text-align: center;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+#modalfinestxt{
+  resize: vertical;
+}
+
+/*==========================*/
+ /*for complain*/
+#trtext{
+  text-align: center;
+}
+
+#map-canvas{
+  width:500px;
+  height:300px;
+  padding-bottom:5px
+}
+#vf{
+  resize: vertical;
+}
+#vf_desc{
+  resize: vertical;
+}
+/* #olap{
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  margin-left: -180px;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+}
+*/
+/*for home*/
+#wrapper { 
+  position: relative; 
+}
+#over_map { 
+  position: absolute; bottom: 5%; right: 4%; z-index: 99; 
+}
+.noparking{
+  color: red;
+}
+.nojaywalking{
+  color:blue;
+}
+.nostoppinganytime{
+  color:black;
+}
+.towawayzone{
+  color: green;
+}
+.NoLoadingOrUnloading{
+  color: #FF00CE;
+}
+/**/
+html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: Roboto, Noto, sans-serif;
+      }
+
+      #map {
+        height: 500px;
+      }
+
+      #interpolate {
+        width: 2em;
+        height: 2em;
+      }
+
+      #coords {
+        resize: vertical;
+        min-height: 75px;
+        max-height: 200px;
+      }
+
+      .block {
+        clear: both;
+        margin: 1.5em auto;
+        text-align: center;
+      }
+
+      #legend {
+        float: center;
+        margin: 5px 15px;
+        font-size: 13px;
+      }
+
+      .button {
+      display: inline-block;
+      position: relative;
+      border: 0;
+      padding: 0 1.7em;
+      min-width: 120px;
+      height: 32px;
+      line-height: 32px;
+      border-radius: 2px;
+      font-size: 0.9em;
+      background-color: #fff;
+      color: #646464;
+    }
+
+    .button.narrow {
+      width: 60px;
+    }
+
+    .button.grey {
+      background-color: #eee;
+    }
+
+    .button.blue {
+      background-color: #4285f4;
+      color: #fff;
+    }
+
+    .button.green {
+      background-color: #0f9d58;
+      color: #fff;
+    }
+
+    .button.raised {
+      transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition-delay: 0.2s;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    }
+
+    .button.raised:active {
+      box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+      transition-delay: 0s;
+    }
+
+    .floating {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 5;
+      background-color: rgba(255, 255, 255, 0.75);
+      padding: 1px;
+      border: 1px solid #999;
+      text-align: center;
+      line-height: 18px;
+    }
+
+    .floating.panel {
+      width: 400px;
+    }
+
+    .coords-small {
+      width: 350px;
+    }
+
+    .coords-large {
+      width: 400px;
+    }
+
+    .button-div {
+      padding: 0px 50px;
+      width: 300px;
+      line-height: 40px;
+    }
+
+    #toggle {
+      width: 25px;
+      z-index: 10;
+      cursor: default;
+      font-size: 2em;
+      padding: 1px;
+      color: #999;
+      display: none;
+    }
