@@ -1,24 +1,22 @@
 (function() {
-	'use strict';
+  'use strict';
 
-	angular
-	.module('app')
-	.controller('MainCtrl', MainController);
+  angular
+  .module('app')
+  .controller('MainCtrl', MainController);
 
-
-	function MainController($scope, $rootScope, $firebaseAuth, $state, NgMap) {
-	  var vm = this;
-		var auth = $firebaseAuth();
-		vm.login = user_auth;
+// $scope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, $firebaseStorage
+  function MainController($scope, $rootScope, $firebaseAuth, $firebaseArray, $state, NgMap) {
+    var vm = this;
+    var auth = $firebaseAuth();
+    vm.login = user_auth;
     var user = auth.$getAuth();
-
-
-    
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if (user && toState.name == 'login') {
         $state.go('home');
       }
     });
+
 
     vm.user = {
       email: '',
@@ -45,212 +43,228 @@
           error.message,
           'error'
         )
+        }else{
+          swal(
+          'Oops...',
+          'Invalid Email/Password',
+          'error'
+        )
         }
       vm.login_loading = false;
       });
     }
 
-		vm.routeTo = routeTo;
-    vm.default_city = 'Cebu City';
-		var apiKey = "AIzaSyDtLbU3jgtpnBDE4u5fgSNjByB8Q5dGuWY";
+    if (user) {
+      console.log("Signed in as:", user.uid);
+    } else {
+      console.log("Signed out");
+    }
+    console.log("Waaa");
+    function routeTo(name) {
+      $state.go(name);
+      console.log("aw");
+    }
 
-		var map;
-		var drawingManager;
-		var placeIdArray = [];
-		var polylines = [];
-		var snappedCoordinates = [];
+    vm.onMapOverlayCompleted = function(e) {
+      e.getPath().getArray().forEach(function(v, k) {
+          console.log(v.lat(), v.lng());
+      })
+      e.setDraggable(true);
+      e.setEditable(true);
 
-		if (user) {
-			console.log("Signed in as:", user.uid);
-		} else {
-			console.log("Signed out");
-		}
-
-		function routeTo(name) {
-			$state.go(name);
-		}
-
-		NgMap.getMap().then(function(map) {
-			var bangalore = { lat: 10.333333, lng: 123.933334 };
-
-      // Adds a Places search box. Searching for a place will center the map on that
-      // location.
-      map.controls[google.maps.ControlPosition.RIGHT_TOP].push(
-          document.getElementById('bar'));
-      var autocomplete = new google.maps.places.Autocomplete(
-          document.getElementById('autoc'));
-      autocomplete.bindTo('bounds', map);
-      autocomplete.addListener('place_changed', function() {
-        var place = autocomplete.getPlace();
-        if (place.geometry.viewport) {
-          map.fitBounds(place.geometry.viewport);
-        } else {
-          map.setCenter(place.geometry.location);
-          map.setZoom(17);
-        }
+      google.maps.event.addListener(e, 'dragend', function (event) {
+        e.getPath().getArray().forEach(function(v, k) {
+            console.log(v.lat(), v.lng());
+        })
       });
+    }
 
-    // Enables the polyline drawing control. Click on the map to start drawing a
-    // polyline. Each click will add a new vertice. Double-click to stop drawing.
-    drawingManager = new google.maps.drawing.DrawingManager({
-      drawingMode: google.maps.drawing.OverlayType.POLYLINE,
-      drawingControl: true,
-      drawingControlOptions: {
-        position: google.maps.ControlPosition.TOP_CENTER,
-        drawingModes: [
-          google.maps.drawing.OverlayType.POLYLINE
-        ]
-      },
-      polylineOptions: {
-        strokeColor: '#696969',
-        strokeWeight: 2
+var vm = this;
+    var ref = firebase.database().ref();
+
+    vm.doggie = $firebaseArray(ref.child('traffic_road_sign'));
+
+    console.log(vm.doggie);
+
+    vm.doggie.$loaded().then(function(notes) {
+       console.log(vm.length); // data is loaded here
+        });
+
+
+        NgMap.getMap().then(function(map) {
+        // init(map);
+        var cebu = {
+          lat: 10.3383039,
+          lng: 123.911486 
       }
+      var latlng = new google.maps.LatLng(cebu.lat, cebu.lng);
+      map.setCenter(latlng);
+      map.setZoom(16);
+
     });
-  drawingManager.setMap(map);
 
-  // Snap-to-road when the polyline is completed.
-  drawingManager.addListener('polylinecomplete', function(poly) {
-    var path = poly.getPath();
-    polylines.push(poly);
-    placeIdArray = [];
-    runSnapToRoad(path);
-  });
+    //the only global variable
+    function init(map){
 
-  // Clear button. Click to remove all polylines.
-  $('#clear').click(function(ev) {
-    for (var i = 0; i < polylines.length; ++i) {
-      polylines[i].setMap(null);
+       ref.child("messages").on("value", function(snapshot) {
+    console.log("There are "+snapshot.traffic_road_sign()+" messages");
+  })
+
+
+        var PS = null;
+
+        google.maps.event.addDomListener(window, "load", function () {
+          
+
+          //we will center the map here
+          var vancouver = {
+              lat: 10.3383039,
+              lng: 123.911486 
+          }
+          
+          //granville island coordinates.
+          //you should be fetching your coordinates from your server
+          var granville_coords = [
+                {lat: 49.27158485202591, lng: -123.13729763031006},
+                {lat: 49.27277488695786, lng: -123.13691139221191},
+                {lat: 49.27316689217891, lng: -123.13613891601562},
+                {lat: 49.27319489243262, lng: -123.13474416732788},
+                {lat: 49.27248088099777, lng: -123.13384294509888},
+                {lat: 49.2696667352996,  lng: -123.13049554824829},
+                {lat: 49.268546632648494,lng: -123.13055992126465},
+                {lat: 49.268350612069995,lng: -123.13066720962524},
+                {lat: 49.2684906268484,  lng: -123.13146114349365},
+                {lat: 49.268546632648494,lng: -123.13249111175537},
+                {lat: 49.26888266611402, lng: -123.13347816467285},
+                {lat: 49.26889666745873, lng: -123.13401460647583},
+                {lat: 49.2706328034105,  lng: -123.1368041038513 }
+          ];
+            
+          //coordinates of blocks just east of burrard.
+          var burrard_coords = [
+            {lat: 49.267972570183545, lng: -123.145751953125},
+            {lat: 49.2679445669656,   lng: -123.14085960388184},
+            {lat: 49.27032478374826,  lng: -123.14077377319336},
+            {lat: 49.27138884351881,  lng: -123.14176082611084},
+            {lat: 49.27309689147504,  lng: -123.14356327056885},
+            {lat: 49.27267688516586,  lng: -123.14467906951904},
+            {lat: 49.27152884967477,  lng: -123.14553737640381},
+            {lat: 49.269834748503946, lng: -123.1459450721740}
+          ];
+          var latlng = new google.maps.LatLng(vancouver.lat, vancouver.lng);
+          map.setCenter(latlng);
+          map.setZoom(16);
+
+
+          
+          //this style is easier on the eyes than the default black.
+          //BADASS and COFFEE hex to the rescue.
+          var polystyle = {
+              strokeColor: '#BADA55',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: '#C0FFEE',
+              fillOpacity: 0.35
+          }
+          
+          //options for granville polygon.
+          //SNAPABLE = TRUE
+          var poly1_opts = $.extend({
+              paths: granville_coords,
+              map: map,
+              snapable: true
+          }, polystyle);
+            
+          //options for burrard polygon
+          //SNAPABLE not present (false)
+          var poly2_opts = $.extend({
+            paths: burrard_coords,
+            map: map,
+            snapable: true
+          }, polystyle);
+          
+          //let's make the polygons  
+          var granville = new google.maps.Polygon(poly1_opts);
+          var burrard   = new google.maps.Polygon(poly2_opts);
+          
+          /*
+              For demo purposes, lets just put two gmaps Polys into the polygon array.
+              For your application purposes, you would populate this array with
+              all of the polygons you want to snap to - likely driven from the DB.
+          */
+         var polygons = [granville, burrard];
+          
+          /*
+            Now, we make the SnapManager.
+            See http://stackoverflow.com/a/33338065/568884 for API
+            Will be transferred to Github soon.
+          */
+            
+          var PS = PolySnapper({
+              map: map,
+              marker: new google.maps.Marker(),
+              threshold: 20,
+              keyRequired: false,
+              polygons: polygons,
+              polystyle: polystyle,
+              hidePOI: true,
+              onEnabled: function(){
+            console.log("enabled")
+              },
+              onDisabled: function(){
+            console.log("disabled")
+              }
+          });
+          
+          //add the buttons initial state on top of the map.
+          //renderCpanel(false);
+
+
+          PS.polygon().getPath().getArray().forEach(function(v, k) {
+              console.log(v.lat(), v.lng());
+          }) 
+         
+        });
+
+        
+
+        // PS.polygon().getPath().getArray().forEach(function(v, k) {
+        //     console.log(v.lat(), v.lng());
+        // }) 
+
+        // //when user clicks log poly button, pull the poly out of the manager and console.log it.
+        // $(document).on("click", "#query", function(){
+        //    console.log( PS.poly().getPath().getArray() );
+        // });
+
+        // //just a small render function to re-draw the buttons whenever the enabled state is flipped on and off.
+        // function renderCpanel(drawing){
+            
+        //     var t = $("#control-panel").html();
+        //     var html = _.template(t, {drawing: drawing});
+        //     $("#cp-wrap").html(html);
+            
+        // }
+
+        // //attach the click handlers to the button. #cp-wrap is never added or removed
+        // //from the DOM, so its safe to bind the listeners to it.
+        // $("#cp-wrap").on("click", "button", function(){
+        //   console.log("hi");
+        //     var action = $(this).data("action");
+            
+        //     if     (action == 'new')  PS.enable();
+        //   else if(action == 'query')  {
+        //     PS.polygon().getPath().getArray().forEach(function(v, k) {
+        //               console.log(v.lat(), v.lng())
+        //           }) 
+        //   }
+        //     else                PS.disable();
+      
+        //     renderCpanel( (action == 'new')  );    
+        // });
     }
-    polylines = [];
-    ev.preventDefault();
-    return false;
-  });
 
-			addMarker(bangalore, map)
-		});
-
-
-		function addMarker(location, map) {
-		        // Add the marker at the clicked location, and add the next-available label
-		        // from the array of alphabetical characters.
-		        var marker = new google.maps.Marker({
-		        	position: location,
-		        	label: 'test',
-		        	map: map
-		        });
-		    }
-
-// Snap a user-created polyline to roads and draw the snapped path
-function runSnapToRoad(path) {
-  var pathValues = [];
-  for (var i = 0; i < path.getLength(); i++) {
-    pathValues.push(path.getAt(i).toUrlValue());
-  }
-
-  $.get('https://roads.googleapis.com/v1/snapToRoads', {
-    interpolate: true,
-    key: apiKey,
-    path: pathValues.join('|')
-  }, function(data) {
-    processSnapToRoadResponse(data);
-    drawSnappedPolyline();
-    getAndDrawSpeedLimits();
-  });
-}
-
-// Store snapped polyline returned by the snap-to-road service.
-function processSnapToRoadResponse(data) {
-  snappedCoordinates = [];
-  placeIdArray = [];
-  for (var i = 0; i < data.snappedPoints.length; i++) {
-    var latlng = new google.maps.LatLng(
-        data.snappedPoints[i].location.latitude,
-        data.snappedPoints[i].location.longitude);
-    snappedCoordinates.push(latlng);
-    placeIdArray.push(data.snappedPoints[i].placeId);
-  }
-}
-
-// Draws the snapped polyline (after processing snap-to-road response).
-function drawSnappedPolyline() {
-  var snappedPolyline = new google.maps.Polyline({
-    path: snappedCoordinates,
-    strokeColor: 'black',
-    strokeWeight: 3
-  });
-
-  snappedPolyline.setMap(map);
-  polylines.push(snappedPolyline);
-}
-
-// Gets speed limits (for 100 segments at a time) and draws a polyline
-// color-coded by speed limit. Must be called after processing snap-to-road
-// response.
-function getAndDrawSpeedLimits() {
-  for (var i = 0; i <= placeIdArray.length / 100; i++) {
-    // Ensure that no query exceeds the max 100 placeID limit.
-    var start = i * 100;
-    var end = Math.min((i + 1) * 100 - 1, placeIdArray.length);
-
-    drawSpeedLimits(start, end);
-  }
-}
-
-// Gets speed limits for a 100-segment path and draws a polyline color-coded by
-// speed limit. Must be called after processing snap-to-road response.
-function drawSpeedLimits(start, end) {
-    var placeIdQuery = '';
-    for (var i = start; i < end; i++) {
-      placeIdQuery += '&placeId=' + placeIdArray[i];
-      console.log(end);
-    }
-
-    $.get('https://roads.googleapis.com/v1/speedLimits',
-        'key=' + apiKey + placeIdQuery,
-        function(speedData) {
-          processSpeedLimitResponse(speedData, start);
-        }
-    );
-}
-
-// Draw a polyline segment (up to 100 road segments) color-coded by speed limit.
-function processSpeedLimitResponse(speedData, start) {
-  var end = start + speedData.speedLimits.length;
-  for (var i = 0; i < speedData.speedLimits.length - 1; i++) {
-    var speedLimit = speedData.speedLimits[i].speedLimit;
-    var color = red;
-
-    // Take two points for a single-segment polyline.
-    var coords = snappedCoordinates.slice(start + i, start + i + 2);
-
-    var snappedPolyline = new google.maps.Polyline({
-      path: coords,
-      strokeColor: color,
-      strokeWeight: 6
-    });
-    snappedPolyline.setMap(map);
-    polylines.push(snappedPolyline);
-  }
-}
-
-// function getColorForSpeed(speed_kph) {
-//   if (speed_kph <= 40) {
-//     return 'purple';
-//   }
-//   if (speed_kph <= 50) {
-//     return 'blue';
-//   }
-//   if (speed_kph <= 60) {
-//     return 'green';
-//   }
-//   if (speed_kph <= 80) {
-//     return 'yellow';
-//   }
-//   if (speed_kph <= 100) {
-//     return 'orange';
-//   }
-//   return 'red';
-// }
+   
 
   }
 })();

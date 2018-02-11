@@ -11,7 +11,8 @@
 		vm.viofines = $firebaseArray(ref.child('violation_fines'));
 		var ref = firebase.database().ref("violation_fines");
 		vm.data = $firebaseArray(ref);
-		
+
+
 		vm.violation_fines = {
 			vf_name: '',
 			vf_datestarted: '',
@@ -19,7 +20,6 @@
 			vf_fines: '',
 			vf_status: ''
 		}
-		
 		//==========add
 		vm.addviolation_fines = function(){
 			vm.msg2="";
@@ -33,12 +33,12 @@
 					vm.violation_fines.vf_description = "";
 					vm.violation_fines.vf_status = "";
 
-					$scope.msg2= "Student added successfully.";
-					window.setTimeout(function(){
-						$scope.$apply(function(){
-							$scope.msg2 = false;
-						})
-					},2000)
+					// $scope.msg2= "Student added successfully.";
+					// window.setTimeout(function(){
+					// 	$scope.$apply(function(){
+					// 		$scope.msg2 = false;
+					// 	})
+					// },2000)
 				},
 				function(error){
 					console.log(error);
@@ -80,7 +80,7 @@
 			vf_name: '',
 			vf_datestarted: new Date(),
 			vf_status: 'active',
-			vf_fine: '',
+			vf_fines: '',
 			vf_description: '',
 		}
 		vm.fine_obj = {};

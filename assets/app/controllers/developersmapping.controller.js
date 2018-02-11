@@ -13,7 +13,7 @@
 		var ref = firebase.database().ref();
 
 	    vm.default_city = 'Cebu City';
-		var apiKey = "AIzaSyDtLbU3jgtpnBDE4u5fgSNjByB8Q5dGuWY";
+		var apiKey = "AIzaSyCH8li2J4KMMnJVR_RPbEBQm8SM2nAwkd8";
 
 		var map;
 		var drawingManager;

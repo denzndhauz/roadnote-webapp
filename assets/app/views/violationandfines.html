@@ -19,14 +19,14 @@
 				<table class="table table-bordered text-center">
 					<thead class="text-center">
 						<tr class="bg-primary">
-							<th class="text-center col-sm-6 col-md-8">Violation</th>
-							<th class="text-center col-md-1">Fines/Penalties</th>
+							<th class="text-center col-sm-6 col-md-6">Violation</th>
+							<th class="text-center col-md-4">Fines/Penalties</th>
 							<th class="text-center col-md-2">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="vf in vioFines.fine_list | filter:search">
-							<td>{{vf.vf_name}}</td>
+							<td >{{vf.vf_name}}</td>
 							<td>{{vf.vf_fines}}</td>
 							<td>  
 								<!-- <a href="" type="button" id="btnEdit" class="btn btn-info">
@@ -71,8 +71,8 @@
 	            <input type="text" class="form-control" ng-model="vioFines.edit_fine.vf_name">
 	          </div>
 	          <div class="form-group">
-	            <label for="recipient-name" class="control-label">Description</label>
-	            <textarea class="form-control" rows="3" ng-model="vioFines.edit_fine.vf_description">
+	            <label for="recipient-name" class="control-label resizeme">Description</label>
+	            <textarea class="form-control resizeme" rows="3" ng-model="vioFines.edit_fine.vf_description">
 	            </textarea>
 	          </div>
 	          <div class="form-group">
@@ -80,8 +80,8 @@
 	            <input type="date" class="form-control" ng-model="vioFines.edit_fine.vf_datestarted">
 	          </div>
 	          <div class="form-group">
-	            <label for="recipient-name" class="control-label">Violation/Fine</label>
-	            <input type="text" class="form-control" ng-model="vioFines.edit_fine.vf_fines">
+	            <label for="recipient-name" class="control-label resizeme">Violation/Fine</label>
+	            <textarea class="form-control resizeme" ng-model="vioFines.edit_fine.vf_fines"></textarea>
 	          </div>
 	          <div class="form-group">
 	            <label for="recipient-name" class="control-label">Status</label>
@@ -115,7 +115,7 @@
 	          </div>
 	          <div class="form-group">
 	            <label for="recipient-name" class="control-label">Description</label>
-	            <textarea class="form-control" id="vf_desc" rows="3" ng-model="vioFines.fine_obj.vf_description">
+	            <textarea class="form-control resizeme" rows="3" ng-model="vioFines.fine_obj.vf_description">
 	            </textarea>
 	          </div>
 	          <div class="form-group">
@@ -124,7 +124,7 @@
 	          </div>
 	          <div class="form-group">
 	            <label for="recipient-name" class="control-label">Violation/Fine</label>
-	            <textarea class="form-control" id="vf" rows="3" ng-model="vioFines.fine_obj.vf_fines"></textarea>
+	            <textarea class="form-control resizeme" rows="3" ng-model="vioFines.fine_obj.vf_fines"></textarea>
 	          </div>
 	          <div class="form-group">
 	            <label for="recipient-name" class="control-label">Status</label>

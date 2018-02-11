@@ -27,19 +27,6 @@
   margin: 0px;
   line-height: 35px;
   cursor: pointer;
-  /*    
-    .collapsed{
-       .arrow:before{
-                 font-family: FontAwesome;
-                 content: "\f053";
-                 display: inline-block;
-                 padding-left:10px;
-                 padding-right: 10px;
-                 vertical-align: middle;
-                 float:right;
-            }
-     }
-*/
 }
 .nav-side-menu ul :not(collapsed) .arrow:before,
 .nav-side-menu li :not(collapsed) .arrow:before {
@@ -400,3 +387,67 @@ html, body {
       color: #999;
       display: none;
     }
+#logout{
+  position: float;
+  background-color: red;
+  width: 114%;
+}
+#pullr{
+  position: relative;
+  float: right;
+}
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.resizeme{
+  resize: vertical;
+}
+select option {
+    margin: 40px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+select option[value="1"] { /* value not val */
+    background: rgba(100, 100, 100, 0.3);
+}
+
+select option[value="2"] { /* value not val */
+    background: rgba(200, 200, 200, 0.3);
+}
+/*=================================*/
+/*.delete-menu {
+  position: absolute;
+  background: white;
+  padding: 3px;
+  color: #666;
+  font-weight: bold;
+  border: 1px solid #999;
+  font-family: sans-serif;
+  font-size: 12px;
+  box-shadow: 1px 3px 3px rgba(0, 0, 0, .3);
+  margin-top: -10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.delete-menu:hover {
+  background: #eee;
+}*/
+/*============================================*/
+#cp-wrap{
+    position: absolute;
+    top: 10px;
+    left:120px;
+    background-color:white;
+}
+
+#cp-wrap button{
+    font-size: 22px;
+}

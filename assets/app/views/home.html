@@ -1,49 +1,19 @@
-<div class="col-md-12">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="panel-title">Home</div>
-		</div>
-		<div class="panel-body">
-			<div id="wrapper">
-				<ng-map id="map" center="‎{{main.default_city}}" zoom="17"></ng-map>
-			
-		    <!-- <div id="bar">
-		      <p class="auto"><input type="text" id="autoc"/></p>
-		      <p><a id="clear" href="#">Click here</a> to clear map.</p>
-		    </div> -->
-		    <div id="over_map">	
-		    	<div id="bar">
-	      			<p class="auto"><input type="text" id="autoc" placeholder="Search Place" /></p>
-	      			<p><a id="clear" href="#">Click here</a> to clear map.</p>
-	    		</div>
-	    		<select class="form-control text-center" id="geoSO" data-show-icon="true">
-	    			<option>Plot Geofence</option>
-			        <option class="noparking">No Parking</option>
-			        <option class="nojaywalking">No Jaywalking</option>
-			        <option class="nostoppinganytime">No Stopping Anytime</option>
-			        <option class="towawayzone">To Away Zone</option>
-			        <option class="NoLoadingOrUnloading">No Loading/Unloading</option>
-			      </select>
-	   		</div>
-		    </div>
-		</div>
+
+<!-- <div class="col-md-12" ng-controller="MainCtrl as main"> -->
+	<div style='position:relative;'>
+    	<!-- <div id="map_div" style="height: 600px; width:100%;"></div> -->
+    	<ng-map 
+    	id="map_div" style="height: 600px; width:100%;"
+    	>
+    	<drawing-manager
+	      on-polygoncomplete="main.onMapOverlayCompleted()"
+	      drawing-control-options="{position: 'TOP_CENTER',drawingModes:['polygon']}"
+	      drawingControl="true"
+	      drawingMode="null"
+	      markerOptions="{icon:'www.example.com/icon'}"
+	      rectangleOptions="{fillColor:'red'}"
+	      >
+	    </drawing-manager>	
+    	</ng-map>
+    	<div id='cp-wrap'></div>
 	</div>
-	<div class="col-md-12"><label>Legend for plot geofence</label></div>
-	<div class="col-md-12 text-center">
-		<div class="col-md-2 noparking ">
-			<span class="glyphicon glyphicon-certificate"></span><label> No Parking</label>
-		</div>
-		<div class="col-md-2 nojaywalking">
-			<span class="glyphicon glyphicon-certificate"></span><label> No Jaywalking</label>
-		</div>
-		<div class="col-md-3 nostoppinganytime">
-			<span class="glyphicon glyphicon-certificate"></span><label> No Stopping Anytime</label>
-		</div>
-		<div class="col-md-2 towawayzone">
-			<span class="glyphicon glyphicon-certificate"></span><label> To Away Zone</label>
-		</div>
-		<div class="col-md-3 NoLoadingOrUnloading">
-			<span class="glyphicon glyphicon-certificate"></span><label> No Loading/Unloading</label>
-		</div>
-	</div>
-</div>
