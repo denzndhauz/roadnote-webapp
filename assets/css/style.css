@@ -441,13 +441,3 @@ select option[value="2"] { /* value not val */
   background: #eee;
 }*/
 /*============================================*/
-#cp-wrap{
-    position: absolute;
-    top: 10px;
-    left:120px;
-    background-color:white;
-}
-
-#cp-wrap button{
-    font-size: 22px;
-}

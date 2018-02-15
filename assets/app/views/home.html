@@ -1,19 +1,17 @@
 
-<!-- <div class="col-md-12" ng-controller="MainCtrl as main"> -->
+<div class="col-md-12" ng-controller="HomeCtrl as home">
 	<div style='position:relative;'>
     	<!-- <div id="map_div" style="height: 600px; width:100%;"></div> -->
-    	<ng-map 
-    	id="map_div" style="height: 600px; width:100%;"
-    	>
-    	<drawing-manager
-	      on-polygoncomplete="main.onMapOverlayCompleted()"
-	      drawing-control-options="{position: 'TOP_CENTER',drawingModes:['polygon']}"
-	      drawingControl="true"
-	      drawingMode="null"
-	      markerOptions="{icon:'www.example.com/icon'}"
-	      rectangleOptions="{fillColor:'red'}"
-	      >
-	    </drawing-manager>	
+    	<ng-map id="map_div" style="height: 600px; width:100%;">
+	    	<drawing-manager 
+		      on-polygoncomplete="home.onMapOverlayCompleted()"
+		      drawing-control-options="{position: 'TOP_CENTER',drawingModes:['polygon']}"
+		      drawingControl="true"
+		      drawingMode="null"
+		      markerOptions="{icon:'www.example.com/icon'}"
+		      rectangleOptions="{fillColor:'red'}"
+		      >
+		    </drawing-manager>	
     	</ng-map>
-    	<div id='cp-wrap'></div>
 	</div>
+</div>

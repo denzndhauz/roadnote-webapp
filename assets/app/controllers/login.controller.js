@@ -22,7 +22,6 @@
 	    		password: ''
 	    	}
 
-
 	    	vm.login_loading = false;
 	    	function user_auth(username, password) {
 	    		vm.login_loading = true;

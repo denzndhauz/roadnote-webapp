@@ -28,6 +28,8 @@
 			$firebaseArray(ref).$add(vm.violation_fines)
 			.then(
 				function(ref){
+					console.log(ref);
+
 					vm.violation_fines.vf_name = "";
 					vm.violation_fines.vf_datestarted = "";
 					vm.violation_fines.vf_description = "";
@@ -92,6 +94,8 @@
 		// click on `index.html` above to see it used in the DOM!
 		vm.dogs = $firebaseArray(ref.child('dogs'));
 		vm.fine_list = $firebaseArray(ref.child('violation_fines'));
+
+		// console.log(vm.dogs+"dog");
 
 		vm.loading = true;
 		vm.fine_list.$loaded().then(function() {
