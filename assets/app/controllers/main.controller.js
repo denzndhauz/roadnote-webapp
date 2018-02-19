@@ -10,6 +10,7 @@
     var auth = $firebaseAuth();
     vm.login = user_auth;
     var user = auth.$getAuth();
+    vm.routeTo = routeTo;
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if (user && toState.name == 'login') {
@@ -60,6 +61,7 @@
       console.log("Signed out");
     }
     function routeTo(name) {
+      console.log(name);
       $state.go(name);
     }
 

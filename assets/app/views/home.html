@@ -14,4 +14,130 @@
 		    </drawing-manager>	
     	</ng-map>
 	</div>
+
+
+
+
+	<!-- Modal -->
+	<div id="modalRBorRS" class="modal fade" role="dialog">
+	  <div class="modal-dialog modal-sm">
+
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">GeoFence Plot</h4>
+	      </div>
+	      <div class="modal-body">
+	        		<button type="button" class="btn btn-primary" id="roadblock">roadblock</button>	
+	        		<button type="button" class="btn btn-success" id="roadsign">roadsign</button>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+
+	  </div>
+	</div>
+	<!-- end of modal -->
+
+	<!-- Modal -->
+	<div id="modalroadblock" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Road Blockage</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<!-- <h3 id="modalErrorMsg" style="display: none;">Error</label></h3> -->
+	      	<div class="alert alert-danger" id="modalRBErrorMsg" style="display: none;">
+			  <strong>Error!</strong>Please fill everything..
+			</div>
+	        <table class="form-group" style="width:100%">
+			  <tr>
+			    <td><label for="modalRBTitle" class="control-label">Name Of Roadblock</label></td>
+			    <td><input id="modalRBTitle" type="text" name="email" size="27"  ></td>
+			  </tr>
+			  <tr>
+			    <td>&nbsp</td>
+			  </tr>
+			  <tr>
+			    <td><label for="modalRBDesc" class="control-label">Description</label></td>
+			    <td><input id="modalRBDesc" type="text" name="email" size="27" ></td>
+			  </tr>
+			  <tr>
+			    <td>&nbsp</td>
+			  </tr>
+			  <tr>
+			    <td><label for="modalRBDateTS" class="control-label">Date and time Start</label></td>
+			    <td><input id="modalRBDateTS" type="datetime-local" size="30"></td>
+			  </tr>
+			  <tr>
+			    <td>&nbsp</td>
+			  </tr>
+			  <tr>
+			    <td><label for="modalRBDateTE" class="control-label">Date and time End</label></td>
+			    <td><input id="modalRBDateTE" type="datetime-local" size="30"></td>
+			  </tr>
+
+			</table>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" id="modalRBSaveButton">Save</button>
+	      </div>
+	    </div>
+
+	  </div>
+	</div>
+	<!-- end of modal -->
+
+	<!-- Modal -->
+	<div id="modalTrafficRoadSign" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Traffic Road Sign</h4>
+	      </div>
+	      <div class="modal-body">
+			<div class="alert alert-danger" id="modalTRSErrorMsg" style="display: none;">
+			  <strong>Error!</strong>Please fill everything..
+			</div>
+			<table class="form-group" style="width:100%">
+			  <tr>
+			    <td><label for="modalRBTitle" class="control-label">Type of RoadSign</label></td>
+			    <td>
+			    	<select class="form-control" id="modalTRSType" disabled>
+				        <option value="1">no parking</option>
+				        <option value="2">no parking</option>
+				        <option value="3">no parking</option>
+				        <option value="4">no parking</option>
+				    </select>
+			  </td>
+			  </tr>
+			  <tr>
+			    <td>&nbsp</td>
+			  </tr>
+			  <tr>
+			    <td><label for="modalRBDesc" class="control-label">Description</label></td>
+			    <td><input id="modalRBDesc" type="text" name="email" size="27" ></td>
+			  </tr>
+			</table>
+	        		
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+
+	  </div>
+	</div>
+	<!-- end of modal -->
+
 </div>

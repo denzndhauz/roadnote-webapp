@@ -6,26 +6,173 @@
 	.controller('HomeCtrl', HomeController);
 
 	function HomeController($scope, $state, $firebaseAuth, $firebaseObject, $firebaseArray ,NgMap) {
-        //========================================
 
-        //======================================
-
-        var testme = 0;
-        var lat = [];
-        var long = [];
-        var id = 0;
 		var vm = this;
-	    
-	    var ref = firebase.database().ref();
-	    vm.doggie = $firebaseArray(ref.child('traffic_road_sign'));
-	    var limit = -1;
+        var ref = firebase.database().ref();
+        var desc = '',title = '', DateTS='',DateTE = '';
+        vm.onMapOverlayCompleted = function(e) {
 
-	    ref.child("traffic_road_sign").on("value", function(snapshot) {
-	      limit = snapshot.numChildren();
-            
-	    })
+
+            e.setDraggable(true);
+            e.setEditable(true);
+            $('#modalRBorRS').modal('show');
+            $("#roadblock").click(function(){
+                console.log("na click nako");
+                $('#modalRBorRS').modal('toggle');
+                $('#modalroadblock').modal('show');
+
+                document.getElementById("modalRBSaveButton").onclick = function() {RoadBlockVerify()};
+                document.getElementById("modalTRSErrorMsg").onclick = function() {TrafficRoadSignVerify()};    
+
+                function RoadBlockAdd(){
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth()+1; //January is 0!
+                    var yyyy = today.getFullYear();
+
+                    if(dd<10) {
+                        dd = '0'+dd
+                    } 
+
+                    if(mm<10) {
+                        mm = '0'+mm
+                    } 
+
+                    today = mm + '/' + dd + '/' + yyyy;
+
+                    var road_block_sign = $firebaseArray(ref.child('road_block'));
+
+                    road_block_sign.$add({ 
+                        rbs_name: title,
+                        rbs_desc: desc,
+                        rbs_startdatetime: DateTS,
+                        rbs_enddatetime: DateTE,
+                        rbs_datecreated: today,
+                        rbs_status: 'ACTIVE'
+                    }).then(function(ref) {
+                        var id = ref.key;
+
+                        var rbs_latlong = $firebaseArray(ref);
+                        var getlong,getlat;
+
+                        e.getPath().getArray().forEach(function(v, k) {
+
+                            // vm.latlang.lat = v.lat();
+                            getlat = v.lat();
+                            getlong = v.lng();
+
+                            rbs_latlong.$add({ lat: getlat, long: getlong }).then(function(ref) {
+                              // var id = ref.key();
+                              console.log("added record with id " + id);
+                              rbs_latlong.$indexFor(id); // returns location in the array
+                          });
+
+                        })
+                        swal("Success", "New Roadblock Successfully Added!", "success")
+                        // location.reload();
+                        
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                        $('#modalRBorRS').modal('hide');
+                    }); 
+                }
+
+                function RoadBlockVerify() {
+
+                    desc = document.getElementById("modalRBDesc").value;
+                    title = document.getElementById("modalRBTitle").value;
+                    DateTS = document.getElementById("modalRBDateTS").value;
+                    DateTE = document.getElementById("modalRBDateTE").value;
+                    desc = desc.toString();
+                    title = title.toString();
+                    DateTS = DateTS.toString();
+                    DateTE = DateTE.toString();
+
+                    if(desc == '' || title=='' || DateTS == '' || DateTE == ''){
+                        $('#modalRBErrorMsg').show();
+                    }
+                    else
+                    {
+                        $('#modalRBErrorMsg').hide();
+                        RoadBlockAdd();
+                    }
+                }
+                function RoadBlockVerify() {
+
+                }
+            });
+
+            $("#roadsign").click(function(){
+                $('#modalRBorRS').modal('toggle');
+                $('#modalTrafficRoadSign').modal('show');
+            });
+
+            //var ref = firebase.database().ref();
+            var traffic_road_sign = $firebaseArray(ref.child('traffic_road_sign'));
+            // var latlang;
+
+            var temp = "tetetemp";
+            traffic_road_sign.$add({ 
+                road_sign_desc: temp,
+                road_sign: "1", 
+            }).then(function(ref) {
+                var id = ref.key;
+
+                var trs_latlong = $firebaseArray(ref);
+                var getlong,getlat;
+
+                e.getPath().getArray().forEach(function(v, k) {
+
+                    // vm.latlang.lat = v.lat();
+                    getlat = v.lat();
+                    getlong = v.lng();
+
+                    trs_latlong.$add({ lat: getlat, long: getlong }).then(function(ref) {
+                      // var id = ref.key();
+                      console.log("added record with id " + id);
+                      trs_latlong.$indexFor(id); // returns location in the array
+                  });
+
+                })
+            }); 
+
+            google.maps.event.addListener(e, 'dragend', function (event) {
+                e.getPath().getArray().forEach(function(v, k) {
+                    console.log(v.lat(), v.lng());
+                })
+            });
+        }
+
+
+    NgMap.getMap().then(function(map) {
+      // init(map);
+      var cebu = {
+        lat: 10.3383039,
+        lng: 123.911486 
+    }
+    var latlng = new google.maps.LatLng(cebu.lat, cebu.lng);
+    map.setCenter(latlng);
+    map.setZoom(16);
+
+});
+
+}
+
+})();
+ // vm.traffic_road_sign = {
+            //   road_sign: '',
+            //   road_sign_desc: '',
+            //   road_coor_length: ''
+            // }
+
         //=====================================
-
+/*
+ref.child("traffic_road_sign").on("value", function(snapshot) {
+          limit = snapshot.numChildren();
+            
+        })
+    //this on is to retrieve all the data
       var database = firebase.database();
       var ref = database.ref('traffic_road_sign');
       ref.on('value',gotData, errData);
@@ -40,69 +187,19 @@
     }
   }
 
-
   function errData(err){
     console.log('Error!');
     console.log(err);
   }
 
-
-
+  */
 // =============================
-
-
-    vm.onMapOverlayCompleted = function(e) {
-
-        // var id = 0;
-        traffic_road_sign = {
-          road_sign: '',
-          road_sign_desc: '',
-          road_coor_length: ''
-        }
-        vm.latlang = {
-            lat: '',
-            lang: ''
-        }
-
-        var ref = firebase.database().ref();
-        var traffic_road_sign = $firebaseArray(ref.child('traffic_road_sign'));
-        var updateLatLng;
-
-
-
-
-        traffic_road_sign.$add({ 
-            road_sign_desc: "1",
-            road_sign: "1", 
-        }).then(function(ref) {
-         id = ref.key;
-
-            console.log("added record with id " + id);
-            console.log(traffic_road_sign.$indexFor(id)); // returns location in the array
-                //=============try
-                var trs_latlong = $firebaseArray(ref);  
-                //================
-                e.getPath().getArray().forEach(function(v, k) {
-
-                lat.push(v.lat());
-                long.push(v.lng());
-                console.log(lat[limit],long[limit]);
-                limit +=1;
-
-                trs_latlong.$add({ lat: lat, long: long }).then(function(ref) {
-                  // var id = ref.key();
-                  console.log("added record with id " + id);
-                  trs_latlong.$indexFor(id); // returns location in the array
-                });
-
-                // arry.push([v.lat(), v.lng()]);
+      // arry.push([v.lat(), v.lng()]);
                 //   console.log(v.lat(), v.lng());
                   // v.lat(), v.lng()
                   // arry[v]   
-              })
-        });
 
-        console.log(id+"wawaweeeeee");
+
         // var latlang = $firebaseArray(ref.child('traffic_road_sign').child(id));
         // latlang.$add({ lat: "1" }).then(function(ref) {
         //   var id = ref.key;
@@ -112,9 +209,6 @@
 
 
 
-
-        limit = 0;
-      
       // e.getPath().getArray().forEach(function(v, k) {
 
       //   lat.push(v.lat());
@@ -126,34 +220,7 @@
       //     // v.lat(), v.lng()
       //     // arry[v]   
       // })
-      e.setDraggable(true);
-      e.setEditable(true);
 
-      google.maps.event.addListener(e, 'dragend', function (event) {
-        e.getPath().getArray().forEach(function(v, k) {
-            console.log(testme);
-            console.log(v.lat(), v.lng());
-        })
-      });
-    }
-
-
-    NgMap.getMap().then(function(map) {
-      // init(map);
-      var cebu = {
-        lat: 10.3383039,
-        lng: 123.911486 
-      }
-      var latlng = new google.maps.LatLng(cebu.lat, cebu.lng);
-      map.setCenter(latlng);
-      map.setZoom(16);
-
-    });
-
-
-    }
-    
-})();
 
     // //the only global variable
     // function init(map){
@@ -166,14 +233,14 @@
     //     var PS = null;
 
     //     google.maps.event.addDomListener(window, "load", function () {
-          
+
 
     //       //we will center the map here
     //       var vancouver = {
     //           lat: 10.3383039,
     //           lng: 123.911486 
     //       }
-          
+
     //       //granville island coordinates.
     //       //you should be fetching your coordinates from your server
     //       var granville_coords = [
@@ -191,7 +258,7 @@
     //             {lat: 49.26889666745873, lng: -123.13401460647583},
     //             {lat: 49.2706328034105,  lng: -123.1368041038513 }
     //       ];
-            
+
     //       //coordinates of blocks just east of burrard.
     //       var burrard_coords = [
     //         {lat: 49.267972570183545, lng: -123.145751953125},
@@ -208,7 +275,7 @@
     //       map.setZoom(16);
 
 
-          
+
     //       //this style is easier on the eyes than the default black.
     //       //BADASS and COFFEE hex to the rescue.
     //       var polystyle = {
@@ -218,7 +285,7 @@
     //           fillColor: '#C0FFEE',
     //           fillOpacity: 0.35
     //       }
-          
+
     //       //options for granville polygon.
     //       //SNAPABLE = TRUE
     //       var poly1_opts = $.extend({
@@ -226,7 +293,7 @@
     //           map: map,
     //           snapable: true
     //       }, polystyle);
-            
+
     //       //options for burrard polygon
     //       //SNAPABLE not present (false)
     //       var poly2_opts = $.extend({
@@ -234,24 +301,24 @@
     //         map: map,
     //         snapable: true
     //       }, polystyle);
-          
+
     //       //let's make the polygons  
     //       var granville = new google.maps.Polygon(poly1_opts);
     //       var burrard   = new google.maps.Polygon(poly2_opts);
-          
+
     //       /*
     //           For demo purposes, lets just put two gmaps Polys into the polygon array.
     //           For your application purposes, you would populate this array with
     //           all of the polygons you want to snap to - likely driven from the DB.
     //       */
     //      var polygons = [granville, burrard];
-          
+
     //       /*
     //         Now, we make the SnapManager.
     //         See http://stackoverflow.com/a/33338065/568884 for API
     //         Will be transferred to Github soon.
     //       */
-            
+
     //       var PS = PolySnapper({
     //           map: map,
     //           marker: new google.maps.Marker(),
@@ -267,7 +334,7 @@
     //         console.log("disabled")
     //           }
     //       });
-          
+
     //       //add the buttons initial state on top of the map.
     //       //renderCpanel(false);
 
@@ -275,10 +342,10 @@
     //       PS.polygon().getPath().getArray().forEach(function(v, k) {
     //           console.log(v.lat(), v.lng());
     //       }) 
-         
+
     //     });
 
-        
+
 
     //     // PS.polygon().getPath().getArray().forEach(function(v, k) {
     //     //     console.log(v.lat(), v.lng());
@@ -291,11 +358,11 @@
 
     //     // //just a small render function to re-draw the buttons whenever the enabled state is flipped on and off.
     //     // function renderCpanel(drawing){
-            
+
     //     //     var t = $("#control-panel").html();
     //     //     var html = _.template(t, {drawing: drawing});
     //     //     $("#cp-wrap").html(html);
-            
+
     //     // }
 
     //     // //attach the click handlers to the button. #cp-wrap is never added or removed
@@ -303,7 +370,7 @@
     //     // $("#cp-wrap").on("click", "button", function(){
     //     //   console.log("hi");
     //     //     var action = $(this).data("action");
-            
+
     //     //     if     (action == 'new')  PS.enable();
     //     //   else if(action == 'query')  {
     //     //     PS.polygon().getPath().getArray().forEach(function(v, k) {
@@ -311,7 +378,7 @@
     //     //           }) 
     //     //   }
     //     //     else                PS.disable();
-      
+
     //     //     renderCpanel( (action == 'new')  );    
     //     // });
     //     console.log("dog");
