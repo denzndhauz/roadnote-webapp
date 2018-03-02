@@ -1,142 +1,305 @@
 
 <div class="col-md-12" ng-controller="HomeCtrl as home">
 	<div style='position:relative;'>
-    	<!-- <div id="map_div" style="height: 600px; width:100%;"></div> -->
-    	<ng-map id="map_div" style="height: 600px; width:100%;">
-	    	<drawing-manager 
-		      on-polygoncomplete="home.onMapOverlayCompleted()"
-		      drawing-control-options="{position: 'TOP_CENTER',drawingModes:['polygon']}"
-		      drawingControl="true"
-		      drawingMode="null"
-		      markerOptions="{icon:'www.example.com/icon'}"
-		      rectangleOptions="{fillColor:'red'}"
-		      >
-		    </drawing-manager>	
-    	</ng-map>
+		<!-- <div id="map_div" style="height: 600px; width:100%;"></div> -->
+		<ng-map id="map_div" style="height: 600px; width:100%;">
+			<drawing-manager 
+				on-polygoncomplete="home.onMapOverlayCompleted()"
+				drawing-control-options="{position: 'TOP_CENTER',drawingModes:['polygon']}"
+				drawingControl="true"
+				drawingMode="null"
+				markerOptions="{icon:'www.example.com/icon'}"
+				rectangleOptions="{fillColor:'red'}"
+				>
+			</drawing-manager>	
+
+			<shape ng-repeat="shape in home.allShapes"
+		       name="{{shape.name}}"
+		       stroke-color="{{shape.color}}"
+		       stroke-opacity="1.0"
+		       paths="{{shape.paths}}"
+		       fill-color="{{shape.color}}"
+		       stroke-weight="2"
+		       editable="true"
+        	   draggable="true"
+        	   on-click="home.info(shape.id, shape.type)"
+        	   on-dragend="home.changepaths(shape.id, shape.type)"
+        	   on-rightclick = "home.delete(shape.id, shape.type)">
+ <!-- on-bounds_changed = "home.info(shape.id, shape.type)" -->
+		    </shape>
+		</ng-map>
+	</div>
+	<br>
+	<div >
+		<table style="width:100%;">
+		    <thead>
+		      <th>LEGEND</th>
+		    </thead>
+		    <tbody>
+		      	<td class="noparking" width="1%"></td>
+		        <td class="noparking" width="8%">No Parking</td>
+		        <td class="nojaywalking" width="9%">No Jay Walking</td>
+		        <td class="nostoppinganytime" width="13%">No Stopping Anytime</td>
+		        <td class="towawayzone" width="9%">Tow Away Zone</td>
+		        <td class="NoLoadingOrUnloading" width="15%">No Loading Or Unloading</td>
+		        <td class="Roadblock" width="12%">Roadblock</td>
+		      </tr>
+		    </tbody>
+		</table>
 	</div>
 
+	
 
 
-
-	<!-- Modal -->
+	<!-- Modal roadblock or roadsign choice-->
 	<div id="modalRBorRS" class="modal fade" role="dialog">
-	  <div class="modal-dialog modal-sm">
+		<div class="modal-dialog modal-sm">
 
-	    <!-- Modal content-->
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title">GeoFence Plot</h4>
-	      </div>
-	      <div class="modal-body">
-	        		<button type="button" class="btn btn-primary" id="roadblock">roadblock</button>	
-	        		<button type="button" class="btn btn-success" id="roadsign">roadsign</button>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-
-	  </div>
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">GeoFence Plot</h4>
+				</div>
+				<div class="modal-body">
+					<button type="button" class="btn btn-primary" id="roadblock">roadblock</button>	
+					<button type="button" class="btn btn-success" id="roadsign">roadsign</button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	<!-- end of modal -->
 
-	<!-- Modal -->
+	<!-- Modal road block-->
 	<div id="modalroadblock" class="modal fade" role="dialog">
-	  <div class="modal-dialog">
+		<div class="modal-dialog">
 
-	    <!-- Modal content-->
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title">Road Blockage</h4>
-	      </div>
-	      <div class="modal-body">
-	      	<!-- <h3 id="modalErrorMsg" style="display: none;">Error</label></h3> -->
-	      	<div class="alert alert-danger" id="modalRBErrorMsg" style="display: none;">
-			  <strong>Error!</strong>Please fill everything..
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Road Blockage</h4>
+				</div>
+				<div class="modal-body">
+					<!-- <h3 id="modalErrorMsg" style="display: none;">Error</label></h3> -->
+					<div class="alert alert-danger" id="modalRBErrorMsghider" style="display: none;">
+						<strong>Error!</strong><p id="modalErrorMsg"></p>
+					</div>
+					<table class="form-group" style="width:100%">
+						<tr>
+							<td><label for="modalRBTitle" class="control-label">Name Of Roadblock</label></td>
+							<td><input id="modalRBTitle" type="text" style="width: 60%;"  ></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalRBDesc" class="control-label">Description</label></td>
+							<td><input id="modalRBDesc" type="text" style="width: 60%;"></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalRBDateTS" class="control-label">Date and time Start</label></td>
+							<td><input id="modalRBDateTS" type="datetime-local" style="width: 60%;"></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalRBDateTE" class="control-label">Date and time End</label></td>
+							<td><input id="modalRBDateTE" type="datetime-local" style="width: 60%;"></td>
+						</tr>	
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="modalRBSaveButton">Save</button>
+				</div>
 			</div>
-	        <table class="form-group" style="width:100%">
-			  <tr>
-			    <td><label for="modalRBTitle" class="control-label">Name Of Roadblock</label></td>
-			    <td><input id="modalRBTitle" type="text" name="email" size="27"  ></td>
-			  </tr>
-			  <tr>
-			    <td>&nbsp</td>
-			  </tr>
-			  <tr>
-			    <td><label for="modalRBDesc" class="control-label">Description</label></td>
-			    <td><input id="modalRBDesc" type="text" name="email" size="27" ></td>
-			  </tr>
-			  <tr>
-			    <td>&nbsp</td>
-			  </tr>
-			  <tr>
-			    <td><label for="modalRBDateTS" class="control-label">Date and time Start</label></td>
-			    <td><input id="modalRBDateTS" type="datetime-local" size="30"></td>
-			  </tr>
-			  <tr>
-			    <td>&nbsp</td>
-			  </tr>
-			  <tr>
-			    <td><label for="modalRBDateTE" class="control-label">Date and time End</label></td>
-			    <td><input id="modalRBDateTE" type="datetime-local" size="30"></td>
-			  </tr>
 
-			</table>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="modalRBSaveButton">Save</button>
-	      </div>
-	    </div>
-
-	  </div>
+		</div>
 	</div>
 	<!-- end of modal -->
 
-	<!-- Modal -->
+	<!-- Modal traffic road sign-->
 	<div id="modalTrafficRoadSign" class="modal fade" role="dialog">
-	  <div class="modal-dialog">
+		<div class="modal-dialog">
 
-	    <!-- Modal content-->
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title">Traffic Road Sign</h4>
-	      </div>
-	      <div class="modal-body">
-			<div class="alert alert-danger" id="modalTRSErrorMsg" style="display: none;">
-			  <strong>Error!</strong>Please fill everything..
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Traffic Road Sign</h4>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-danger" id="modalTRSErrorMsghider" style="display: none;">
+						<strong>Error!</strong>Please fill everything..
+					</div>
+					<table class="form-group" style="width:100%">
+						<tr>
+							<td><label for="modalRBTitle" class="control-label">Type of RoadSign</label></td>
+							<td>
+								<select class="form-control" id="modalTRSType" style="width:60%;">
+									<option value="" selected disabled hidden>Traffic Sign Type</option>
+									<option >No Parking</option>
+									<option >No Jaywalking</option>
+									<option >No Stopping Anytime</option>
+									<option >Tow Away Zone</option>
+									<option >No Loading/Unloading</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalTRSDesc" class="control-label">Description</label></td>
+							<td><input id="modalTRSDesc" type="text" style="width: 60%;"></td>
+						</tr>
+					</table>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="modalTRSSaveButton">Save</button>
+				</div>
 			</div>
-			<table class="form-group" style="width:100%">
-			  <tr>
-			    <td><label for="modalRBTitle" class="control-label">Type of RoadSign</label></td>
-			    <td>
-			    	<select class="form-control" id="modalTRSType" disabled>
-				        <option value="1">no parking</option>
-				        <option value="2">no parking</option>
-				        <option value="3">no parking</option>
-				        <option value="4">no parking</option>
-				    </select>
-			  </td>
-			  </tr>
-			  <tr>
-			    <td>&nbsp</td>
-			  </tr>
-			  <tr>
-			    <td><label for="modalRBDesc" class="control-label">Description</label></td>
-			    <td><input id="modalRBDesc" type="text" name="email" size="27" ></td>
-			  </tr>
-			</table>
-	        		
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
 
-	  </div>
+		</div>
+	</div>
+	<!-- end of modal -->
+
+	<!-- Modal delete path-->
+	<div id="modalDeletePath" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Delete</h4>
+				</div>
+				<div class="modal-body">
+					<label> Do you wish to delete this geofence?</label>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="modalDelPathConfirmDelete">Save</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- end of modal -->
+
+	<!-- Modal info trs-->
+	<div id="modalInfoTRS" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Traffic Road Sign Title</h4>
+				</div>
+				<div class="modal-body">
+					<!-- <h3 id="modalErrorMsg" style="display: none;">Error</label></h3> -->
+					<div class="alert alert-danger" id="modalRBErrorMsghider" style="display: none;">
+						<strong>Error!</strong><p id="modalErrorMsg"></p>
+					</div>
+					<table class="form-group" style="width:100%">
+						<tr>
+							<td><label for="modalRBTitle" class="control-label">Name Of Roadblock</label></td>
+							<td><input id="modalRBTitle" type="text" style="width: 60%;"  ></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalRBDesc" class="control-label">Description</label></td>
+							<td><input id="modalRBDesc" type="text" style="width: 60%;"></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalRBDateTS" class="control-label">Date and time Start</label></td>
+							<td><input id="modalRBDateTS" type="datetime-local" style="width: 60%;"></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalRBDateTE" class="control-label">Date and time End</label></td>
+							<td><input id="modalRBDateTE" type="datetime-local" style="width: 60%;"></td>
+						</tr>	
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="modalRBSaveButton">Save</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- end of modal -->
+
+		<!-- Modal info trs-->
+	<div id="modalInfoRB" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Roadblock Details</h4>
+				</div>
+				<div class="modal-body">
+					<!-- <h3 id="modalErrorMsg" style="display: none;">Error</label></h3> -->
+					<div class="alert alert-danger" id="modalRBErrorMsghider" style="display: none;">
+						<strong>Error!</strong><p id="modalErrorMsg"></p>
+					</div>
+					<table class="form-group" style="width:100%">
+						<tr>
+							<td><label for="modalRBTitle" class="control-label">Name Of Roadblock</label></td>
+							<td><input id="modalRBTitle" type="text" style="width: 60%;"  ></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalRBDesc" class="control-label">Description</label></td>
+							<td><input id="modalRBDesc" type="text" style="width: 60%;"></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalRBDateTS" class="control-label">Date and time Start</label></td>
+							<td><input id="modalRBDateTS" type="datetime-local" style="width: 60%;"></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalRBDateTE" class="control-label">Date and time End</label></td>
+							<td><input id="modalRBDateTE" type="datetime-local" style="width: 60%;"></td>
+						</tr>	
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="modalRBSaveButton">Save</button>
+				</div>
+			</div>
+
+		</div>
 	</div>
 	<!-- end of modal -->
 

@@ -16,17 +16,21 @@
 			    url: '/home',
 			    templateUrl: './assets/app/views/home.html'
 			}).state({
-			    name: 'complain',
-			    url: '/complain',
-			    templateUrl: './assets/app/views/complain.html'
+			    name: 'streetreport',
+			    url: '/streetreport',
+			    templateUrl: './assets/app/views/streetreport.html'
 			}).state({
 			    name: 'violationandfines',
 			    url: '/violationandfines',
 			    templateUrl: './assets/app/views/violationandfines.html'
 			}).state({
-			    name: 'activity_logs',
-			    url: '/activity_logs',
-			    templateUrl: './assets/app/views/activity_logs.html'
+			    name: 'history',
+			    url: '/history',
+			    templateUrl: './assets/app/views/history.html'
+			}).state({
+			    name: 'todelete',
+			    url: '/todelete',
+			    templateUrl: './assets/app/views/todelete.html'
 			});
 
 		$urlRouterProvider.otherwise('/login');

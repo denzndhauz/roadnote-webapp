@@ -23,15 +23,38 @@
       password: ''
     }
 
-
     vm.login_loading = false;
+
     function user_auth(username, password) {
+      var verify = validateEmail(username);
+      username = document.getElementById("username").value;
+      password = document.getElementById("password").value;
+      if(!username || !password){
+        swal(
+          'Oops...',
+          'Email/Password cannot be empty',
+          'error'
+        )
+      }else if(verify == false){
+        swal(
+          'Oops...',
+          'Email is not valid',
+          'error'
+        )
+        vm.login_loading = false;
+      }
+      function validateEmail(email) {
+          var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return re.test(String(email).toLowerCase());
+      }
+
       vm.login_loading = true;
       auth.$signInWithEmailAndPassword(username, password).then(function(firebaseUser) {
-        $state.go('complain');
+        $state.go('home');
       vm.login_loading = false;
       }).catch(function(error) {
         console.log("Authentication failed:", error);
+        console.log(error.code);
         if(error.code == 'auth/wrong-password') {
           swal(
           'Oops...',
@@ -43,13 +66,11 @@
           'Oops...',
           error.message,
           'error'
-        )
-        }else{
-          swal(
+        ) 
+        }else if(error.code == 'auth/user-not-found'){
           'Oops...',
-          'Invalid Email/Password',
+          'User not found',
           'error'
-        )
         }
       vm.login_loading = false;
       });

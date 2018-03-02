@@ -17,8 +17,7 @@
 			vf_name: '',
 			vf_datestarted: '',
 			vf_description: '',
-			vf_fines: '',
-			vf_status: ''
+			vf_fines: ''
 		}
 		//==========add
 		vm.addviolation_fines = function(){
@@ -33,7 +32,6 @@
 					vm.violation_fines.vf_name = "";
 					vm.violation_fines.vf_datestarted = "";
 					vm.violation_fines.vf_description = "";
-					vm.violation_fines.vf_status = "";
 
 					// $scope.msg2= "Student added successfully.";
 					// window.setTimeout(function(){
@@ -81,7 +79,6 @@
 		vm._fine_obj = {
 			vf_name: '',
 			vf_datestarted: new Date(),
-			vf_status: 'active',
 			vf_fines: '',
 			vf_description: '',
 		}

@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="node_modules/toastr/build/toastr.min.css">
 	<!-- <script src="node_modules/polysnapper/jquery.js"></script> -->
 <!-- <script src="node_modules/polysnapper/mapapi.js"></script> -->
 <!-- <script src="node_modules/polysnapper/underscore.js"></script> -->
@@ -30,20 +31,9 @@
 	                  <i class="fa fa-dashboard fa-lg"></i> Dashboard
 	                  </a>
 	                </li>
-
-	              <!--   <li data-toggle="collapse" data-target="#service" class="collapsed">
-	                  <a href="#"><i class="fa fa-globe fa-lg"></i> Services <span class="arrow"></span></a>
-	                </li>  
-	                <ul class="sub-menu collapse" id="service">
-	                  <li>New Service 1</li>
-	                  <li>New Service 2</li>
-	                  <li>New Service 3</li>
-	                </ul> -->
-
-
-	                 <li ui-sref-active="active" ng-click="main.routeTo('complain')">
-	                  <a ui-sref="complain">
-	                  <i class="fa fa-user fa-lg"></i> Complains
+	                 <li ui-sref-active="active" ng-click="main.routeTo('streetreport')">
+	                  <a ui-sref="streetreport">
+	                  <i class="fa fa-user fa-lg"></i> Street Reports
 	                  </a>
 	                  </li>
 	                  <!-- for violation fines -->
@@ -52,8 +42,13 @@
 	                  <i class="fa fa-user fa-lg"></i> Violation and Fines
 	                  </a>
 	                  </li>
-	                <li ui-sref-active="active" ng-click="main.routeTo('activity_logs')">
-	                  <a ui-sref="activity_logs">
+	                  <li ui-sref-active="active" ng-click="main.routeTo('todelete')">
+	                  <a ui-sref="todelete">
+	                  	<i class="fa fa-minus-circle"></i>To Delete geofenced
+	                  </a>
+	                </li>
+	                <li ui-sref-active="active" ng-click="main.routeTo('history')">
+	                  <a ui-sref="history">
 	                  	<i class="fa fa-file-text" ></i>Activity Logs
 	                  </a>
 	                </li>
@@ -80,10 +75,8 @@
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <script src="node_modules/moment/moment.js"></script>
-
+<script src="node_modules/toastr/build/toastr.min.js"></script>
 <script type="text/javascript"></script>
-
-
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCH8li2J4KMMnJVR_RPbEBQm8SM2nAwkd8&libraries=drawing,places"></script>
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtLbU3jgtpnBDE4u5fgSNjByB8Q5dGuWY&libraries=drawing,places"></script> -->
@@ -115,12 +108,13 @@
 <script src="assets/app/app.route.js"></script>
 
 <!-- Controllers -->
+<script src="assets/app/controllers/home.controller.js"></script>
 <script src="assets/app/controllers/main.controller.js"></script>
 <script src="assets/app/controllers/login.controller.js"></script>
-<script src="assets/app/controllers/complain.controller.js"></script>
+<script src="assets/app/controllers/streetreport.controller.js"></script>
 <script src="assets/app/controllers/violationandfines.controller.js"></script>
-<script src="assets/app/controllers/activity_logs.controller.js"></script>
-<script src="assets/app/controllers/home.controller.js"></script>
+<script src="assets/app/controllers/history.controller.js"></script>
+<script src="assets/app/controllers/todelete.controller.js"></script>
 
 </body>
 </html>

@@ -6,160 +6,457 @@
 	.controller('HomeCtrl', HomeController);
 
 	function HomeController($scope, $state, $firebaseAuth, $firebaseObject, $firebaseArray ,NgMap) {
-
+        var getlong,getlat;//latitude longitude
+        var gen_title,gen_desc;//general news
 		var vm = this;
         var ref = firebase.database().ref();
-        var desc = '',title = '', DateTS='',DateTE = '';
+        var general_news = $firebaseArray(ref.child('general_news'));
+        var road_block_sign = $firebaseArray(ref.child('road_block'));
+        var traffic_road_sign = $firebaseArray(ref.child('traffic_road_sign'));
+        var desc = '',title = '', DateTS='',DateTE = '', TRStype = '', TRSdesc = '';
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        var noParking = '#ed0b0b',noJayWalking = '#0011ff',noStoppingAnytime = '#00ffff',towAwayZone = '#00ff00'
+                , noLoadingOrUnloading = '#FF00CE', roadblockcolor = '#000000';
+                //roadblock = black, no parking = red, no jaywalking  = blue, no stopping anytime = skyblue, tow away zone = green, 
+                //no loading or unloading = violet
+        var updateRoad_sign;
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+        today = mm + '/' + dd + '/' + yyyy;
+
+    //==================================================================
+
+        vm.allShapes = [];//stores geofence paths, colors, key and type if it is traffic road sign or roadblock
+        //retrieve data from traffic_road_sign
+        ref.child('traffic_road_sign').once('value').then(function(snapshot) {
+            snapshot.forEach(function(userSnapshot) {
+                var trs = userSnapshot.val();
+                var color = '';
+                var paths = [];
+                if(trs.road_sign == 'No Stopping Anytime')
+                    color = noStoppingAnytime;
+                else if(trs.road_sign == 'No Jaywalking')
+                    color = noJayWalking;
+                else if(trs.road_sign == 'Tow Away Zone')
+                    color = towAwayZone;
+                else if(trs.road_sign == 'No Parking')
+                    color = noParking;
+                else if(trs.road_sign == 'No Loading/Unloading')
+                    color = noLoadingOrUnloading;
+
+                if(typeof trs.road_sign_coordinates == 'object') {
+                    trs.road_sign_coordinates.forEach(function(coordinate) {
+                        paths.push([coordinate.lat, coordinate.long]);
+                    });
+                }
+
+                vm.allShapes.push({
+                    id: userSnapshot.key,
+                    name: 'polygon',
+                    color: color,
+                    paths: paths,
+                    type: 'TRS',
+                    road_sign: trs.road_sign,
+                    road_sign_desc: trs.road_sign_desc
+                });
+            });
+        });
+        //retrieve data from road_block
+        ref.child('road_block').once('value').then(function(snapshot) {
+            snapshot.forEach(function(userSnapshot) {
+                var rb = userSnapshot.val();
+                var color = '';
+                var paths = [];
+                color = roadblockcolor;
+                //check what type is rb_coordinates in firebase
+                if(typeof rb.rb_coordinates == 'object') {
+                    rb.rb_coordinates.forEach(function(coordinate) {
+                        paths.push([coordinate.lat, coordinate.long]);
+                    });
+                }
+
+                vm.allShapes.push({
+                    id: userSnapshot.key,
+                    name: 'polygon',
+                    color: color,
+                    paths: paths,
+                    type: 'RB',
+                    rb_datecreated: rb.rb_datecreated,
+                    rb_desc: rb.rb_desc,
+                    rb_enddatetime: rb.rb_enddatetime,
+                    rb_name: rb.name,
+                    rb_startdatetime: rb.strartdatetime
+
+                });
+            });
+        });
+
+  //==========================================================
         vm.onMapOverlayCompleted = function(e) {
-
-
-            e.setDraggable(true);
-            e.setEditable(true);
-            $('#modalRBorRS').modal('show');
+            // var getlong,getlat;
+            e.setDraggable(true);//to make paths draggable
+            e.setEditable(true);//to make paths editable
+            $('#modalRBorRS').modal('show');//shows modal to choose if road block or road sign
             $("#roadblock").click(function(){
                 console.log("na click nako");
                 $('#modalRBorRS').modal('toggle');
                 $('#modalroadblock').modal('show');
 
                 document.getElementById("modalRBSaveButton").onclick = function() {RoadBlockVerify()};
-                document.getElementById("modalTRSErrorMsg").onclick = function() {TrafficRoadSignVerify()};    
+                // document.getElementById("modalTRSErrorMsg").onclick = function() {TrafficRoadSignVerify()};    
 
-                function RoadBlockAdd(){
-                    var today = new Date();
-                    var dd = today.getDate();
-                    var mm = today.getMonth()+1; //January is 0!
-                    var yyyy = today.getFullYear();
-
-                    if(dd<10) {
-                        dd = '0'+dd
-                    } 
-
-                    if(mm<10) {
-                        mm = '0'+mm
-                    } 
-
-                    today = mm + '/' + dd + '/' + yyyy;
-
-                    var road_block_sign = $firebaseArray(ref.child('road_block'));
-
-                    road_block_sign.$add({ 
-                        rbs_name: title,
-                        rbs_desc: desc,
-                        rbs_startdatetime: DateTS,
-                        rbs_enddatetime: DateTE,
-                        rbs_datecreated: today,
-                        rbs_status: 'ACTIVE'
-                    }).then(function(ref) {
-                        var id = ref.key;
-
-                        var rbs_latlong = $firebaseArray(ref);
-                        var getlong,getlat;
-
-                        e.getPath().getArray().forEach(function(v, k) {
-
-                            // vm.latlang.lat = v.lat();
-                            getlat = v.lat();
-                            getlong = v.lng();
-
-                            rbs_latlong.$add({ lat: getlat, long: getlong }).then(function(ref) {
-                              // var id = ref.key();
-                              console.log("added record with id " + id);
-                              rbs_latlong.$indexFor(id); // returns location in the array
-                          });
-
-                        })
-                        swal("Success", "New Roadblock Successfully Added!", "success")
-                        // location.reload();
-                        
-                        setTimeout(function () {
-                            location.reload();
-                        }, 2000);
-                        $('#modalRBorRS').modal('hide');
-                    }); 
-                }
-
-                function RoadBlockVerify() {
-
-                    desc = document.getElementById("modalRBDesc").value;
-                    title = document.getElementById("modalRBTitle").value;
-                    DateTS = document.getElementById("modalRBDateTS").value;
-                    DateTE = document.getElementById("modalRBDateTE").value;
-                    desc = desc.toString();
-                    title = title.toString();
-                    DateTS = DateTS.toString();
-                    DateTE = DateTE.toString();
-
-                    if(desc == '' || title=='' || DateTS == '' || DateTE == ''){
-                        $('#modalRBErrorMsg').show();
-                    }
-                    else
-                    {
-                        $('#modalRBErrorMsg').hide();
-                        RoadBlockAdd();
-                    }
-                }
-                function RoadBlockVerify() {
-
-                }
             });
 
             $("#roadsign").click(function(){
                 $('#modalRBorRS').modal('toggle');
                 $('#modalTrafficRoadSign').modal('show');
-            });
 
-            //var ref = firebase.database().ref();
-            var traffic_road_sign = $firebaseArray(ref.child('traffic_road_sign'));
-            // var latlang;
+                document.getElementById("modalTRSSaveButton").onclick = function() {TrafficRoadSignVerify()};
+                // document.getElementById("modalTRSErrorMsg").onclick = function() {TrafficRoadSignVerify()};    
 
-            var temp = "tetetemp";
-            traffic_road_sign.$add({ 
-                road_sign_desc: temp,
-                road_sign: "1", 
-            }).then(function(ref) {
-                var id = ref.key;
-
-                var trs_latlong = $firebaseArray(ref);
-                var getlong,getlat;
-
-                e.getPath().getArray().forEach(function(v, k) {
-
-                    // vm.latlang.lat = v.lat();
-                    getlat = v.lat();
-                    getlong = v.lng();
-
-                    trs_latlong.$add({ lat: getlat, long: getlong }).then(function(ref) {
-                      // var id = ref.key();
-                      console.log("added record with id " + id);
-                      trs_latlong.$indexFor(id); // returns location in the array
-                  });
-
-                })
             }); 
-
+            //event listener for drag
             google.maps.event.addListener(e, 'dragend', function (event) {
                 e.getPath().getArray().forEach(function(v, k) {
                     console.log(v.lat(), v.lng());
                 })
             });
+            function RoadBlockAdd(){
+                
+                var coordinates = [];
+                e.getPath().getArray().forEach(function(v, k) {
+                   coordinates.push({lat:v.lat(),long:v.lng()});
+                });
+
+                road_block_sign.$add({ 
+                    rb_name: title,
+                    rb_desc: desc,
+                    rb_startdatetime: DateTS,
+                    rb_enddatetime: DateTE,
+                    rb_datecreated: today,
+                    rb_status: 'ACTIVE',
+                    rb_coordinates: coordinates
+                }).then(function(ref) {
+                    swal("Success", "New Roadblock Successfully Added!", "success")
+                    // location.reload();
+                    GeneralNewsDetails();
+                    setTimeout(function () {
+                        swal.close()
+                        location.reload();
+                    }, 2000);
+                    $('#modalRBorRS').modal('hide');
+                });
+                
+            }
+            function RoadBlockVerify() {
+
+                desc = document.getElementById("modalRBDesc").value;
+                title = document.getElementById("modalRBTitle").value;
+                DateTS = document.getElementById("modalRBDateTS").value;
+                DateTE = document.getElementById("modalRBDateTE").value;
+                desc = desc.toString();
+                title = title.toString();
+                DateTS = DateTS.toString();
+                DateTE = DateTE.toString();
+
+                if(!desc || !title || DateTS == "" || DateTE == "" ){
+                    $('#modalRBErrorMsghider').show();
+                }
+                else
+                {
+                    $('#modalRBErrorMsghider').hide();
+                    RoadBlockAdd();
+                }
+            }
+            function TrafficRoadSignVerify() {
+                TRStype = document.getElementById("modalTRSType").value;
+                TRSdesc = document.getElementById("modalTRSDesc").value;
+
+                if(!TRStype || !TRSdesc){
+                    $('#modalTRSErrorMsghider').show();
+                }
+                else
+                {
+                    $('#modalTRSErrorMsghider').hide();
+                    TrafficRoadSignAdd();
+                    
+                }
+            }
+            function TrafficRoadSignAdd() {
+                //var ref = firebase.database().ref();
+                var coordinates = [];
+                console.log(TRStype,TRSdesc)
+                
+                e.getPath().getArray().forEach(function(v, k) {
+                   coordinates.push({lat:v.lat(),long:v.lng()});
+                });
+
+                traffic_road_sign.$add({ 
+                    road_sign: TRStype, 
+                    road_sign_desc: TRSdesc,
+                    road_sign_coordinates:coordinates
+                }).then(function(ref) {
+                    var id = ref.key;
+                    swal("Success", "New Roadblock Successfully Added!", "success")
+                    GeneralNewsDetails();
+                    setTimeout(function () {
+                        swal.close()
+                        location.reload();
+                    }, 2000);
+                });
+                
+            }
+            function GeneralNewsDetails(){
+
+                if(TRStype){
+                    gen_title = "new " + TRStype; 
+                }else{
+                    gen_title = "new Roadblock";
+                }
+                if(desc){
+                    gen_desc = desc;
+                }else{
+                    gen_desc = TRSdesc;
+                }
+                e.getPath().getArray().forEach(function(v, k) {
+                    getlong = v.lng();
+                    getlat = v.lat();
+                })
+                GeneralNewsAdd();
+            }
+            function GeneralNewsAdd(){
+                general_news.$add({
+                    gn_title: gen_title,
+                    gn_datecreated: today, 
+                    gn_description: gen_desc,   
+                    gn_lat: getlat,
+                    gn_long: getlong
+                }).then(function(ref) {
+          
+                });
+            }
         }
 
-
     NgMap.getMap().then(function(map) {
-      // init(map);
-      var cebu = {
-        lat: 10.3383039,
-        lng: 123.911486 
+          // init(map);
+          var cebu = {
+            lat: 10.3383039,
+            lng: 123.911486 
+        }
+        var latlng = new google.maps.LatLng(cebu.lat, cebu.lng);
+        map.setCenter(latlng);
+        map.setZoom(16);
+
+   
+    });
+    vm.changepaths = function(event, id, type) {
+        //gn_title = Edited
+        if(type == "TRS")
+        {
+            var update_trs = $firebaseObject(ref.child('traffic_road_sign').child(id));
+            
+            update_trs.road_sign_coordinates = [];
+            this.getPath().getArray().forEach(function(value,key){
+                update_trs.road_sign_coordinates.push({lat: value.lat(), long: value.lng()})
+                getlat = value.lat();
+                getlong = value.lng();
+            });
+            ref.child('traffic_road_sign').once('value').then(function(snapshot) {
+            snapshot.forEach(function(userSnapshot) {
+                var trs = userSnapshot.val();
+                var use = userSnapshot.key;
+                
+                var color = '';
+                var paths = [];
+                console.log(userSnapshot.key);
+                console.log(id);
+                console.log(use);
+                
+
+                console.log(userSnapshot.val().key+"aw");                
+                if(trs.road_sign == 'No Stopping Anytime')
+                    color = noStoppingAnytime;
+                else if(trs.road_sign == 'No Jaywalking')
+                    color = noJayWalking;
+                else if(trs.road_sign == 'Tow Away Zone')
+                    color = towAwayZone;
+                else if(trs.road_sign == 'No Parking')
+                    color = noParking;
+                else if(trs.road_sign == 'No Loading/Unloading')
+                    color = noLoadingOrUnloading;
+                if(userSnapshot.key == id)
+                {      
+                    update_trs.road_sign_desc = trs.road_sign_desc;
+                    update_trs.road_sign = trs.road_sign;
+
+                    update_trs.$save().then(function(ref) {
+                        toastr.success('Path has been updated', 'You Successfully changed')
+                    }, function(error) {
+                        console.log("Error:", error);
+                    });
+                }
+                });
+                
+            });
+        }else if(type == "RB"){
+            var update_rb = $firebaseObject(ref.child('road_block').child(id));
+            update_rb.rb_coordinates = [];
+            this.getPath().getArray().forEach(function(value,key){
+                update_rb.rb_coordinates.push({lat: value.lat(),long: value.lng()})
+            });
+            console.log("second");
+            ref.child('road_block').once('value').then(function(snapshot) {
+                console.log(snapshot.val());
+                console.log(snapshot.key);
+                var rb_value = snapshot.val();
+                console.log(rb_value.rb_desc);
+                update_rb.rb_desc = rb_value.rb_desc;
+                update_rb.rb_enddatetime = rb_value.rb_enddatetime;
+                update_rb.rb_name = rb_value.rb_name;
+                update_rb.rb_startdatetime = rb_value.rb_startdatetime;
+                console.log("first");
+            })
+            console.log(update_rb.rb_enddatetime);
+            update_rb.$save().then(function(ref) {
+                console.log(ref.$id);
+                toastr.success('Path has been updated', 'You Successfully changed')
+            }, function(error) {
+                console.log("Error:", error);
+            });;
+        }
+
+    };
+    vm.info = function(event, id, type) {
+        console.log('aw');
     }
-    var latlng = new google.maps.LatLng(cebu.lat, cebu.lng);
-    map.setCenter(latlng);
-    map.setZoom(16);
 
-});
+    vm.delete = function(event, id, type) {
+        
+        $('#modalDeletePath').modal('show');
 
+        $("#modalDelPathConfirmDelete").click(function(){
+            console.log("na click ko");
+            $('#modalDeletePath').modal('toggle');
+            if(type == "TRS")
+            {
+                ref.child('traffic_road_sign/'+id+'/').remove();
+                toastr.error('You Successfully Deleted the geofence!')
+            }
+            else
+            {
+                ref.child('road_block/'+id+'/').remove();
+                toastr.error('You Successfully Deleted the geofence!')
+
+            }
+        });
+    };
 }
 
 })();
+
+ // if(type == "TRS")
+        // {
+        //     var update_trs = $firebaseObject(ref.child('traffic_road_sign').child(id));
+        //     update_trs.road_sign_coordinates = [];
+        //     this.getPath().getArray().forEach(function(value,key){
+        //         update_trs.road_sign_coordinates.push({lat: value.lat(),long: value.lng()})
+        //     });
+        //     update_trs.$save().then(function(ref) {
+        //         console.log(ref.$id);
+        //         toastr.success('Path has been updated', 'Arman Arco changed')
+        //     }, function(error) {
+        //         console.log("Error:", error);
+        //     });;
+        // }
+       // vm.allSha[0].color = 'bogo';
+        // vm.allSha[0].paths[0,0] = 500;
+        // vm.allSha[0].paths[0,1] = 400;
+        // console.log(vm.allSha[0].paths[0,0]+"arr");
+        // console.log(vm.allSha[0].paths[0,1]+"arr");
+        // var road_block_sign_plot = $firebaseArray(ref.child('road_block'));
+
+        // road_block_sign_plot.on("")
+
+           //this on is to retrieve all the data
+       
+           //this on is to retrieve all the data
+  
+        // var ref = database.ref('traffic_road_sign');
+
+   // vm.allShapes = [
+        //     {color:"#FF0000", name: "polygon", paths: [[41.74,-73.18],[40.64,-74.18],[40.84,-74.08],[40.74,-74.18]]},
+        //     {color:"#000000",name: "polygon", paths: [[42.74,-74.18],[40.64,-74.18],[40.84,-74.08],[40.74,-74.18]]},
+        //     {color:"#777777",name: "polygon", paths: [[43.74,-75.18],[41.64,-74.18],[40.84,-74.08],[40.74,-74.18]]}
+        // ];
+
+    //gotData(ref);
+
+       // console.log(FirebaseDatabase.getInstance().getReference());
+
+        // ref.on('value',gotData, errData);
+
+        // function gotData(data){
+        // var traffic_road_sign = data.val();
+        // var keys = Object.keys(traffic_road_sign);
+        // console.log(keys);
+        //     for(var i = 0; i < keys.length; i++){
+        //       var k = keys[i];
+        //       var road_sign = traffic_road_sign[k].road_sign;
+        //       console.log(k+':keys'+road_sign);
+        //       console.log(road_sign+":wawaawww");
+        //     }
+        // }
+
+        // function errData(err){
+        //     console.log('Error!');
+        //     console.log(err);
+        // }
+        // var usersRef = firebase.database().ref('road_block').child(key);
+        // console.log(usersRef);
+        // console.log(usersRef.key);
+        //var adaRef = usersRef.child($key);
+
+
+
+
+// ref.once('value', function(snapshot) {
+//   snapshot.forEach(function(childSnapshot) {
+//     var childKey = childSnapshot.key;
+//     var childData = childSnapshot.val();
+//     // ...
+//   });
+// });
+  //       //this on is to retrieve all the data
+  //     var database = firebase.database();
+  //     var ref = database.ref('traffic_road_sign');
+  //     ref.on('value',gotData, errData);
+
+  // function gotData(data){
+  //   var traffic_road_sign = data.val();
+  //   var keys = Object.keys(traffic_road_sign);
+  //   console.log(keys);
+  //   for(var i = 0; i < keys.length; i++){
+  //     var key2 = Object.keys(traffic_road_sign[k].road_sign_coordinates);
+  //     var k = keys[i];
+  //     console.log(k+':keys');
+  //     //console.log(traffic_road_sign[k].road_sign_coordinates.keys);
+  //     console.log(key2);
+  //   }
+  // }
+
+  // function errData(err){
+  //   console.log('Error!');
+  //   console.log(err);
+  // }
+
+
  // vm.traffic_road_sign = {
             //   road_sign: '',
             //   road_sign_desc: '',

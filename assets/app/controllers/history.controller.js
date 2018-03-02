@@ -3,9 +3,9 @@
 
 	angular
 	.module('app')
-	.controller('ActContrl', ActivityController);
+	.controller('HistContrl', HistoryController);
 
-	function ActivityController($scope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, $firebaseStorage) {
+	function HistoryController($scope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, $firebaseStorage) {
 		// var list = $firebaseArray(ref);
 		// var rec = list.$getRecord("foo"); // record with $id === "foo" or null
 		//==========================================

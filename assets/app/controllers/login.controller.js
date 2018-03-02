@@ -5,13 +5,11 @@
 	    .module('app')
 	    .controller('AuthCtrl', AuthController);
 
-
 	    function AuthController($scope, $firebaseAuth, $state) {
 	    	var vm = this;
 	    	var auth = $firebaseAuth();
 	    	vm.login = user_auth;
 	    	var user = auth.$getAuth();
-
 
 	    	if (user) {
 				$state.go('home');
@@ -25,10 +23,11 @@
 	    	vm.login_loading = false;
 	    	function user_auth(username, password) {
 	    		vm.login_loading = true;
-	    		auth.$signInWithEmailAndPassword(username, password).then(function(firebaseUser) {
-			    	$state.go('complain');
+	    		auth.$signInWithEmailAndPassword(username, password).then(function() {
+			    	$state.go('complain');//firebaseUser
 			    vm.login_loading = false;
 			  	}).catch(function(error) {
+			  		console.log('mo paso si jude');
 			    	console.log("Authentication failed:", error);
 			    	if(error.code == 'auth/wrong-password') {
 			    		swal(
@@ -43,6 +42,7 @@
 						  'error'
 						)
 			    	}
+			    	
 			    vm.login_loading = false;
 			  	});
 	    	}
