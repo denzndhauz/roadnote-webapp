@@ -102,6 +102,7 @@
         
 
     NgMap.getMap().then(function(map) {
+        vm.map = map;
           // init(map);
           var cebu = {
             lat: 10.3383039,
@@ -190,9 +191,12 @@
                     DateTE = DateTE.toString();
 
                     if(!desc || !title || DateTS == "" || DateTE == "" ){
+                        var ambot ="";
+                       ambot =  document.getElementById('modalRBErrorMsghider').value = "asdasdasd";
+                       document.getElementById('modalRBErrorMsg').value = 'error';
                         $('#modalRBErrorMsghider').show();
-                        document.getElementById('modalRBErrorMsg').value = 'error';
-                        var ambot = document.getElementById('modalRBErrorMsg').value;
+                        
+                        
                         console.log(ambot);
                     }
                     else
@@ -377,7 +381,15 @@
             }
         });
     };
+    vm.placeChanged = function() {
+        vm.place = this.getPlace();
+        console.log(vm.place);
+        console.log('location', vm.place.geometry.location);
+        vm.map.setCenter(vm.place.geometry.location);
+    }   
 }
+
+ 
 
 })();
 

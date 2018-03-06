@@ -12,7 +12,6 @@
 		var ref = firebase.database().ref("violation_fines");
 		vm.data = $firebaseArray(ref);
 
-
 		vm.violation_fines = {
 			vf_name: '',
 			vf_datestarted: '',
@@ -117,9 +116,18 @@
 				var descAdd = document.getElementById("modalDescAdd").value;
 				var dateAdd = document.getElementById("modalDateAdd").value;
 				var finesAdd = document.getElementById("modalFinesAdd").value;
-				var errorPrompt = "";
+				var nameEdit = document.getElementById("modalNameAdd").value;
+				var descEdit = document.getElementById("modalDescAdd").value;
+				var dateEdit = document.getElementById("modalDateAdd").value;
+				var finesEdit = document.getElementById("modalFinesAdd").value;
+				$('#modalAddFineErr').hide();
+				$('#nameErrAdd').hide();
+				$('#dateErrAdd').hide();
+				$('#finesErrAdd').hide();
 				if(nameAdd && dateAdd && finesAdd)
 				{
+					console.log(nameAdd+"cat");
+					
 					vm.fine_obj.vf_datestarted = moment(vm.fine_obj.vf_datestarted).format('MM-DD-YYYY');
 					vm.fine_list.$add(vm.fine_obj).then(function(ref) {
 						swal('Success!', 'Added New Data!', 'success');
@@ -127,21 +135,43 @@
 					}, function(error) {
 						swal('Error!', error, 'error');
 					});
-				}
-				else{
-					if(!nameAdd)
-					swal('Error!', '', 'error');
+				}else{
+					
+					$('#modalAddFineErr').show();
+					if(!nameAdd){
+						$('#nameErrAdd').show();
+					}
+					if(!dateAdd){
+						$('#dateErrAdd').show();
+					}
+					if(!finesAdd){
+						$('#finesErrAdd').show();
+					}
 				}
 			} else {
 				// Parse date object to date string
-				vm.edit_fine.vf_datestarted = moment(vm.edit_fine.vf_datestarted).format('MM-DD-YYYY');
-				vm.edit_fine.$save().then(function(ref) {
-				  swal('Success!', 'Updated!', 'success');
-				  $('#editFine').modal('hide');
-				}, function(error) {
-				  swal('Error!', error, 'error');
-				});
-
+				$('#modalEditFineErr').hide();
+				$('#nameErrEdit').show();
+				$('#dateErrEdit').show();
+				$('#finesErrEdit').show();
+				if(nameEdit && dateEdit && finesEdit)
+				{
+					vm.edit_fine.vf_datestarted = moment(vm.edit_fine.vf_datestarted).format('MM-DD-YYYY');
+					vm.edit_fine.$save().then(function(ref) {
+					  swal('Success!', 'Updated!', 'success');
+					  $('#editFine').modal('hide');
+					}, function(error) {
+					  swal('Error!', error, 'error');
+					});
+				}else{
+					$('#modalEditFineErr').show();
+					if(!nameAdd)
+						$('#nameErrEdit').show();
+					if(!dateAdd)
+						$('#dateErrEdit').show();
+					if(!finesAdd)
+						$('#finesErrEdit').show();
+				}
 				
 			}
 		}

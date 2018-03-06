@@ -2,6 +2,15 @@
 <div class="col-md-12" ng-controller="HomeCtrl as home">
 	<div style='position:relative;'>
 		<!-- <div id="map_div" style="height: 600px; width:100%;"></div> -->
+		<div>
+			<label>Search a location:</label>
+			<input places-auto-complete
+			    size=80
+			    ng-model="home.address"
+			    on-place-changed="home.placeChanged()" />
+			    <br>
+			   	<br>
+		</div>
 		<ng-map id="map_div" style="height: 600px; width:100%;">
 			<drawing-manager 
 				on-polygoncomplete="home.onMapOverlayCompleted()"
@@ -19,7 +28,7 @@
 		       stroke-opacity="1.0"
 		       paths="{{shape.paths}}"
 		       fill-color="{{shape.color}}"
-		       stroke-weight="2"
+		       stroke-weight="2"		       
 		       editable="true"
         	   draggable="true"
         	   on-click="home.info(shape.id, shape.type)"
