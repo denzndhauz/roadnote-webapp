@@ -11,17 +11,25 @@
     var auth = Auth;
     vm.auth = auth;
     vm.login = user_auth;
-    var user = auth.$getAuth();
-    vm.auth_user = user;
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      if (user && toState.name == 'login') {
-        $state.go('home');
+    // vm.authObj = Auth.$getAuth();
+    // vm.auth_user = user;
+    vm.is_loggedin = false;
+
+    vm.auth.$onAuthStateChanged(function(firebaseUser) {
+      if(firebaseUser){
+        vm.auth_user = angular.copy(firebaseUser);
+        vm.is_loggedin = true;
+      } else {
+        $state.go('login');
+        vm.is_loggedin = false;
       }
     });
 
-    vm.auth.$onAuthStateChanged(function(firebaseUser) {
-      console.log(firebaseUser);
-    });
+    vm.logout = function() {
+      vm.auth.$signOut();
+      $state.go('login');
+      vm.is_loggedin = false;
+    }
 
     vm.user = {
       email: '',
