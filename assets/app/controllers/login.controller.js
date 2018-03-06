@@ -27,7 +27,6 @@
 			    	$state.go('complain');//firebaseUser
 			    vm.login_loading = false;
 			  	}).catch(function(error) {
-			  		console.log('mo paso si jude');
 			    	console.log("Authentication failed:", error);
 			    	if(error.code == 'auth/wrong-password') {
 			    		swal(

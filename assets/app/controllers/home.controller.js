@@ -99,150 +99,7 @@
         });
 
   //==========================================================
-        vm.onMapOverlayCompleted = function(e) {
-            // var getlong,getlat;
-            e.setDraggable(true);//to make paths draggable
-            e.setEditable(true);//to make paths editable
-            $('#modalRBorRS').modal('show');//shows modal to choose if road block or road sign
-            $("#roadblock").click(function(){
-                console.log("na click nako");
-                $('#modalRBorRS').modal('toggle');
-                $('#modalroadblock').modal('show');
-
-                document.getElementById("modalRBSaveButton").onclick = function() {RoadBlockVerify()};
-                // document.getElementById("modalTRSErrorMsg").onclick = function() {TrafficRoadSignVerify()};    
-
-            });
-
-            $("#roadsign").click(function(){
-                $('#modalRBorRS').modal('toggle');
-                $('#modalTrafficRoadSign').modal('show');
-
-                document.getElementById("modalTRSSaveButton").onclick = function() {TrafficRoadSignVerify()};
-                // document.getElementById("modalTRSErrorMsg").onclick = function() {TrafficRoadSignVerify()};    
-
-            }); 
-            //event listener for drag
-            google.maps.event.addListener(e, 'dragend', function (event) {
-                e.getPath().getArray().forEach(function(v, k) {
-                    console.log(v.lat(), v.lng());
-                })
-            });
-            function RoadBlockAdd(){
-                
-                var coordinates = [];
-                e.getPath().getArray().forEach(function(v, k) {
-                   coordinates.push({lat:v.lat(),long:v.lng()});
-                });
-
-                road_block_sign.$add({ 
-                    rb_name: title,
-                    rb_desc: desc,
-                    rb_startdatetime: DateTS,
-                    rb_enddatetime: DateTE,
-                    rb_datecreated: today,
-                    rb_status: 'ACTIVE',
-                    rb_coordinates: coordinates
-                }).then(function(ref) {
-                    swal("Success", "New Roadblock Successfully Added!", "success")
-                    // location.reload();
-                    GeneralNewsDetails();
-                    setTimeout(function () {
-                        swal.close()
-                        location.reload();
-                    }, 2000);
-                    $('#modalRBorRS').modal('hide');
-                });
-                
-            }
-            function RoadBlockVerify() {
-
-                desc = document.getElementById("modalRBDesc").value;
-                title = document.getElementById("modalRBTitle").value;
-                DateTS = document.getElementById("modalRBDateTS").value;
-                DateTE = document.getElementById("modalRBDateTE").value;
-                desc = desc.toString();
-                title = title.toString();
-                DateTS = DateTS.toString();
-                DateTE = DateTE.toString();
-
-                if(!desc || !title || DateTS == "" || DateTE == "" ){
-                    $('#modalRBErrorMsghider').show();
-                }
-                else
-                {
-                    $('#modalRBErrorMsghider').hide();
-                    RoadBlockAdd();
-                }
-            }
-            function TrafficRoadSignVerify() {
-                TRStype = document.getElementById("modalTRSType").value;
-                TRSdesc = document.getElementById("modalTRSDesc").value;
-
-                if(!TRStype || !TRSdesc){
-                    $('#modalTRSErrorMsghider').show();
-                }
-                else
-                {
-                    $('#modalTRSErrorMsghider').hide();
-                    TrafficRoadSignAdd();
-                    
-                }
-            }
-            function TrafficRoadSignAdd() {
-                //var ref = firebase.database().ref();
-                var coordinates = [];
-                console.log(TRStype,TRSdesc)
-                
-                e.getPath().getArray().forEach(function(v, k) {
-                   coordinates.push({lat:v.lat(),long:v.lng()});
-                });
-
-                traffic_road_sign.$add({ 
-                    road_sign: TRStype, 
-                    road_sign_desc: TRSdesc,
-                    road_sign_coordinates:coordinates
-                }).then(function(ref) {
-                    var id = ref.key;
-                    swal("Success", "New Roadblock Successfully Added!", "success")
-                    GeneralNewsDetails();
-                    setTimeout(function () {
-                        swal.close()
-                        location.reload();
-                    }, 2000);
-                });
-                
-            }
-            function GeneralNewsDetails(){
-
-                if(TRStype){
-                    gen_title = "new " + TRStype; 
-                }else{
-                    gen_title = "new Roadblock";
-                }
-                if(desc){
-                    gen_desc = desc;
-                }else{
-                    gen_desc = TRSdesc;
-                }
-                e.getPath().getArray().forEach(function(v, k) {
-                    getlong = v.lng();
-                    getlat = v.lat();
-                })
-                GeneralNewsAdd();
-            }
-            function GeneralNewsAdd(){
-                general_news.$add({
-                    gn_title: gen_title,
-                    gn_datecreated: today, 
-                    gn_description: gen_desc,   
-                    gn_lat: getlat,
-                    gn_long: getlong
-                }).then(function(ref) {
-          
-                });
-            }
-        }
+        
 
     NgMap.getMap().then(function(map) {
           // init(map);
@@ -254,10 +111,172 @@
         map.setCenter(latlng);
         map.setZoom(16);
 
-   
+        vm.onMapOverlayCompleted = function(e) {
+            // var getlong,getlat;
+            e.setDraggable(true);//to make paths draggable
+            e.setEditable(true);//to make paths editable
+            var pointMinimum = 0;//minimum of the points
+            console.log(e); 
+       
+            e.getPath().getArray().forEach(function(v, k) {
+                pointMinimum++;       
+            });
+            if(pointMinimum <= 2){
+                swal("Plotted Points must be greater than two", "You clicked the button!", "error");
+            }
+            else{
+
+                $('#modalRBorRS').modal('show');//shows modal to choose if road block or road sign
+                $("#roadblock").click(function(){
+                    console.log("na click nako");
+                    $('#modalRBorRS').modal('toggle');
+                    $('#modalroadblock').modal('show');
+
+                    document.getElementById("modalRBSaveButton").onclick = function() {RoadBlockVerify()};
+                    // document.getElementById("modalTRSErrorMsg").onclick = function() {TrafficRoadSignVerify()};    
+
+                });
+
+                $("#roadsign").click(function(){
+                    $('#modalRBorRS').modal('toggle');
+                    $('#modalTrafficRoadSign').modal('show');
+
+                    document.getElementById("modalTRSSaveButton").onclick = function() {TrafficRoadSignVerify()};
+                    // document.getElementById("modalTRSErrorMsg").onclick = function() {TrafficRoadSignVerify()};    
+
+                }); 
+                //event listener for drag
+                google.maps.event.addListener(e, 'dragend', function (event) {
+                    e.getPath().getArray().forEach(function(v, k) {
+                        console.log(v.lat(), v.lng());
+                    })
+                });
+                function RoadBlockAdd(){
+                    
+                    var coordinates = [];
+                    e.getPath().getArray().forEach(function(v, k) {
+                       coordinates.push({lat:v.lat(),long:v.lng()});
+                    });
+
+                    road_block_sign.$add({ 
+                        rb_name: title,
+                        rb_desc: desc,
+                        rb_startdatetime: DateTS,
+                        rb_enddatetime: DateTE,
+                        rb_datecreated: today,
+                        rb_status: 'ACTIVE',
+                        rb_coordinates: coordinates
+                    }).then(function(ref) {
+                        swal("Success", "New Roadblock Successfully Added!", "success")
+                        // location.reload();
+                        GeneralNewsDetails();
+                        setTimeout(function () {
+                            swal.close()
+                            // location.reload();
+                        }, 2000);
+                        $('#modalRBorRS').modal('hide');
+                    });
+                    
+                }
+                function RoadBlockVerify() {
+
+                    desc = document.getElementById("modalRBDesc").value;
+                    title = document.getElementById("modalRBTitle").value;
+                    DateTS = document.getElementById("modalRBDateTS").value;
+                    DateTE = document.getElementById("modalRBDateTE").value;
+                    desc = desc.toString();
+                    title = title.toString();
+                    DateTS = DateTS.toString();
+                    DateTE = DateTE.toString();
+
+                    if(!desc || !title || DateTS == "" || DateTE == "" ){
+                        $('#modalRBErrorMsghider').show();
+                        document.getElementById('modalRBErrorMsg').value = 'error';
+                        var ambot = document.getElementById('modalRBErrorMsg').value;
+                        console.log(ambot);
+                    }
+                    else
+                    {
+                        $('#modalRBErrorMsghider').hide();
+                        RoadBlockAdd();
+                    }
+                }
+                function TrafficRoadSignVerify() {
+                    TRStype = document.getElementById("modalTRSType").value;
+                    TRSdesc = document.getElementById("modalTRSDesc").value;
+
+                    if(!TRStype || !TRSdesc){
+                        $('#modalTRSErrorMsghider').show();
+                        document.getElementById('modalTRSErrorMsg').value = "waaaaaaaa";
+                    }
+                    else
+                    {
+                        $('#modalTRSErrorMsghider').hide();
+                        TrafficRoadSignAdd();
+                        
+                    }
+                }
+                function TrafficRoadSignAdd() {
+                    //var ref = firebase.database().ref();
+                    var coordinates = [];
+                    console.log(TRStype,TRSdesc)
+                    
+                    e.getPath().getArray().forEach(function(v, k) {
+                       coordinates.push({lat:v.lat(),long:v.lng()});
+                    });
+
+                    traffic_road_sign.$add({ 
+                        road_sign: TRStype, 
+                        road_sign_desc: TRSdesc,
+                        road_sign_coordinates:coordinates
+                    }).then(function(ref) {
+                        var id = ref.key;
+                        swal("Success", "New Roadblock Successfully Added!", "success")
+                        GeneralNewsDetails();
+                        setTimeout(function () {
+                            swal.close()
+                            location.reload();
+                        }, 2000);
+                    });
+                    
+                }
+                function GeneralNewsDetails(){
+
+                    if(TRStype){
+                        gen_title = "new " + TRStype; 
+                    }else{
+                        gen_title = "new Roadblock";
+                    }
+                    if(desc){
+                        gen_desc = desc;
+                    }else{
+                        gen_desc = TRSdesc;
+                    }
+                    e.getPath().getArray().forEach(function(v, k) {
+                        getlong = v.lng();
+                        getlat = v.lat();
+                    })
+                    GeneralNewsAdd();
+                }
+                function GeneralNewsAdd(){
+                    general_news.$add({
+                        gn_title: gen_title,
+                        gn_datecreated: today, 
+                        gn_description: gen_desc,   
+                        gn_lat: getlat,
+                        gn_long: getlong
+                    }).then(function(ref) {
+              
+                    });
+                }
+            }
+        }
     });
     vm.changepaths = function(event, id, type) {
         //gn_title = Edited
+        console.log(event);
+        event.editable = "true";
+        event.draggable = "true";
         if(type == "TRS")
         {
             var update_trs = $firebaseObject(ref.child('traffic_road_sign').child(id));
@@ -335,6 +354,7 @@
     };
     vm.info = function(event, id, type) {
         console.log('aw');
+
     }
 
     vm.delete = function(event, id, type) {
