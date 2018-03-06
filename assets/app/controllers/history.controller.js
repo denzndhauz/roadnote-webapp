@@ -3,9 +3,9 @@
 
 	angular
 	.module('app')
-	.controller('ActContrl', ActivityController);
+	.controller('HistContrl', HistoryController);
 
-	function ActivityController($scope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, $firebaseStorage) {
+	function HistoryController($scope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, $firebaseStorage) {
 		// var list = $firebaseArray(ref);
 		// var rec = list.$getRecord("foo"); // record with $id === "foo" or null
 		//==========================================
@@ -24,6 +24,25 @@
 		//vm.cats.$add({ code: "bar"}); for adding to database
 		//==================================
 			//======
+
+
+
+
+		$("#AddNew").click(function(){ 
+			//$isUpdated = $(this).removeClass('clicked');
+			$("#modalTitle").html("<b>   Add</b>");
+			//clear modal input elements when adding new family
+			$("#ModalName").val("");
+		    $("#ModalRelationship").val("");
+		    $("#DetailsID").val("");
+			    $("#ModalOccupation").val("");
+		    $("#ModalContactNos").val("");
+		    $('#ModalBday').val("")
+	    	$("#ModalEmergency").prop('checked', false);
+	    	$("#ModalDependency").prop('checked', false);
+	    	$('#alertInModal').addClass('hidden')
+	     	$("#myModal").modal();
+		});
 	}
 	
 })();

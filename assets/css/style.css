@@ -231,11 +231,26 @@ body {
   height:300px;
   padding-bottom:5px
 }
-#vf{
+#resizeme{
   resize: vertical;
 }
-#vf_desc{
-  resize: vertical;
+.noparking{
+  color: #ed0b0b;
+}
+.nojaywalking{
+  color: #0011ff;
+}
+.nostoppinganytime{
+  color: #00ffff;
+}
+.towawayzone{
+  color: #00ff00;
+}
+.NoLoadingOrUnloading{
+  color: #FF00CE;
+}
+.Roadblock{
+  color: #000000;
 }
 /* #olap{
   position: absolute;
@@ -249,28 +264,14 @@ body {
 }
 */
 /*for home*/
-#wrapper { 
+/*#wrapper { 
   position: relative; 
 }
 #over_map { 
   position: absolute; bottom: 5%; right: 4%; z-index: 99; 
 }
-.noparking{
-  color: red;
-}
-.nojaywalking{
-  color:blue;
-}
-.nostoppinganytime{
-  color:black;
-}
-.towawayzone{
-  color: green;
-}
-.NoLoadingOrUnloading{
-  color: #FF00CE;
-}
-/**/
+
+*//*
 html, body {
         height: 100%;
         margin: 0;
@@ -405,23 +406,21 @@ html, body {
   line-height: 1.428571429;
   border-radius: 15px;
 }
-.resizeme{
-  resize: vertical;
-}
-select option {
+
+/*select option {
     margin: 40px;
     background: rgba(0, 0, 0, 0.3);
     color: #fff;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
 }
 
-select option[value="1"] { /* value not val */
+select option[value="1"] { 
     background: rgba(100, 100, 100, 0.3);
 }
 
-select option[value="2"] { /* value not val */
+select option[value="2"] {
     background: rgba(200, 200, 200, 0.3);
-}
+}*/
 /*=================================*/
 /*.delete-menu {
   position: absolute;
@@ -441,13 +440,3 @@ select option[value="2"] { /* value not val */
   background: #eee;
 }*/
 /*============================================*/
-#cp-wrap{
-    position: absolute;
-    top: 10px;
-    left:120px;
-    background-color:white;
-}
-
-#cp-wrap button{
-    font-size: 22px;
-}

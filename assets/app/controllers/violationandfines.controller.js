@@ -17,21 +17,22 @@
 			vf_name: '',
 			vf_datestarted: '',
 			vf_description: '',
-			vf_fines: '',
-			vf_status: ''
+			vf_fines: ''
 		}
 		//==========add
 		vm.addviolation_fines = function(){
 			vm.msg2="";
-			console.log(vm.violation_fines);
+			
+
 			var ref = firebase.database().ref("violation_fines");
 			$firebaseArray(ref).$add(vm.violation_fines)
 			.then(
 				function(ref){
+					console.log(ref);
+
 					vm.violation_fines.vf_name = "";
 					vm.violation_fines.vf_datestarted = "";
 					vm.violation_fines.vf_description = "";
-					vm.violation_fines.vf_status = "";
 
 					// $scope.msg2= "Student added successfully.";
 					// window.setTimeout(function(){
@@ -48,38 +49,29 @@
 
 		 //======delete 
 
-		 	 vm.deleteviolation_fines = function($id){
+	 	 vm.deleteviolation_fines = function($id){
 		 	 	//$id = key
 		 	 	//remove
 		 	 	console.log($id);
-		 	 	var refDel = firebase.database().ref();
-		 	 	refDel.child('violation_fines/'+$id+'/').remove();
-
-
-		 	//  vm.data
-		 	// .$remove(info)
-		 	// .then(
-		 	// 	function(ref){
-		 	// 		vm.msg1 = "violation/fine deleted successfully.";
-		 	// 		window.setTimeout(function(){
-		 	// 			vm.$apply(function(){
-		 	// 				vm.msg1 = false;
-		 	// 			})
-		 	// 		},2000)
-		 	// 		console.log(info);
-		 	// 	},
-		 	// 	function(error){
-		 	// 		console.log(error);
-		 	// 	}
-		 	// 	)
+		 	 	$('#modalConfirmDelete').modal('show');
+		 	 	document.getElementById("confirmDeleteButton").onclick = function() {ConfirmDelete($id)};
+		 		
 		 };
+
+		 
+		 function ConfirmDelete($id){
+
+		 	swal('Success!', 'Deleted Data!', 'success');
+		 	var refDel = firebase.database().ref();
+		 	refDel.child('violation_fines/'+$id+'/').remove();
+		 	$('#modalConfirmDelete').modal('hide');
+		 }
 
 		var vm = this;
 		var ref = firebase.database().ref();
 		vm._fine_obj = {
 			vf_name: '',
 			vf_datestarted: new Date(),
-			vf_status: 'active',
 			vf_fines: '',
 			vf_description: '',
 		}
@@ -92,6 +84,8 @@
 		// click on `index.html` above to see it used in the DOM!
 		vm.dogs = $firebaseArray(ref.child('dogs'));
 		vm.fine_list = $firebaseArray(ref.child('violation_fines'));
+
+		// console.log(vm.dogs+"dog");
 
 		vm.loading = true;
 		vm.fine_list.$loaded().then(function() {
@@ -119,13 +113,25 @@
 
 		vm.save_fine = function(type) {
 			if(type == 'add') {
-				vm.fine_obj.vf_datestarted = moment(vm.fine_obj.vf_datestarted).format('MM-DD-YYYY');
-				vm.fine_list.$add(vm.fine_obj).then(function(ref) {
-					swal('Success!', 'Added New Data!', 'success');
-					$('#addFine').modal('hide');
-				}, function(error) {
-					swal('Error!', error, 'error');
-				});
+				var nameAdd = document.getElementById("modalNameAdd").value;
+				var descAdd = document.getElementById("modalDescAdd").value;
+				var dateAdd = document.getElementById("modalDateAdd").value;
+				var finesAdd = document.getElementById("modalFinesAdd").value;
+				var errorPrompt = "";
+				if(nameAdd && dateAdd && finesAdd)
+				{
+					vm.fine_obj.vf_datestarted = moment(vm.fine_obj.vf_datestarted).format('MM-DD-YYYY');
+					vm.fine_list.$add(vm.fine_obj).then(function(ref) {
+						swal('Success!', 'Added New Data!', 'success');
+						$('#addFine').modal('hide');
+					}, function(error) {
+						swal('Error!', error, 'error');
+					});
+				}
+				else{
+					if(!nameAdd)
+					swal('Error!', '', 'error');
+				}
 			} else {
 				// Parse date object to date string
 				vm.edit_fine.vf_datestarted = moment(vm.edit_fine.vf_datestarted).format('MM-DD-YYYY');

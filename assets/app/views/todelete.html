@@ -1,0 +1,20 @@
+<div class="col-md-12" ng-controller="ToDelCtrl as todelete">
+	<div style='position:relative;'>
+		<ng-map id="map_div" style="height: 600px; width:100%;">
+			<shape ng-repeat="shape in todelete.allShapes"
+		       name="{{shape.name}}"
+		       stroke-color="{{shape.color}}"
+		       stroke-opacity="1.0"
+		       paths="{{shape.paths}}"
+		       fill-color="{{shape.color}}"
+		       stroke-weight="2"
+		       editable="true"
+        	   draggable="true"
+        	   on-click="todelete.info(shape.id, shape.type)"
+        	   on-dragend="todelete.changepaths(shape.id, shape.type)"
+        	   on-dbclick="todelete.delete(shape.id, shape.type)">
+ <!-- on-bounds_changed = "home.info(shape.id, shape.type)" -->
+		    </shape>
+		</ng-map>
+	</div>
+</div>
