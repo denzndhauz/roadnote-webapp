@@ -116,10 +116,6 @@
 				var descAdd = document.getElementById("modalDescAdd").value;
 				var dateAdd = document.getElementById("modalDateAdd").value;
 				var finesAdd = document.getElementById("modalFinesAdd").value;
-				var nameEdit = document.getElementById("modalNameAdd").value;
-				var descEdit = document.getElementById("modalDescAdd").value;
-				var dateEdit = document.getElementById("modalDateAdd").value;
-				var finesEdit = document.getElementById("modalFinesAdd").value;
 				$('#modalAddFineErr').hide();
 				$('#nameErrAdd').hide();
 				$('#dateErrAdd').hide();
@@ -149,11 +145,14 @@
 					}
 				}
 			} else {
-				// Parse date object to date string
+				var nameEdit = document.getElementById("modalNameEdit").value;
+				var descEdit = document.getElementById("modalDescEdit").value;
+				var dateEdit = document.getElementById("modalDateEdit").value;
+				var finesEdit = document.getElementById("modalFinesEdit").value;
 				$('#modalEditFineErr').hide();
-				$('#nameErrEdit').show();
-				$('#dateErrEdit').show();
-				$('#finesErrEdit').show();
+				$('#nameErrEdit').hide();
+				$('#dateErrEdit').hide();
+				$('#finesErrEdit').hide();
 				if(nameEdit && dateEdit && finesEdit)
 				{
 					vm.edit_fine.vf_datestarted = moment(vm.edit_fine.vf_datestarted).format('MM-DD-YYYY');
@@ -164,6 +163,7 @@
 					  swal('Error!', error, 'error');
 					});
 				}else{
+					console.log(finesEdit+":name");
 					$('#modalEditFineErr').show();
 					if(!nameAdd)
 						$('#nameErrEdit').show();

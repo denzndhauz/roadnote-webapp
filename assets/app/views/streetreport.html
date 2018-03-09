@@ -17,18 +17,17 @@
 				<tbody>
 				<tr ng-repeat="sr in sreport.report_a_complain" class="text-center">
 			      <th class="text-center">{{ sr.sr_reportedby }}</th>
-			      <th class="text-center">{{ sr.rac_id }}
-			      	<a class="text-center" href="" data-toggle="modal" data-target="#modalView" >See Details
+			      <th class="text-center" id="sr_id">{{ sr.rac_id }}
+			      	<!-- <a class="text-center" href="" data-toggle="modal" data-target="#modalView" >See Details -->
+			        <button type="button" class="btn btn-info" ng-click="sreport.modalView(sr)" id="get_id">
+			        	See Details
+			        </button>
 			      </th>
 			      <th class="text-center">{{ sr.sr_date }}</th>
 			      <th class="bg-info text-center">{{ sr.sr_status }} </th>
 			    </tr>
 			  </tbody>
 			</table>
-		<!-- 	<div >
-				<button type="button" class="btn btn-danger" id="ccomplain">Close</button>
-			</div> -->
-
 		</div>
 	</div>
 
@@ -46,12 +45,14 @@
 						<h4 class="modal-title">Report A Complain Details</h4>
 					</div>
 					<div class="modal-body">
-						<button type="button" id="modalShowMap" class="btn btn-link">click here to see location</button> 
-						<div class="modal-footer">
-							<div class="form-group"> 
-								<div class="col-sm-offset-2 col-sm-10">
-									<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-								</div>
+						<!-- <div id="desc"></div> -->
+						<div class="container" id="contentHolder"></div>
+						<button type="button" id="locationView" class="btn btn-link">click here to see location</button> 
+					</div>
+					<div class="modal-footer">
+						<div class="form-group"> 
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 							</div>
 						</div>
 					</div>
@@ -59,6 +60,44 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- modal map -->
+	<!-- <div id="modalLocation" class="modal fade">
+    <div class="modal-body">
+        
+    </div>
+    <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-primary" data-value="1">Continue</button>
+        <button type="button" data-dismiss="modal" class="btn" data-value="0">Cancel</button>
+    </div>
+
+	</div> -->
+
+
+	<!-- modal map -->
+	<div class="modal fade" id="modalLocation" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content col-sm-10 col-md-11 col-xl-12">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Street Report Location</h4>
+				</div>
+				<div class="modal-body">
+					<ng-map style="height: 400px; width:100%;"></ng-map>
+				</div>
+				<div class="modal-footer">
+					<div class="form-group"> 
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	
 </div>
 		<!-- <div class="msg2" ng-show="msg2">  <h3>{{vioFines.msg2}}</h3> </div> -->

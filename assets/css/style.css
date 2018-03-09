@@ -255,3 +255,12 @@ body {
 .containr {
     display: flex;
 }
+/*//*/
+@media (max-width: 979px) {
+    .modal-open .page-container .navbar-fixed-top {
+        overflow-y: visible;
+    }
+}
+#map-canvas {
+    height: 400px;
+}

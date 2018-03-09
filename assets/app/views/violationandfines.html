@@ -71,22 +71,22 @@
 	          <div class="form-group">
 	            <label for="recipient-name" class="control-label containr">Name<div id="nameErrEdit" style="display: none; color:red;">*</div></label>
 	            
-	            <input type="text" class="form-control" ng-model="vioFines.edit_fine.vf_name">
+	            <input type="text" class="form-control" id="modalNameEdit" ng-model="vioFines.edit_fine.vf_name">
 	          </div>
 	          <div class="form-group">
 	            <label for="recipient-name" class="control-label resizeme">Description</label>
-	            <textarea class="form-control resizeme" rows="3" ng-model="vioFines.edit_fine.vf_description">
+	            <textarea class="form-control resizeme" id="modalDescEdit" rows="3" ng-model="vioFines.edit_fine.vf_description">
 	            </textarea>
 	          </div>
 	          <div class="form-group">
 	            <label for="recipient-name" class="control-label containr">Date Started<div id="dateErrEdit" style="display: none; color:red;">*</div>
 	            </label>
-	            <input type="date" class="form-control" ng-model="vioFines.edit_fine.vf_datestarted">
+	            <input type="date" class="form-control" id="modalDateEdit" ng-model="vioFines.edit_fine.vf_datestarted">
 	          </div>
 	          <div class="form-group">
 	            <label for="recipient-name" class="control-label resizeme containr">Violation/Fine<div id="finesErrEdit" style="display: none; color:red;">*</div>
 	            </label>
-	            <textarea class="form-control resizeme" ng-model="vioFines.edit_fine.vf_fines"></textarea>
+	            <textarea class="form-control resizeme" id="modalFinesEdit" ng-model="vioFines.edit_fine.vf_fines"></textarea>
 	          </div>
 	         <!--  <div class="form-group">
 	            <label for="recipient-name" class="control-label">Status</label>

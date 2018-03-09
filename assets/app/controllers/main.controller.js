@@ -96,6 +96,7 @@
     } else {
       console.log("Signed out");
     }
+
     function routeTo(name) {
       console.log(name);
       $state.go(name);

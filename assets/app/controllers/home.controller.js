@@ -13,7 +13,7 @@
         var general_news = $firebaseArray(ref.child('general_news'));
         var road_block_sign = $firebaseArray(ref.child('road_block'));
         var traffic_road_sign = $firebaseArray(ref.child('traffic_road_sign'));
-        var desc = '',title = '', DateTS='',DateTE = '', TRStype = '', TRSdesc = '';
+        var remarks = '',title = '', DateTS='',DateTE = '', TRStype = '', TRSdesc = '';
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth()+1; //January is 0!
@@ -93,7 +93,6 @@
                     rb_enddatetime: rb.rb_enddatetime,
                     rb_name: rb.name,
                     rb_startdatetime: rb.strartdatetime
-
                 });
             });
         });
@@ -161,7 +160,7 @@
 
                     road_block_sign.$add({ 
                         rb_name: title,
-                        rb_desc: desc,
+                        rb_desc: remarks,
                         rb_startdatetime: DateTS,
                         rb_enddatetime: DateTE,
                         rb_datecreated: today,
@@ -181,23 +180,38 @@
                 }
                 function RoadBlockVerify() {
 
-                    desc = document.getElementById("modalRBDesc").value;
+                    remarks = document.getElementById("modalRBDesc").value;
                     title = document.getElementById("modalRBTitle").value;
                     DateTS = document.getElementById("modalRBDateTS").value;
                     DateTE = document.getElementById("modalRBDateTE").value;
-                    desc = desc.toString();
+                    remarks = remarks.toString();
                     title = title.toString();
                     DateTS = DateTS.toString();
                     DateTE = DateTE.toString();
+                    $('#modalRBErrorMsghider').hide();
+                    $('#modalReasonErrRB').hide();
+                    $('#modalDateStartErrRB').hide();
+                    $('#modalDateEndErrRB').hide();
+                    //remarks is not necessary
+                    // !remarks || 
+                    console.log(title+":title");
+                    console.log(DateTS+":DateTS");
+                    console.log(DateTE+":DateTE");
 
-                    if(!desc || !title || DateTS == "" || DateTE == "" ){
-                        var ambot ="";
-                       ambot =  document.getElementById('modalRBErrorMsghider').value = "asdasdasd";
-                       document.getElementById('modalRBErrorMsg').value = 'error';
+                    if(!title || DateTS == "" || DateTE == "" ){
                         $('#modalRBErrorMsghider').show();
-                        
-                        
-                        console.log(ambot);
+                        // if(!desc){
+                        //     $('#nameErrAdd').show();
+                        // }
+                        if(!title){
+                            $('#modalReasonErrRB').show();
+                        }
+                        if(!DateTS){
+                            $('#modalDateStartErrRB').show();
+                        }
+                        if(!DateTE){
+                            $('#modalDateEndErrRB').show();
+                        }
                     }
                     else
                     {
@@ -251,8 +265,8 @@
                     }else{
                         gen_title = "new Roadblock";
                     }
-                    if(desc){
-                        gen_desc = desc;
+                    if(remarks){
+                        gen_desc = remarks;
                     }else{
                         gen_desc = TRSdesc;
                     }
@@ -292,39 +306,38 @@
                 getlong = value.lng();
             });
             ref.child('traffic_road_sign').once('value').then(function(snapshot) {
-            snapshot.forEach(function(userSnapshot) {
-                var trs = userSnapshot.val();
-                var use = userSnapshot.key;
-                
-                var color = '';
-                var paths = [];
-                console.log(userSnapshot.key);
-                console.log(id);
-                console.log(use);
-                
+                snapshot.forEach(function(userSnapshot) {
+                    var trs = userSnapshot.val();
+                    var use = userSnapshot.key;
+                    
+                    var color = '';
+                    var paths = [];
+                    console.log(userSnapshot.key);
+                    console.log(id);
+                    console.log(use);
+                    
+                    console.log(userSnapshot.val().key+"aw");                
+                    if(trs.road_sign == 'No Stopping Anytime')
+                        color = noStoppingAnytime;
+                    else if(trs.road_sign == 'No Jaywalking')
+                        color = noJayWalking;
+                    else if(trs.road_sign == 'Tow Away Zone')
+                        color = towAwayZone;
+                    else if(trs.road_sign == 'No Parking')
+                        color = noParking;
+                    else if(trs.road_sign == 'No Loading/Unloading')
+                        color = noLoadingOrUnloading;
+                    if(userSnapshot.key == id)
+                    {      
+                        update_trs.road_sign_desc = trs.road_sign_desc;
+                        update_trs.road_sign = trs.road_sign;
 
-                console.log(userSnapshot.val().key+"aw");                
-                if(trs.road_sign == 'No Stopping Anytime')
-                    color = noStoppingAnytime;
-                else if(trs.road_sign == 'No Jaywalking')
-                    color = noJayWalking;
-                else if(trs.road_sign == 'Tow Away Zone')
-                    color = towAwayZone;
-                else if(trs.road_sign == 'No Parking')
-                    color = noParking;
-                else if(trs.road_sign == 'No Loading/Unloading')
-                    color = noLoadingOrUnloading;
-                if(userSnapshot.key == id)
-                {      
-                    update_trs.road_sign_desc = trs.road_sign_desc;
-                    update_trs.road_sign = trs.road_sign;
-
-                    update_trs.$save().then(function(ref) {
-                        toastr.success('Path has been updated', 'You Successfully changed')
-                    }, function(error) {
-                        console.log("Error:", error);
-                    });
-                }
+                        update_trs.$save().then(function(ref) {
+                            toastr.success('Path has been updated', 'You Successfully changed')
+                        }, function(error) {
+                            console.log("Error:", error);
+                        });
+                    }
                 });
                 
             });
@@ -336,31 +349,30 @@
             });
             console.log("second");
             ref.child('road_block').once('value').then(function(snapshot) {
-                console.log(snapshot.val());
-                console.log(snapshot.key);
-                var rb_value = snapshot.val();
-                console.log(rb_value.rb_desc);
-                update_rb.rb_desc = rb_value.rb_desc;
-                update_rb.rb_enddatetime = rb_value.rb_enddatetime;
-                update_rb.rb_name = rb_value.rb_name;
-                update_rb.rb_startdatetime = rb_value.rb_startdatetime;
-                console.log("first");
+                snapshot.forEach(function(userSnapshot) {
+                    console.log(userSnapshot.key);
+                    console.log(id);
+                    if(userSnapshot.key == id){
+                        var rb_value = userSnapshot.val();
+                        update_rb.rb_desc = rb_value.rb_desc;
+                        update_rb.rb_enddatetime = rb_value.rb_enddatetime;
+                        update_rb.rb_name = rb_value.rb_name;
+                        update_rb.rb_startdatetime = rb_value.rb_startdatetime;
+                        update_rb.rb_datecreated = today;
+                        update_rb.$save().then(function(ref) {
+                            toastr.success('Path has been updated', 'You Successfully changed')
+                        }, function(error) {
+                            console.log("Error:", error);
+                        });
+                    }
+                });
             })
-            console.log(update_rb.rb_enddatetime);
-            update_rb.$save().then(function(ref) {
-                console.log(ref.$id);
-                toastr.success('Path has been updated', 'You Successfully changed')
-            }, function(error) {
-                console.log("Error:", error);
-            });;
         }
 
     };
     vm.info = function(event, id, type) {
         console.log('aw');
-
     }
-
     vm.delete = function(event, id, type) {
         
         $('#modalDeletePath').modal('show');
@@ -377,20 +389,17 @@
             {
                 ref.child('road_block/'+id+'/').remove();
                 toastr.error('You Successfully Deleted the geofence!')
-
             }
         });
-    };
+    }
     vm.placeChanged = function() {
         vm.place = this.getPlace();
         console.log(vm.place);
         console.log('location', vm.place.geometry.location);
         vm.map.setCenter(vm.place.geometry.location);
-    }   
+    }
+
 }
-
- 
-
 })();
 
  // if(type == "TRS")

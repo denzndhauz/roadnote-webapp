@@ -95,5 +95,10 @@
         map.setZoom(16);
     });
 
+    var storageRef = firebase.storage().ref();
+    var mountainImagesRef = storageRef.child('images/mountains.jpg');
+    
+    
+
 	}
 })();

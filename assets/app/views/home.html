@@ -95,12 +95,12 @@
 				<div class="modal-body">
 					<!-- <h3 id="modalErrorMsg" style="display: none;">Error</label></h3> -->
 					<div class="alert alert-danger" id="modalRBErrorMsghider" style="display: none;">
-						<!-- <strong>Error!</strong><p id="modalRBErrorMsg"></p> -->
-						<div id="modalRBErrorMsg"></div>
+						<strong>Error!</strong> Please fill all fields.
+						<!-- <div id="modalRBErrorMsg"></div> -->
 					</div>
 					<table class="form-group" style="width:100%">
 						<tr>
-							<td><label for="modalRBTitle" class="control-label">Reason Of Roadblock</label></td>
+							<td><label for="modalRBTitle" class="control-label containr">Reason Of Roadblock<div id="modalReasonErrRB" style="display: none; color:red;">*</div></label></td>
 							<td><input id="modalRBTitle" type="text" style="width: 60%;"  ></td>
 						</tr>
 						<tr>
@@ -114,14 +114,14 @@
 							<td>&nbsp</td>
 						</tr>
 						<tr>
-							<td><label for="modalRBDateTS" class="control-label">Date and time Start</label></td>
+							<td><label for="modalRBDateTS" class="control-label containr">Date and time Start<div id="modalDateStartErrRB" style="display: none; color:red;">*</div></label></td>
 							<td><input id="modalRBDateTS" type="datetime-local" style="width: 60%;"></td>
 						</tr>
 						<tr>
 							<td>&nbsp</td>
 						</tr>
 						<tr>
-							<td><label for="modalRBDateTE" class="control-label">Date and time End</label></td>
+							<td><label for="modalRBDateTE" class="control-label containr">Date and time End<div id="modalDateEndErrRB" style="display: none; color:red;">*</div></label></td>
 							<td><input id="modalRBDateTE" type="datetime-local" style="width: 60%;"></td>
 						</tr>	
 					</table>
@@ -148,7 +148,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="alert alert-danger" id="modalTRSErrorMsghider" style="display: none;">
-						<strong>Error!</strong>Please fill everything..
+						<strong>Error!</strong>Please fill all fields.
 					</div>
 					<table class="form-group" style="width:100%">
 						<tr>
