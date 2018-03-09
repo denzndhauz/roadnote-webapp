@@ -19,12 +19,19 @@
 			      <th class="text-center">{{ sr.sr_reportedby }}</th>
 			      <th class="text-center" id="sr_id">{{ sr.rac_id }}
 			      	<!-- <a class="text-center" href="" data-toggle="modal" data-target="#modalView" >See Details -->
-			        <button type="button" class="btn btn-info" ng-click="sreport.modalView(sr)" id="get_id">
+			        <button type="button" class="btn btn-info" ng-click="sreport.modalView(sr)" >
 			        	See Details
 			        </button>
 			      </th>
 			      <th class="text-center">{{ sr.sr_date }}</th>
-			      <th class="bg-info text-center">{{ sr.sr_status }} </th>
+			      <th class="bg-info text-center">{{ sr.sr_status }} 
+				      <select class="form-control">
+				        <option>1</option>
+				        <option>2</option>
+				        <option>3</option>
+				        <option>4</option>
+				      </select>
+			      </th>
 			    </tr>
 			  </tbody>
 			</table>
@@ -85,10 +92,12 @@
 					<h4 class="modal-title">Street Report Location</h4>
 				</div>
 				<div class="modal-body">
-					<ng-map style="height: 400px; width:100%;"></ng-map>
+					<ng-map style="height: 400px; width:100%;">
+						<!-- <marker position="{{sr.getLocation.lat}},{{sr.getLocation.lng}}" title="Hello World!"></marker> -->
+					</ng-map>
 				</div>
 				<div class="modal-footer">
-					<div class="form-group"> 
+					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 						</div>

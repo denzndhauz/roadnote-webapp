@@ -14,38 +14,44 @@
 		var storageRef = firebase.storage().ref("images");
     	vm.storage = $firebaseStorage(storageRef);		
 		var storageRef = firebase.storage().ref("Street_Reports/");
-		
 		// var getval = document.getElementById("value").value;
 		// console.log(getval);
-
-
-		
-
+		vm.getLocation = {
+			lat: 1,
+			lng: 1
+		}
+		function addMarker(location, map) {
+	        // Add the marker at the clicked location, and add the next-available label
+	        // from the array of alphabetical characters.
+	        var marker = new google.maps.Marker({
+		          position: location,
+		          label: 'test',
+		          map: map
+		        });
+	    };
 
 		NgMap.getMap().then(function(map) {
 			document.getElementById("locationView").onclick = function() {modalLocation()};
-
+			vm.map = map;
 			vm.modalView = modalView;
-			function modalView(id) {
+			function modalView(street_reports) {
 				$('#modalView').modal('show');
-				console.log(id.sr_date);
+				vm.getLocation.lat = street_reports.sr_lat;
+				vm.getLocation.lng = street_reports.sr_long;
+				console.log(vm.getLocation.lng);
+				console.log(vm.getLocation.lat);
+
+				var location = { lat: street_reports.sr_lat, lng: street_reports.sr_long };
+		    	addMarker(location, map)
+		    	var latlng = new google.maps.LatLng(location.lat, location.lng);
+		    	map.setCenter(latlng);
+				map.setZoom(16);
 			}
 			function modalLocation(){
 				$('#modalView').modal('hide');
 				$('#modalLocation').modal('show');
-				console.log(document.getElementById("sr_id").value);
-
 			}	
-			vm.map = map;
-			// init(map);
-			var cebu = {
-				lat: 10.3383039,
-				lng: 123.911486 
-			}
-				var latlng = new google.maps.LatLng(cebu.lat, cebu.lng);
-				map.setCenter(latlng);
-				map.setZoom(16);
-		    
+			
 		});
 
 	}	

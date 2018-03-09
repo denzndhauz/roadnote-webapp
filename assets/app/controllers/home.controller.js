@@ -22,7 +22,7 @@
                 , noLoadingOrUnloading = '#FF00CE', roadblockcolor = '#000000';
                 //roadblock = black, no parking = red, no jaywalking  = blue, no stopping anytime = skyblue, tow away zone = green, 
                 //no loading or unloading = violet
-        var updateRoad_sign;
+        var updateRoad_sign,timestampCompare = 0;
         if(dd<10) {
             dd = '0'+dd
         } 
@@ -116,7 +116,7 @@
             e.setDraggable(true);//to make paths draggable
             e.setEditable(true);//to make paths editable
             var pointMinimum = 0;//minimum of the points
-            console.log(e); 
+           
        
             e.getPath().getArray().forEach(function(v, k) {
                 pointMinimum++;       
@@ -128,7 +128,7 @@
 
                 $('#modalRBorRS').modal('show');//shows modal to choose if road block or road sign
                 $("#roadblock").click(function(){
-                    console.log("na click nako");
+                 
                     $('#modalRBorRS').modal('toggle');
                     $('#modalroadblock').modal('show');
 
@@ -197,6 +197,8 @@
                     console.log(title+":title");
                     console.log(DateTS+":DateTS");
                     console.log(DateTE+":DateTE");
+                    timestampCompare = DateTE.localeCompare(DateTS);
+                    var x = (year % 100 === 0) ? (year % 400 === 0) : (year % 4 === 0);
 
                     if(!title || DateTS == "" || DateTE == "" ){
                         $('#modalRBErrorMsghider').show();
@@ -215,8 +217,15 @@
                     }
                     else
                     {
-                        $('#modalRBErrorMsghider').hide();
-                        RoadBlockAdd();
+                        if(timestampCompare <= 0){
+                            swal("Error!", "Time start must not be greater than or equal to time end.", "error");
+                        }
+
+                        else{
+                            $('#modalRBErrorMsghider').hide();
+                            RoadBlockAdd();
+                        }    
+                        
                     }
                 }
                 function TrafficRoadSignVerify() {
@@ -225,7 +234,7 @@
 
                     if(!TRStype || !TRSdesc){
                         $('#modalTRSErrorMsghider').show();
-                        document.getElementById('modalTRSErrorMsg').value = "waaaaaaaa";
+                        // document.getElementById('modalTRSErrorMsg').value = "waaaaaaaa";
                     }
                     else
                     {

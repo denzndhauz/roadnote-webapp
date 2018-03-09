@@ -60,7 +60,7 @@
 		 
 		 function ConfirmDelete($id){
 
-		 	swal('Success!', 'Deleted Data!', 'success');
+		 	swal('Success!', 'Data is deleted successfully!', 'success');
 		 	var refDel = firebase.database().ref();
 		 	refDel.child('violation_fines/'+$id+'/').remove();
 		 	$('#modalConfirmDelete').modal('hide');
