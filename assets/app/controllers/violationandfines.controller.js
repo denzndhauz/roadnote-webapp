@@ -11,6 +11,8 @@
 		vm.viofines = $firebaseArray(ref.child('violation_fines'));
 		var ref = firebase.database().ref("violation_fines");
 		vm.data = $firebaseArray(ref);
+		var showErr;
+		var errCount = 0;
 
 		vm.violation_fines = {
 			vf_name: '',
@@ -81,7 +83,7 @@
 		// download the data into a local object
 		// synchronize the object with a three-way data binding
 		// click on `index.html` above to see it used in the DOM!
-		vm.dogs = $firebaseArray(ref.child('dogs'));
+		// vm.dogs = $firebaseArray(ref.child('dogs'));
 		vm.fine_list = $firebaseArray(ref.child('violation_fines'));
 
 		// console.log(vm.dogs+"dog");
@@ -111,6 +113,8 @@
 		}
 
 		vm.save_fine = function(type) {
+			showErr = false;
+			errCount = 0;
 			if(type == 'add') {
 				var nameAdd = document.getElementById("modalNameAdd").value;
 				var descAdd = document.getElementById("modalDescAdd").value;
@@ -120,6 +124,8 @@
 				$('#nameErrAdd').hide();
 				$('#dateErrAdd').hide();
 				$('#finesErrAdd').hide();
+
+				console.log(dateAdd);
 				if(nameAdd && dateAdd && finesAdd)
 				{
 					console.log(nameAdd+"cat");
@@ -132,16 +138,27 @@
 						swal('Error!', error, 'error');
 					});
 				}else{
-					
-					$('#modalAddFineErr').show();
 					if(!nameAdd){
 						$('#nameErrAdd').show();
-					}
-					if(!dateAdd){
-						$('#dateErrAdd').show();
+						errCount++;
 					}
 					if(!finesAdd){
 						$('#finesErrAdd').show();
+						errCount++;
+					}
+					if(!dateAdd){
+						$('#dateErrAdd').show();
+						if(dateAdd == ''){
+							swal('Warning!', 'inputted day of the month does not exist!', 'error');
+							if(errCount == 0){
+								showErr = false;
+							}else{
+								showErr = true;
+							}
+						}
+					}
+					if(showErr == true){
+						$('#modalAddFineErr').show();
 					}
 				}
 			} else {
@@ -163,19 +180,32 @@
 					  swal('Error!', error, 'error');
 					});
 				}else{
-					console.log(finesEdit+":name");
-					$('#modalEditFineErr').show();
-					if(!nameAdd)
+					
+					if(!nameEdit){
 						$('#nameErrEdit').show();
-					if(!dateAdd)
-						$('#dateErrEdit').show();
-					if(!finesAdd)
+						errCount++;
+					}
+					if(!finesEdit){
 						$('#finesErrEdit').show();
+						errCount++;
+					}
+					if(!dateEdit){
+						$('#dateErrEdit').show();
+						if(dateEdit == ''){
+							swal('Warning!', 'inputted day of the month does not exist!', 'error');
+							if(errCount == 0){
+								showErr = false;
+							}else{
+								showErr = true;
+							}
+						}
+					}
+					if(showErr == true){
+						$('#modalEditFineErr').show();
+					}
 				}
-				
 			}
 		}
-
 	}
 	
 })();

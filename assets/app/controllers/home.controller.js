@@ -22,7 +22,7 @@
                 , noLoadingOrUnloading = '#FF00CE', roadblockcolor = '#000000';
                 //roadblock = black, no parking = red, no jaywalking  = blue, no stopping anytime = skyblue, tow away zone = green, 
                 //no loading or unloading = violet
-        var updateRoad_sign,timestampCompare = 0;
+        var updateRoad_sign,timestampCompare = 0,year;
         if(dd<10) {
             dd = '0'+dd
         } 
@@ -188,6 +188,10 @@
                     title = title.toString();
                     DateTS = DateTS.toString();
                     DateTE = DateTE.toString();
+                    var getDateTS = DateTS.split('-');
+                    getDateTS = getDateTS[2].split('T');
+                    console.log(getDateTS[0]);
+                    timestampCompare = DateTE.localeCompare(DateTS);
                     $('#modalRBErrorMsghider').hide();
                     $('#modalReasonErrRB').hide();
                     $('#modalDateStartErrRB').hide();
@@ -197,8 +201,6 @@
                     console.log(title+":title");
                     console.log(DateTS+":DateTS");
                     console.log(DateTE+":DateTE");
-                    timestampCompare = DateTE.localeCompare(DateTS);
-                    var x = (year % 100 === 0) ? (year % 400 === 0) : (year % 4 === 0);
 
                     if(!title || DateTS == "" || DateTE == "" ){
                         $('#modalRBErrorMsghider').show();
@@ -225,7 +227,6 @@
                             $('#modalRBErrorMsghider').hide();
                             RoadBlockAdd();
                         }    
-                        
                     }
                 }
                 function TrafficRoadSignVerify() {
@@ -240,7 +241,6 @@
                     {
                         $('#modalTRSErrorMsghider').hide();
                         TrafficRoadSignAdd();
-                        
                     }
                 }
                 function TrafficRoadSignAdd() {

@@ -107,7 +107,7 @@
         user2.providerData.forEach(function (user_profile) {
           console.log("Sign-in provider: " + user_profile.providerId);
           console.log("Provider-specific UID: " + user_profile.uid);
-          console.log("  Name: " + user_profile.displayName);
+          console.log("  Name: " + user_profile);
           console.log("  Email: " + user_profile.email);
           // console.log("  Photo URL: " + profile.photoURL);
         });
