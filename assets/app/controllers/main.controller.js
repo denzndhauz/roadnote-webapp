@@ -5,18 +5,31 @@
   .module('app')
   .controller('MainCtrl', MainController);
 
-  function MainController($scope, $rootScope, $firebaseAuth, $firebaseArray, $firebaseStorage, $state, NgMap) {
+// $scope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, $firebaseStorage
+  function MainController($scope, $rootScope, $firebaseAuth, $firebaseArray, $state, NgMap, Auth) {
     var vm = this;
-    var auth = $firebaseAuth();
+    var auth = Auth;
+    vm.auth = auth;
     vm.login = user_auth;
-    var user = auth.$getAuth();
-    vm.routeTo = routeTo;
+    // vm.authObj = Auth.$getAuth();
+    // vm.auth_user = user;
+    vm.is_loggedin = false;
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      if (user && toState.name == 'login') {
-        $state.go('home');
+    vm.auth.$onAuthStateChanged(function(firebaseUser) {
+      if(firebaseUser){
+        vm.auth_user = angular.copy(firebaseUser);
+        vm.is_loggedin = true;
+      } else {
+        $state.go('login');
+        vm.is_loggedin = false;
       }
     });
+
+    vm.logout = function() {
+      vm.auth.$signOut();
+      $state.go('login');
+      vm.is_loggedin = false;
+    }
 
     vm.user = {
       email: '',
@@ -54,7 +67,6 @@
         vm.login_loading = false;
       }).catch(function(error) {
         console.log("Authentication failed:", error);
-        console.log(error.code);
         if(error.code == 'auth/wrong-password') {
           swal(
             'Oops...',
@@ -91,27 +103,10 @@
       });
     }
 
-    if (user) {
-      console.log("Signed in as:", user.uid);
-    } else {
-      console.log("Signed out");
-    }
-
     function routeTo(name) {
       console.log(name);
       $state.go(name);
-
-      var user2 = firebase.auth().currentUser;
-
-      if (user2 != null) {
-        user2.providerData.forEach(function (user_profile) {
-          console.log("Sign-in provider: " + user_profile.providerId);
-          console.log("Provider-specific UID: " + user_profile.uid);
-          console.log("  Name: " + user_profile);
-          console.log("  Email: " + user_profile.email);
-          // console.log("  Photo URL: " + profile.photoURL);
-        });
-      }
+      console.log("aw");
     }
   }
 })();

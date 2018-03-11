@@ -10,11 +10,23 @@
 			.state({
 			    name: 'login',
 			    url: '/login',
-			    templateUrl: './assets/app/views/login.html'
+			    templateUrl: './assets/app/views/login.html',
+			    resolve: {
+			    	"currentAuth": ["Auth", function(Auth) {
+			          // $waitForSignIn returns a promise so the resolve waits for it to complete
+			          return Auth.$waitForSignIn();
+        			}]
+			    }
 			}).state({
 			    name: 'home',
 			    url: '/home',
-			    templateUrl: './assets/app/views/home.html'
+			    templateUrl: './assets/app/views/home.html',
+			    resolve: {
+			    	"currentAuth": ["Auth", function(Auth) {
+			          // $waitForSignIn returns a promise so the resolve waits for it to complete
+			          return Auth.$requireSignIn();
+        			}]
+			    }
 			}).state({
 			    name: 'streetreport',
 			    url: '/streetreport',
@@ -22,7 +34,13 @@
 			}).state({
 			    name: 'violationandfines',
 			    url: '/violationandfines',
-			    templateUrl: './assets/app/views/violationandfines.html'
+			    templateUrl: './assets/app/views/violationandfines.html',
+			    resolve: {
+			    	"currentAuth": ["Auth", function(Auth) {
+			          // $waitForSignIn returns a promise so the resolve waits for it to complete
+			          return Auth.$requireSignIn();
+        			}]
+			    }
 			}).state({
 			    name: 'history',
 			    url: '/history',

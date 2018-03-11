@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="app" ng-controller="MainCtrl as main">
+<html ng-app="app" ng-controller="MainCtrl as main" ng-cloak>
 <head>
 	<meta charset=utf-8>
 	<meta content="IE=edge" http-equiv=X-UA-Compatible>
@@ -19,14 +19,13 @@
     
 </head>
 <body>
-	<div class="nav-side-menu">
+	<div class="nav-side-menu" ng-if="main.is_loggedin">
 	    <div class="brand">RoadNote App</div>
 	    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 	  
 	        <div class="menu-list">
-	  
-	            <ul id="menu-content" class="menu-content collapse out">
-	                <li class="active" ui-sref-active="active" ng-click="main.routeTo('home')">
+	            <ul id="menu-content" class="menu-content collapse out" >
+	                <li class="active" ui-sref-active="active" ng-click="main.routeTo('home')" >
 	                  <a ui-sref="home">
 	                  <i class="fa fa-dashboard fa-lg"></i> Dashboard
 	                  </a>
@@ -57,21 +56,23 @@
 	                  <i class="fa fa-users fa-lg"></i> Users
 	                  </a>
 	                </li>
+	                 <li>
+	                  <a href="#" ng-click="main.logout()">
+	                  <i class="fa fa-users fa-lg"></i> Logout
+	                  </a>
+	                </li>
 	            </ul>
 	     </div>
 	</div>
 	<div class="container" style="margin: 10px;">
 		<div class="row">
-			<div class="col-md-11 col-md-offset-3 col-sm-12 col-xs-12">
-				
+			<div class="" ng-class="{'col-md-11 col-md-offset-3 col-sm-11 col-xs-12': main.is_loggedin, 'col-md-12': !main.is_loggedin}">
 				<ui-view>
-					
 				</ui-view>
 			</div>
 		</div>
 	</div>
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
-<script src='node_modules/polysnapper/polysnapper.js' type="text/javascript"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <script src="node_modules/moment/moment.js"></script>
@@ -104,8 +105,13 @@
 <!-- Angular -->
 <script src="assets/app/app.module.js"></script>
 
+<!-- services -->
+<script src="assets/app/services.module.js"></script>
+
 <!-- Route -->
 <script src="assets/app/app.route.js"></script>
+
+
 
 <!-- Controllers -->
 <script src="assets/app/controllers/home.controller.js"></script>
