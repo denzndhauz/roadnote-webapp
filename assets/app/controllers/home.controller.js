@@ -63,19 +63,19 @@
                     color: color,
                     paths: paths,
                     type: 'TRS',
-                    road_sign: trs.road_sign,
-                    road_sign_desc: trs.road_sign_desc
+                    
                 });
+                // road_sign: trs.road_sign,
+                //     road_sign_desc: trs.road_sign_desc
             });
         });
         //retrieve data from road_block
-        ref.child('road_block').once('value').then(function(snapshot) {
+        ref.child('road_block').orderByChild('rb_status').equalTo('ACTIVE').once('value').then(function(snapshot) {
             snapshot.forEach(function(userSnapshot) {
                 var rb = userSnapshot.val();
                 var color = '';
                 var paths = [];
                 color = roadblockcolor;
-                //check what type is rb_coordinates in firebase
                 if(typeof rb.rb_coordinates == 'object') {
                     rb.rb_coordinates.forEach(function(coordinate) {
                         paths.push([coordinate.lat, coordinate.long]);
@@ -88,12 +88,13 @@
                     color: color,
                     paths: paths,
                     type: 'RB',
-                    rb_datecreated: rb.rb_datecreated,
-                    rb_desc: rb.rb_desc,
-                    rb_enddatetime: rb.rb_enddatetime,
-                    rb_name: rb.name,
-                    rb_startdatetime: rb.strartdatetime
+               
                 });
+                    //  rb_datecreated: rb.rb_datecreated,
+                    // rb_desc: rb.rb_desc,
+                    // rb_enddatetime: rb.rb_enddatetime,
+                    // rb_name: rb.name,
+                    // rb_startdatetime: rb.strartdatetime
             });
         });
 
@@ -356,7 +357,6 @@
             this.getPath().getArray().forEach(function(value,key){
                 update_rb.rb_coordinates.push({lat: value.lat(),long: value.lng()})
             });
-            console.log("second");
             ref.child('road_block').once('value').then(function(snapshot) {
                 snapshot.forEach(function(userSnapshot) {
                     console.log(userSnapshot.key);
@@ -368,6 +368,7 @@
                         update_rb.rb_name = rb_value.rb_name;
                         update_rb.rb_startdatetime = rb_value.rb_startdatetime;
                         update_rb.rb_datecreated = today;
+                        update_rb.rb_status = rb_value.rb_status;
                         update_rb.$save().then(function(ref) {
                             toastr.success('Path has been updated', 'You Successfully changed')
                         }, function(error) {
