@@ -65,8 +65,6 @@
                     type: 'TRS',
                     
                 });
-                // road_sign: trs.road_sign,
-                //     road_sign_desc: trs.road_sign_desc
             });
         });
         //retrieve data from road_block
@@ -88,37 +86,32 @@
                     color: color,
                     paths: paths,
                     type: 'RB',
-               
                 });
-                    //  rb_datecreated: rb.rb_datecreated,
-                    // rb_desc: rb.rb_desc,
-                    // rb_enddatetime: rb.rb_enddatetime,
-                    // rb_name: rb.name,
-                    // rb_startdatetime: rb.strartdatetime
             });
         });
 
   //==========================================================
-        
-
     NgMap.getMap().then(function(map) {
         vm.map = map;
-          // init(map);
-          var cebu = {
+
+        var cebu = {
             lat: 10.3383039,
             lng: 123.911486 
         }
+        vm.addLine = function() {
+            vm.map.shapes.polygon.setMap(vm.map);
+        }
+        
         var latlng = new google.maps.LatLng(cebu.lat, cebu.lng);
         map.setCenter(latlng);
         map.setZoom(16);
 
         vm.onMapOverlayCompleted = function(e) {
-            // var getlong,getlat;
+
             e.setDraggable(true);//to make paths draggable
             e.setEditable(true);//to make paths editable
             var pointMinimum = 0;//minimum of the points
-           
-       
+            
             e.getPath().getArray().forEach(function(v, k) {
                 pointMinimum++;       
             });
@@ -322,9 +315,6 @@
                     
                     var color = '';
                     var paths = [];
-                    console.log(userSnapshot.key);
-                    console.log(id);
-                    console.log(use);
                     
                     console.log(userSnapshot.val().key+"aw");                
                     if(trs.road_sign == 'No Stopping Anytime')
@@ -380,11 +370,39 @@
         }
 
     };
-    vm.info = function(event, id, type) {
+    vm.click = function(event, id, type) {
         console.log('aw');
+        $('#deleteButton').show();
+        document.getElementById("deleteButton").onclick = function() {deletePoly(id,type)};
+        if(type == 'RB') {
+            $('#editButton').show();
+            document.getElementById("editButton").onclick = function() {editRBData(id)};
+        }
+        else{
+            $('#editButton').hide();
+        }
     }
-    vm.delete = function(event, id, type) {
-        
+
+    vm.editRB = {};
+    function editRBData(id){
+        $('#modalEditroadblock').modal('show');
+        vm.editRB = $firebaseObject(ref.child('road_block').child(id));
+
+        vm.editRB.$loaded().then(function(){
+            vm.editRB.rb_enddatetime = moment(vm.editRB.rb_enddatetime).set({second:0,millisecond:0}).toDate();
+            vm.editRB.rb_startdatetime = moment(vm.editRB.rb_startdatetime).set({second:0,millisecond:0}).toDate();  
+        });
+    }
+    vm.saveRBdata = function(){ 
+        vm.editRB.$save().then(function(obj){
+            $('#modalEditroadblock').modal('hide');
+            swal("success","successfully save",'success');
+        },function(error){
+            swal("error",error,"error");
+        })
+    }
+    function deletePoly(id, type){
+        console.log(id);
         $('#modalDeletePath').modal('show');
 
         $("#modalDelPathConfirmDelete").click(function(){

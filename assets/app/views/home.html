@@ -2,13 +2,17 @@
 <div class="col-md-12" ng-controller="HomeCtrl as home">
 	<div style='position:relative;'>
 		<!-- <div id="map_div" style="height: 600px; width:100%;"></div> -->
-		<div>
+		<!-- <div>
 			<label>Search a location:</label>
 			<input places-auto-complete
 			    size=80
 			    on-place-changed="home.placeChanged()" />
 			    <br>
 			   	<br>
+		</div> -->
+		<div id="panel">
+			<button id="deleteButton" type="button" class="btn btn-danger" style="display: none;">Delete</button>
+			<button id="editButton" type="button" class="btn btn-info" style="display: none;">Edit Content</button>
 		</div>
 		<ng-map id="map_div" style="height: 600px; width:100%;">
 			<drawing-manager 
@@ -23,6 +27,7 @@
 
 			<shape ng-repeat="shape in home.allShapes"
 		       name="{{shape.name}}"
+		       id="polygon"
 		       stroke-color="{{shape.color}}"
 		       stroke-opacity="1.0"
 		       paths="{{shape.paths}}"
@@ -30,9 +35,10 @@
 		       stroke-weight="2"		       
 		       editable="true"
         	   draggable="true"
-        	   on-click="home.info(shape.id, shape.type)"
+        	   on-click="home.click(shape.id, shape.type)"
         	   on-dragend="home.changepaths(shape.id, shape.type)"
-        	   on-rightclick = "home.delete(shape.id, shape.type)">
+        	   >
+        	   <!-- on-rightclick = "home.delete(shape.id, shape.type)" -->
  <!-- on-bounds_changed = "home.info(shape.id, shape.type)" -->
 		    </shape>
 		</ng-map>
@@ -138,7 +144,6 @@
 	<!-- Modal traffic road sign-->
 	<div id="modalTrafficRoadSign" class="modal fade" role="dialog">
 		<div class="modal-dialog">
-
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
@@ -203,7 +208,67 @@
 
 		</div>
 	</div>
+
+	<!-- Modal road block-->
+	<div id="modalEditroadblock" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Road Block Edit</h4>
+				</div>
+				<div class="modal-body">
+					<!-- <h3 id="modalErrorMsg" style="display: none;">Error</label></h3> -->
+					<div class="alert alert-danger" id="modalEditRBErrorMsghider" style="display: none;">
+						<strong>Error!</strong> Please fill all fields.
+						<!-- <div id="modalRBErrorMsg"></div> -->
+					</div>
+					<table class="form-group" style="width:100%">
+						<tr>
+							<td><label for="modalEditRBTitle" class="control-label containr">Reason Of Roadblock<div id="modalEditReasonErrRB" style="display: none; color:red;">*</div></label></td>
+							<td><input ng-model="home.editRB.rb_name" id="modalEditRBTitle" type="text" style="width: 60%;"  ></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalEditRBDesc" class="control-label">Remarks:</label></td>
+							<td><input ng-model="home.editRB.rb_desc" id="modalEditRBDesc" type="text" style="width: 60%;"></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalEditRBDateTS" class="control-label containr">Date and time Start<div id="modalEditDateStartErrRB" style="display: none; color:red;">*</div></label></td>
+							<td><input ng-model="home.editRB.rb_startdatetime" id="modalEditRBDateTS" type="datetime-local" style="width: 60%;"></td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalEditRBDateTE" class="control-label containr">Date and time End<div id="modalEditDateEndErrRB" style="display: none; color:red;">*</div></label></td>
+							<td><input ng-model="home.editRB.rb_enddatetime" id="modalEditRBDateTE" type="datetime-local" style="width: 60%;"></td>
+						</tr>	
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" ng-click="home.saveRBdata()" id="modalEditRBSaveButton">Save</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- end of modal -->
+
 </div>
+
+
+
+
+
 
 	<!-- end of modal -->
 

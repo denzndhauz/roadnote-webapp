@@ -82,7 +82,7 @@ joi@^6.10.1:
     moment "2.x.x"
     topo "1.x.x"
 
-jquery@^3.2.1:
+jquery@>=1.12.0, jquery@^3.2.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -140,6 +140,12 @@ safe-buffer@^5.0.1:
 sweetalert2@^7.1.0:
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-7.13.0.tgz#99a4a125909912c653598aeaa37df5de208c1b20"
+
+toastr@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/toastr/-/toastr-2.1.4.tgz#8b43be64fb9d0c414871446f2db8e8ca4e95f181"
+  dependencies:
+    jquery ">=1.12.0"
 
 topo@1.x.x:
   version "1.1.0"

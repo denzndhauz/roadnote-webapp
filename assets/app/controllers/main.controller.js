@@ -108,5 +108,17 @@
       $state.go(name);
       console.log("aw");
     }
+    vm.resetPassword = function(email){
+      console.log(email);
+      auth.$sendPasswordResetEmail(email).then(function() {
+        console.log("Password reset email sent successfully!");
+      }).catch(function(error) {
+        console.error("Error: ", error);
+      });
+    }
+    vm.resetpassword_modal = function(){
+      $('#forgotpass').modal('show');
+    }
   }
+
 })();
