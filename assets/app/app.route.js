@@ -49,6 +49,10 @@
 			    name: 'todelete',
 			    url: '/todelete',
 			    templateUrl: './assets/app/views/todelete.html'
+			}).state({
+			    name: 'signup',
+			    url: '/signup',
+			    templateUrl: './assets/app/views/signup.html'
 			});
 
 		$urlRouterProvider.otherwise('/login');

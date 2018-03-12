@@ -51,6 +51,11 @@
 	                  	<i class="fa fa-file-text" ></i>History
 	                  </a>
 	                </li>
+	                <li ui-sref-active="active" ng-click="main.routeTo('signup')">
+	                  <a ui-sref="signup">
+	                  	<i class="fa fa-file-text" ></i>sign up
+	                  </a>
+	                </li>
 	                 <li>
 	                  <a href="#">
 	                  <i class="fa fa-users fa-lg"></i> Users
@@ -111,8 +116,6 @@
 <!-- Route -->
 <script src="assets/app/app.route.js"></script>
 
-
-
 <!-- Controllers -->
 <script src="assets/app/controllers/home.controller.js"></script>
 <script src="assets/app/controllers/main.controller.js"></script>
@@ -121,6 +124,7 @@
 <script src="assets/app/controllers/violationandfines.controller.js"></script>
 <script src="assets/app/controllers/history.controller.js"></script>
 <script src="assets/app/controllers/todelete.controller.js"></script>
+<script src="assets/app/controllers/signup.controller.js"></script>
 
 </body>
 </html>

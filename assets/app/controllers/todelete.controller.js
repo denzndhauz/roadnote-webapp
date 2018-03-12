@@ -25,9 +25,10 @@
         console.log(cutoff);
         var cutoff = cutoff.split(":");
         var timecutoff=cutoff[0]+':'+cutoff[1];
-        console.log(timecutoff)
+        console.log(timecutoff +":timecut");
 
-        ref.child('road_block').once('value').then(function(snapshot) {
+        // ref.child('road_block').orderByChild('rb_status').equalTo('ACTIVE').once('value').then(function(snapshot) {
+        ref.child('road_block').orderByChild('rb_status').equalTo('ACTIVE').once('value').then(function(snapshot) {
             snapshot.forEach(function(userSnapshot) {
                 var rb = userSnapshot.val();
                 var color = '';

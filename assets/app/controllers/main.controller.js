@@ -56,10 +56,7 @@
           )
         vm.login_loading = false;
       }
-      function validateEmail(email) {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
-      }
+      
 
       vm.login_loading = true;
       auth.$signInWithEmailAndPassword(username, password).then(function(firebaseUser) {
@@ -109,16 +106,36 @@
       console.log("aw");
     }
     vm.resetPassword = function(email){
-      console.log(email);
-      auth.$sendPasswordResetEmail(email).then(function() {
+      var verify;
+      if(email == ''){
+        swal('error','input must not be empty','error');
+      }else{
+        verify = validateEmail(email);
+        if(!verify){
+          swal('error','Invalid Email','error');
+        }
+        auth.$sendPasswordResetEmail(email).then(function() {
         console.log("Password reset email sent successfully!");
-      }).catch(function(error) {
-        console.error("Error: ", error);
-      });
+        }).catch(function(error) {
+          console.error("Error: ", error);
+          if(error.code == 'auth/user-not-found'){
+            swal('error','user not found','error');
+          }
+          // else if(error.code =="auth/argument-error"){
+          //   swal('error','input must not be empty','error');
+          // }else if(error.code == 'auth/argument-error'){
+          //   swal('error','input must not be empty','error')
+          // }
+        });
+      }
     }
     vm.resetpassword_modal = function(){
       $('#forgotpass').modal('show');
     }
+    function validateEmail(email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      console.log(re.test(String(email).toLowerCase()));
+      return re.test(String(email).toLowerCase());
+    }
   }
-
 })();

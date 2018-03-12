@@ -74,6 +74,16 @@
                 var color = '';
                 var paths = [];
                 color = roadblockcolor;
+
+                var now = Date.now();
+                console.log(now+":now");
+                var cutoff = now - 2 * 60 * 60 * 1000;
+                cutoff =  moment(cutoff).format();   
+                console.log(cutoff);
+                var cutoff = cutoff.split(":");
+                var timecutoff=cutoff[0]+':'+cutoff[1];
+                if(now < Date.parse(rb.rb_enddatetime))
+                    console.log("wajajahahh");
                 if(typeof rb.rb_coordinates == 'object') {
                     rb.rb_coordinates.forEach(function(coordinate) {
                         paths.push([coordinate.lat, coordinate.long]);
@@ -186,6 +196,12 @@
                     getDateTS = getDateTS[2].split('T');
                     console.log(getDateTS[0]);
                     timestampCompare = DateTE.localeCompare(DateTS);
+
+                    //==============================================
+                    console.log(DateTE+":date");
+
+                    //=============================================
+
                     $('#modalRBErrorMsghider').hide();
                     $('#modalReasonErrRB').hide();
                     $('#modalDateStartErrRB').hide();
@@ -214,7 +230,7 @@
                     else
                     {
                         if(timestampCompare <= 0){
-                            swal("Error!", "Time start must not be greater than or equal to time end.", "error");
+                            swal("Error!", "Date Time start must not be greater than or equal to Date time end.", "error");
                         }
 
                         else{
