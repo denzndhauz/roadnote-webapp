@@ -262,23 +262,27 @@ body {
     }
 }
 #map-canvas {
-    height: 400px;
+  height: 400px;
 }
 /*//======================*/
 #bar {
-        width: 240px;
-        background-color: rgba(255, 255, 255, 0.75);
-        margin: 8px;
-        padding: 4px;
-        border-radius: 4px;
-      }
+  width: 240px;
+  background-color: rgba(255, 255, 255, 0.75);
+  margin: 8px;
+  padding: 4px;
+  border-radius: 4px;
+}
 
-  #panel {
-    position: absolute;
-    top: 50px;
-    left: 30%;
-    z-index: 5;
-    
-    padding-right: 5px;
-
-  }
+#panel {
+  position: absolute;
+  top: 50px;
+  left: 30%;
+  z-index: 5;
+  padding-right: 5px;
+}
+#contentImage{
+  width :100%;
+}
+.cursorP{
+  cursor: pointer;
+}

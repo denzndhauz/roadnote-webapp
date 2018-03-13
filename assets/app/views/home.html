@@ -12,7 +12,8 @@
 		</div>
 		<div id="panel">
 			<button id="deleteButton" type="button" class="btn btn-danger" style="display: none;">Delete</button>
-			<button id="editButton" type="button" class="btn btn-info" style="display: none;">Edit Content</button>
+			<button id="editRBButton" type="button" class="btn btn-info" style="display: none;">Edit Content</button>
+			<button id="editTRSButton" type="button" class="btn btn-info" style="display: none;">Edit Content</button>
 		</div>
 		<ng-map id="map_div" style="height: 600px; width:100%;">
 			<drawing-manager 
@@ -49,14 +50,31 @@
 		    <thead>
 		      <th>LEGEND</th>
 		    </thead>
-		    <tbody>
-		      	<td class="noparking" width="1%"></td>
-		        <td class="noparking" width="8%">No Parking</td>
-		        <td class="nojaywalking" width="9%">No Jay Walking</td>
-		        <td class="nostoppinganytime" width="13%">No Stopping Anytime</td>
-		        <td class="towawayzone" width="9%">Tow Away Zone</td>
-		        <td class="NoLoadingOrUnloading" width="15%">No Loading Or Unloading</td>
-		        <td class="Roadblock" width="12%">Roadblock</td>
+		    <tbody >
+		      	<td class=" " width="1%"></td>
+		        <td class="noparking cursorP" width="8%" ng-click="home.toggleTrafficSigns('np')" >
+		        	<img src="./assets/signs/NoParking.jpg" ng-show="home.traffic_signs.np" width="55" height="85" class="text-center">
+		        	<p ng-hide="home.traffic_signs.np">No Parking</p>
+		        </td>
+		        <td class="nojaywalking cursorP" width="9%" ng-click="home.toggleTrafficSigns('nj')">
+		        	<img src="./assets/signs/NoJaywalking.png" ng-show="home.traffic_signs.nj" width="50" height="85"class="text-center">
+		        	<p ng-hide="home.traffic_signs.nj">No JayWalking</p>
+		        </td>
+		        <td class="nostoppinganytime cursorP" width="13%" ng-click="home.toggleTrafficSigns('nsa')">
+		        	<img src="./assets/signs/NoStoppingAnytime.png" ng-show="home.traffic_signs.nsa" width="50" height="85"class="text-center">
+		        	<p ng-hide="home.traffic_signs.nsa">No Stopping Anytime</p>
+		        </td>
+		        <td class="towawayzone cursorP" width="9%" ng-click="home.toggleTrafficSigns('taz')">
+		        	<img src="./assets/signs/TowAwayZone.gif" ng-show="home.traffic_signs.taz" width="50" height="85"class="text-center">
+		        	<p ng-hide="home.traffic_signs.taz">Tow Away Zone</p>
+		        </td>
+		        <td class="NoLoadingOrUnloading cursorP" width="15%" ng-click="home.toggleTrafficSigns('nul')">
+		        	<img src="./assets/signs/NoLoadingOrUnloading.gif" ng-show="home.traffic_signs.nul" width="50" height="85"class="text-center">
+		        	<p ng-hide="home.traffic_signs.nul">No Loading Or Unloading</p>
+		        </td>
+		        <td class="Roadblock cursorP" width="12%" ng-click="home.toggleTrafficSigns('rb')">
+		        	{{ home.traffic_signs.rb ? 'IWO' : 'Roadblock' }}
+		        </td>
 		      </tr>
 		    </tbody>
 		</table>
@@ -262,6 +280,53 @@
 		</div>
 	</div>
 	<!-- end of modal -->
+
+	<!-- Modal traffic road sign-->
+	<div id="modalTRSEdit" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Traffic Road Sign</h4>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-danger" id="modalTRSErrorMsghider" style="display: none;">
+						<strong>Error!</strong>Please fill all fields.
+					</div>
+					<table class="form-group" style="width:100%">
+						<tr>
+							<td><label for="modalRBTitle" class="control-label">Type of RoadSign</label></td>
+							<td>
+								<select class="form-control" id="modalTRSType" style="width:60%;">
+									<option value="" selected disabled hidden>Traffic Sign Type</option>
+									<option >No Parking</option>
+									<option >No Jaywalking</option>
+									<option >No Stopping Anytime</option>
+									<option >Tow Away Zone</option>
+									<option >No Loading/Unloading</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp</td>
+						</tr>
+						<tr>
+							<td><label for="modalTRSDesc" class="control-label">Description</label></td>
+							<td><input id="modalTRSDesc" type="text" style="width: 60%;"></td>
+						</tr>
+					</table>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="modalTRSSaveButton">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end of modal -->
+
 
 </div>
 

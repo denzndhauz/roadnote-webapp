@@ -9,6 +9,14 @@
         var getlong,getlat;//latitude longitude
         var gen_title,gen_desc;//general news
 		var vm = this;
+        vm.traffic_signs = {
+            np: false,
+            nj: false,
+            nsa: false,
+            taz: false,
+            nul: false,
+            rb: false
+        }
         var ref = firebase.database().ref();
         var general_news = $firebaseArray(ref.child('general_news'));
         var road_block_sign = $firebaseArray(ref.child('road_block'));
@@ -30,6 +38,11 @@
             mm = '0'+mm
         } 
         today = mm + '/' + dd + '/' + yyyy;
+
+        vm.toggleTrafficSigns = toggleTrafficSigns;
+        function toggleTrafficSigns(type) {
+            vm.traffic_signs[type] = !vm.traffic_signs[type];
+        }
 
     //==================================================================
 
@@ -391,12 +404,16 @@
         $('#deleteButton').show();
         document.getElementById("deleteButton").onclick = function() {deletePoly(id,type)};
         if(type == 'RB') {
-            $('#editButton').show();
-            document.getElementById("editButton").onclick = function() {editRBData(id)};
+            $('#editRBButton').show();
+            document.getElementById("editRBButton").onclick = function() {editRBData(id)};
         }
         else{
-            $('#editButton').hide();
+            $('#editRBButton').hide();
         }
+        setTimeout(function () {
+            $('#deleteButton').hide();
+            $('#editRBButton').hide();
+        }, 3600);
     }
 
     vm.editRB = {};
@@ -442,7 +459,6 @@
         console.log('location', vm.place.geometry.location);
         vm.map.setCenter(vm.place.geometry.location);
     }
-
 }
 })();
 

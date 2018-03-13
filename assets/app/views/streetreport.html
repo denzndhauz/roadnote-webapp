@@ -24,12 +24,11 @@
 			        </button>
 			      </th>
 			      <th class="text-center">{{ sr.sr_date }}</th>
-			      <th class="bg-info text-center">{{ sr.sr_status }} 
-				      <select class="form-control">
-				        <option>1</option>
-				        <option>2</option>
-				        <option>3</option>
-				        <option>4</option>
+			      <th class="bg-info text-center">
+				      <select class="form-control" ng-model="sr.sr_status" ng-change="sreport.updateSr_status(sr)">
+				        <option value="PENDING">Pending</option>
+				        <option value="READ">Read</option>
+				        <option value="SPAM">Spam</option>
 				      </select>
 			      </th>
 			    </tr>
@@ -53,7 +52,16 @@
 					</div>
 					<div class="modal-body">
 						<!-- <div id="desc"></div> -->
-						<div class="container" id="contentHolder"></div>
+						<div class="row">
+							<div class="col-md-12 col-md-offset-1"></div>
+						</div>
+						<div class="row">
+							<div class="col-md-12" id="streetReportMsg"></div>
+						</div>
+						<br>
+						<a href="#" class="thumbnail">
+					      <img src="" alt="...">
+					    </a>
 						<button type="button" id="locationView" class="btn btn-link">click here to see location</button> 
 					</div>
 					<div class="modal-footer">
@@ -67,7 +75,7 @@
 			</div>
 		</div>
 	</div>
-
+ 
 	<!-- modal map -->
 	<!-- <div id="modalLocation" class="modal fade">
     <div class="modal-body">
@@ -93,7 +101,7 @@
 				</div>
 				<div class="modal-body">
 					<ng-map style="height: 400px; width:100%;">
-						<!-- <marker position="{{sr.getLocation.lat}},{{sr.getLocation.lng}}" title="Hello World!"></marker> -->
+						<marker position="{{sr.getLocation.lat}},{{sr.getLocation.lng}}" title="Hello World!"></marker>
 					</ng-map>
 				</div>
 				<div class="modal-footer">

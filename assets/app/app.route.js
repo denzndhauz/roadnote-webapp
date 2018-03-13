@@ -30,7 +30,13 @@
 			}).state({
 			    name: 'streetreport',
 			    url: '/streetreport',
-			    templateUrl: './assets/app/views/streetreport.html'
+			    templateUrl: './assets/app/views/streetreport.html',
+			    resolve: {
+			    	"currentAuth": ["Auth", function(Auth) {
+			          // $waitForSignIn returns a promise so the resolve waits for it to complete
+			          return Auth.$requireSignIn();
+        			}]
+			    }
 			}).state({
 			    name: 'violationandfines',
 			    url: '/violationandfines',
@@ -44,15 +50,33 @@
 			}).state({
 			    name: 'history',
 			    url: '/history',
-			    templateUrl: './assets/app/views/history.html'
+			    templateUrl: './assets/app/views/history.html',
+			    resolve: {
+			    	"currentAuth": ["Auth", function(Auth) {
+			          // $waitForSignIn returns a promise so the resolve waits for it to complete
+			          return Auth.$requireSignIn();
+        			}]
+			    }
 			}).state({
 			    name: 'todelete',
 			    url: '/todelete',
-			    templateUrl: './assets/app/views/todelete.html'
+			    templateUrl: './assets/app/views/todelete.html',
+			    resolve: {
+			    	"currentAuth": ["Auth", function(Auth) {
+			          // $waitForSignIn returns a promise so the resolve waits for it to complete
+			          return Auth.$requireSignIn();
+        			}]
+			    }
 			}).state({
 			    name: 'signup',
 			    url: '/signup',
-			    templateUrl: './assets/app/views/signup.html'
+			    templateUrl: './assets/app/views/signup.html',
+			    resolve: {
+			    	"currentAuth": ["Auth", function(Auth) {
+			          // $waitForSignIn returns a promise so the resolve waits for it to complete
+			          return Auth.$requireSignIn();
+        			}]
+			    }
 			});
 
 		$urlRouterProvider.otherwise('/login');

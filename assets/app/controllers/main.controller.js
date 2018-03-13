@@ -14,6 +14,7 @@
     // vm.authObj = Auth.$getAuth();
     // vm.auth_user = user;
     vm.is_loggedin = false;
+    vm.routeTo = routeTo;
 
     vm.auth.$onAuthStateChanged(function(firebaseUser) {
       if(firebaseUser){
@@ -105,6 +106,7 @@
       $state.go(name);
       console.log("aw");
     }
+    
     vm.resetPassword = function(email){
       var verify;
       if(email == ''){
