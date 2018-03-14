@@ -21,6 +21,7 @@
 			lng: 0
 		}
 
+
 		vm.updateSr_status = function(sr) {
 			console.log(sr)
 			//needs to $update
@@ -28,8 +29,7 @@
 		function addMarker(location, map) {
 	        // Add the marker at the clicked location, and add the next-available label
 	        // from the array of alphabetical characters.
-	        
-	        marker = new google.maps.Marker({
+	        var marker = new google.maps.Marker({
 	          position: location,
 	          label: 'test',
 	          map: map
@@ -38,11 +38,9 @@
 	    function getmodalLocation(){			
 			$('#modalView').modal('hide');
 			$('#modalLocation').modal('show');
-
 		}	
 	    document.getElementById("locationView").onclick = function() {getmodalLocation()};
 		NgMap.getMap().then(function(map) {
-			vm.map = map;
 			vm.modalView = modalView;
 			function modalView(street_reports) {
 				$('#modalView').modal('show');
@@ -54,7 +52,7 @@
 				$('.thumbnail > img').attr('src', street_reports.sr_imgURL);
 
 				var location = { lat: street_reports.sr_lat, lng: street_reports.sr_long };
-		    	addMarker(location, map)
+		    	addMarker(location, map);
 		    	var latlng = new google.maps.LatLng(location.lat, location.lng);
 		    	map.setCenter(latlng);
 				map.setZoom(16);

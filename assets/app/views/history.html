@@ -6,28 +6,12 @@
 
 		<div class="panel-body">
 			<table class="form-group" style="width:100%">
-			  <tr>
-			    <td>Name Of Roadblock</td>
-			    <td><input type="text" name="email" size="20"  ></td>
-			  </tr>
-			  <tr>
-			    <td>&nbsp</td>
-			  </tr>
-			  <tr>
-			    <td>Description</td>
-			    <td><input type="text" name="email" size="20" ></td>
-			  </tr>
-			  <tr>
-			    <td><label for="datetimestarted" class="control-label">Date and time Start</label></td>
-			    <td><input type="datetime-local" class="form-control"></td>
-			  </tr>
-			  <tr>
-			    <td><label for="datetimeended" class="control-label">Date and time End</label></td>
-			    <td><input type="datetime-local" class="form-control"></td>
-			  </tr>
-
+				<tbody>
+					<tr class="text-center" ng-repeat="logs in hist.act_log">
+						<td>{{ logs.activity_adminname }}</td>
+					</tr>
+			    </tbody>
 			</table>
-		
 		</div>
 	</div>
 </div>

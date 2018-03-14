@@ -124,11 +124,8 @@
 				$('#nameErrAdd').hide();
 				$('#dateErrAdd').hide();
 				$('#finesErrAdd').hide();
-
-				console.log(dateAdd);
 				if(nameAdd && dateAdd && finesAdd)
 				{
-					console.log(nameAdd+"cat");
 					
 					vm.fine_obj.vf_datestarted = moment(vm.fine_obj.vf_datestarted).format('MM-DD-YYYY');
 					vm.fine_list.$add(vm.fine_obj).then(function(ref) {

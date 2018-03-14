@@ -39,6 +39,7 @@
         	   on-click="home.click(shape.id, shape.type)"
         	   on-dragend="home.changepaths(shape.id, shape.type)"
         	   >
+        	  <!-- on-click="home.showArrays()" -->
         	   <!-- on-rightclick = "home.delete(shape.id, shape.type)" -->
  <!-- on-bounds_changed = "home.info(shape.id, shape.type)" -->
 		    </shape>
@@ -57,19 +58,19 @@
 		        	<p ng-hide="home.traffic_signs.np">No Parking</p>
 		        </td>
 		        <td class="nojaywalking cursorP" width="9%" ng-click="home.toggleTrafficSigns('nj')">
-		        	<img src="./assets/signs/NoJaywalking.png" ng-show="home.traffic_signs.nj" width="50" height="85"class="text-center">
+		        	<img src="./assets/signs/NoJaywalking.png" ng-show="home.traffic_signs.nj" width="50" height="85" class="text-center">
 		        	<p ng-hide="home.traffic_signs.nj">No JayWalking</p>
 		        </td>
 		        <td class="nostoppinganytime cursorP" width="13%" ng-click="home.toggleTrafficSigns('nsa')">
-		        	<img src="./assets/signs/NoStoppingAnytime.png" ng-show="home.traffic_signs.nsa" width="50" height="85"class="text-center">
+		        	<img src="./assets/signs/NoStoppingAnytime.png" ng-show="home.traffic_signs.nsa" width="50" height="85" class="text-center">
 		        	<p ng-hide="home.traffic_signs.nsa">No Stopping Anytime</p>
 		        </td>
 		        <td class="towawayzone cursorP" width="9%" ng-click="home.toggleTrafficSigns('taz')">
-		        	<img src="./assets/signs/TowAwayZone.gif" ng-show="home.traffic_signs.taz" width="50" height="85"class="text-center">
+		        	<img src="./assets/signs/TowAwayZone.gif" ng-show="home.traffic_signs.taz" width="50" height="85" class="text-center">
 		        	<p ng-hide="home.traffic_signs.taz">Tow Away Zone</p>
 		        </td>
 		        <td class="NoLoadingOrUnloading cursorP" width="15%" ng-click="home.toggleTrafficSigns('nul')">
-		        	<img src="./assets/signs/NoLoadingOrUnloading.gif" ng-show="home.traffic_signs.nul" width="50" height="85"class="text-center">
+		        	<img src="./assets/signs/NoLoadingOrUnloading.gif" ng-show="home.traffic_signs.nul" width="50" height="85" class="text-center">
 		        	<p ng-hide="home.traffic_signs.nul">No Loading Or Unloading</p>
 		        </td>
 		        <td class="Roadblock cursorP" width="12%" ng-click="home.toggleTrafficSigns('rb')">
@@ -79,9 +80,6 @@
 		    </tbody>
 		</table>
 	</div>
-
-	
-
 
 	<!-- Modal roadblock or roadsign choice-->
 	<div id="modalRBorRS" class="modal fade" role="dialog">
