@@ -1,7 +1,6 @@
 
 <div class="col-md-12" ng-controller="HomeCtrl as home">
 	<div style='position:relative;'>
-		<!-- <div id="map_div" style="height: 600px; width:100%;"></div> -->
 		<div>
 			<label>Search a location:</label>
 			<input places-auto-complete
@@ -11,6 +10,7 @@
 			   	<br>
 		</div>
 		<div id="panel">
+			<button id="changePath" type="button" class="btn btn-info" style="display: none;">New Path</button>
 			<button id="deleteButton" type="button" class="btn btn-danger" style="display: none;">Delete</button>
 			<button id="editRBButton" type="button" class="btn btn-info" style="display: none;">Edit Content</button>
 			<button id="editTRSButton" type="button" class="btn btn-info" style="display: none;">Edit Content</button>
@@ -25,7 +25,7 @@
 				rectangleOptions="{fillColor:'red'}"
 				>
 			</drawing-manager>	
-
+			
 			<shape ng-repeat="shape in home.allShapes"
 		       name="{{shape.name}}"
 		       id="polygon"
@@ -36,9 +36,11 @@
 		       stroke-weight="2"		       
 		       editable="true"
         	   draggable="true"
+
         	   on-click="home.click(shape.id, shape.type)"
         	   on-dragend="home.changepaths(shape.id, shape.type)"
         	   >
+        	   <!-- visible="{{visible}}" -->
         	  <!-- on-click="home.showArrays()" -->
         	   <!-- on-rightclick = "home.delete(shape.id, shape.type)" -->
  <!-- on-bounds_changed = "home.info(shape.id, shape.type)" -->
@@ -74,7 +76,8 @@
 		        	<p ng-hide="home.traffic_signs.nul">No Loading Or Unloading</p>
 		        </td>
 		        <td class="Roadblock cursorP" width="12%" ng-click="home.toggleTrafficSigns('rb')">
-		        	{{ home.traffic_signs.rb ? 'IWO' : 'Roadblock' }}
+		        	<img src="./assets/signs/RoadBlock.jpg" ng-show="home.traffic_signs.rb" width="85" height="85" class="text-center">
+		        	<p ng-hide="home.traffic_signs.rb">RoadBlock</p>
 		        </td>
 		      </tr>
 		    </tbody>
@@ -148,8 +151,8 @@
 					</table>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-primary" id="modalRBSaveButton">Save</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 
@@ -195,8 +198,8 @@
 
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-primary" id="modalTRSSaveButton">Save</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
@@ -217,7 +220,7 @@
 					<label> Do you wish to delete this geofence?</label>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="modalDelPathConfirmDelete">Save</button>
+					<button type="button" class="btn btn-primary" id="modalDelPathConfirmDelete">Confirm</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -226,7 +229,7 @@
 	</div>
 
 	<!-- Modal road block-->
-	<div id="modalEditroadblock" class="modal fade" role="dialog">
+	<div id="modalEditRoadBlock" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 
 			<!-- Modal content-->
@@ -270,8 +273,9 @@
 					</table>
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" ng-click="home.saveRBdata(home.editRB.rb_name, home.editRB.rb_desc, home.editRB.rb_startdatetime, home.editRB.rb_enddatetime)" id="modalEditRBSaveButton">Save
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" ng-click="home.saveRBdata()" id="modalEditRBSaveButton">Save</button>
+					</button>
 				</div>
 			</div>
 
@@ -324,119 +328,4 @@
 		</div>
 	</div>
 	<!-- end of modal -->
-
-
 </div>
-
-
-
-
-
-
-	<!-- end of modal -->
-
-	<!-- Modal info trs-->
-<!-- 	<div id="modalInfoTRS" class="modal fade" role="dialog">
-		<div class="modal-dialog"> -->
-
-			<!-- Modal content-->
-		<!-- 	<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Traffic Road Sign Title</h4>
-				</div>
-				<div class="modal-body">
-					<!-- <h3 id="modalErrorMsg" style="display: none;">Error</label></h3> -->
-					<!-- <div class="alert alert-danger" id="modalTRSErrorMsghider" style="display: none;">
-						<strong>Error!</strong><p id="modalErrorMsg"></p>
-					</div>
-					<table class="form-group" style="width:100%">
-						<tr>
-							<td><label for="modalRBTitle" class="control-label">Name Of Roadblock</label></td>
-							<td><input id="modalRBTitle" type="text" style="width: 60%;"  ></td>
-						</tr>
-						<tr>
-							<td>&nbsp</td>
-						</tr>
-						<tr>
-							<td><label for="modalRBDesc" class="control-label">Description</label></td>
-							<td><input id="modalRBDesc" type="text" style="width: 60%;"></td>
-						</tr>
-						<tr>
-							<td>&nbsp</td>
-						</tr>
-						<tr>
-							<td><label for="modalRBDateTS" class="control-label">Date and time Start</label></td>
-							<td><input id="modalRBDateTS" type="datetime-local" style="width: 60%;"></td>
-						</tr>
-						<tr>
-							<td>&nbsp</td>
-						</tr>
-						<tr>
-							<td><label for="modalRBDateTE" class="control-label">Date and time End</label></td>
-							<td><input id="modalRBDateTE" type="datetime-local" style="width: 60%;"></td>
-						</tr>	
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="modalRBSaveButton">Save</button>
-				</div>
-			</div>
-
-		</div>
-	</div> --> 
-	<!-- end of modal -->
-
-		<!-- Modal info rb-->
-	<!-- <div id="modalInfoRB" class="modal fade" role="dialog">
-		<div class="modal-dialog">
- -->
-			<!-- Modal content-->
-		<!-- 	<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Roadblock Details</h4>
-				</div>
-				<div class="modal-body"> -->
-					<!-- <h3 id="modalErrorMsg" style="display: none;">Error</label></h3> -->
-		<!-- 			<div class="alert alert-danger" id="modalRBErrorMsghider" style="display: none;">
-						<strong>Error!</strong><p id="modalErrorMsg"></p>
-					</div>
-					<table class="form-group" style="width:100%">
-						<tr>
-							<td><label for="modalRBTitle" class="control-label">Name Of Roadblock</label></td>
-							<td><input id="modalRBTitle" type="text" style="width: 60%;"  ></td>
-						</tr>
-						<tr>
-							<td>&nbsp</td>
-						</tr>
-						<tr>
-							<td><label for="modalRBDesc" class="control-label">Description</label></td>
-							<td><input id="modalRBDesc" type="text" style="width: 60%;"></td>
-						</tr>
-						<tr>
-							<td>&nbsp</td>
-						</tr>
-						<tr>
-							<td><label for="modalRBDateTS" class="control-label">Date and time Start</label></td>
-							<td><input id="modalRBDateTS" type="datetime-local" style="width: 60%;"></td>
-						</tr>
-						<tr>
-							<td>&nbsp</td>
-						</tr>
-						<tr>
-							<td><label for="modalRBDateTE" class="control-label">Date and time End</label></td>
-							<td><input id="modalRBDateTE" type="datetime-local" style="width: 60%;"></td>
-						</tr>	
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="modalRBSaveButton">Save</button>
-				</div>
-			</div>
-
-		</div>
-	</div> -->
-	<!-- end of modal -->

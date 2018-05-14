@@ -1,21 +1,23 @@
-<div class="" ng-class="{'col-md-5 col-sm-5 col-xs-8 col-md-offset-4 col-sm-offset-4 col-xs-offset-2': main.is_loggedin, 'col-md-4 col-md-offset-5': !main.is_loggedin}">
+<div class="" ng-class="{'col-md-5 col-sm-5 col-xs-8 col-md-offset-4 col-sm-offset-4 col-xs-offset-2': main.is_loggedin, 'col-md-4 col-md-offset-5': !main.is_loggedin}" >
+	<br><br><br><br>
 	<div class="panel panel-default">
-		<div class="panel-heading">
+		<div class="panel-heading panel-heading-custom">
 			<div class="panel-title">Login</div>
 		</div>
-		<div class="panel-body">
-			<form ng-submit="main.login(main.email, main.password)">
-				<div class="form-group">
+		<div class="panel-body" >
+			<form ng-submit="main.login(main.email, main.password, main.checkbox)">
+				<div class="form-group" >
 					<label for='username'>Email</label>
 					<input type="text" name="" id='username' ng-model="main.email" class="form-control" placeholder="Username" tabindex="1" >
 				</div>
 				<div class="form-group">
 					<label for='password'>Password</label>
 					<input type="password" name="" id='password' ng-model="main.password" class="form-control" placeholder="Password" tabindex="2">
+					
 				</div>
 			<button class="btn btn-info" id="login" type="submit" ng-disabled="main.login_loading" tabindex="3"> {{ main.login_loading ? 'Loading...' : 'Login' }}</button>
 
-			<a href="#" role="button" class="btn btn-default" tabindex="4" ng-click="main.resetpassword_modal()">Forgot password</a>
+			<a href="#" role="button" class="btn btn-danger" tabindex="4" ng-click="main.resetpassword_modal()">Forgot password</a>
 			</form>
 		</div>
 	</div>
@@ -31,24 +33,33 @@
 					<h4 class="modal-title">Forgot password</h4>
 				</div>
 				<div class="modal-body">
-					<!-- <h3 id="modalErrorMsg" style="display: none;">Error</label></h3> -->
-					<div class="alert alert-danger" id="modalEditRBErrorMsghider" style="display: none;">
-						<strong>Error!</strong> Please fill all fields.
-						<!-- <div id="modalRBErrorMsg"></div> -->
-					</div>
+				<form ng-submit="main.resetPassword(main.resetpassword_email,main.resetpassword_secretAnswer)">
 					<div class="row">
-						<form ng-submit="main.resetPassword(main.resetpassword_email)">
 						<div class="col-md-10 col-md-offset-1">
 							<div class="form-group">
 								<label>Email:</label>
-								<input type="email" name="" class="form-control" ng-model="main.resetpassword_email">
+								<input type="text" name="email" id="email" class="form-control" ng-model="main.resetpassword_email">
+							</div>
+							<div class="form-group">
+								<label>Secret Question:</label>
+								<select class="form-control" id="secretQuestion">
+									<option value="0" selected>What's your favorite food?</option>
+									<option value="1">When did you graduate?</option>
+									<option value="2">Where did you graduate?</option>
+									<option value="3">What's your pets name?</option>
+									<option value="4">What's your favorite color?</option>
+									<option value="5">What's your favorite number?</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="secretAnswer">Secret Answer:</label>
+								<input type="text" id="secretAnswer" class="form-control" ng-model="main.resetpassword_secretAnswer" name="secretAnswer">
 							</div>
 						</div>
 					</div>
-				</div>
 				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit" ng-click="main.resetPassword(main.resetpassword_email, main.resetpassword_secretAnswer)">Submit</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					<button class="btn btn-primary" type="submit" ng-click="main.resetPassword(main.resetpassword_email)">Submit</button>
 					</form>
 				</div>
 			</div>

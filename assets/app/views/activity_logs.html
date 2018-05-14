@@ -1,5 +1,5 @@
-<div class="col-md-12" ng-controller="HistContrl as hist">
-	<div class="panel panel-default">
+<div class="col-md-12" ng-controller="ActLogsContrl as log">
+	<div class="panel panel-default" ng-if="log.level == 2">
 		<div class="panel-heading">
 			<div class="panel-title"><label>Activity Logs</label></div>
 		</div>
@@ -19,7 +19,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="logs in hist.act_log | orderBy:logs.$id:true |filter:search ">
+					<tr ng-repeat="logs in log.act_log | orderBy:logs.$id:true |filter:search ">
 						<td>{{ logs.activity_description }} {{ logs.activity_date }}</td>
 					</tr>
 			    </tbody>

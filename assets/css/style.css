@@ -286,3 +286,6 @@ body {
 .cursorP{
   cursor: pointer;
 }
+.panel-default > .panel-heading-custom {
+  background: #66a0ff; color: #ffffff; 
+}

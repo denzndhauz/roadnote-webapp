@@ -5,30 +5,37 @@
 			<div class="panel-title">About</div>
 		</div>
 		<div class="panel-body">
-			<table class="table table-bordered">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3">
+						<h5>Search: <input type="text" ng-model="search" class="form-control input-sm"> </h5>
+					</div>
+				</div>
+			</div>
+			<table class="table table-bordered col-md-12">
 			    <thead class="text-center">
 			      <tr class="bg-primary">
-			        <th class="text-center">E-mail</th>
-			        <th class="text-center">Description</th>
-			        <th class="text-center">Date And time</th>
-			        <th class="text-center">Tags</th>
+			        <th class="text-center col-md-5">E-mail</th>
+			        <th class="text-center col-md-1">View Details</th>
+			        <th class="text-center col-md-2">Date And time</th>
+			        <th class="text-center col-md-2">Tags</th>
 			      </tr>
 			    </thead>
 				<tbody>
-				<tr ng-repeat="sr in sreport.report_a_complain" class="text-center">
+				<tr ng-repeat="sr in sreport.report_a_complain | orderBy:sr.$id:true | filter:search" class="text-center" >
 			      <td class="text-center">{{ sr.sr_reportedby }}</td>
 			      <td class="text-center" id="sr_id">{{ sr.rac_id }}
-			      	<!-- <a class="text-center" href="" data-toggle="modal" data-target="#modalView" >See Details -->
 			        <button type="button" class="btn btn-info" ng-click="sreport.modalView(sr)" >
-			        	See Details
+			        	Details
 			        </button>
 			      </td>
 			      <td class="text-center">{{ sr.sr_date }}</td>
-			      <td class="bg-info text-center">
+			      <td class="bg-info text-center row">
 				      <select class="form-control" ng-model="sr.sr_status" ng-change="sreport.updateSr_status(sr)">
 				        <option value="PENDING">Pending</option>
-				        <option value="READ">Read</option>
-				        <option value="SPAM">Spam</option>
+				        <option value="Verify Correct">Verify Correct</option>
+				        <option value="Fake News">false/fake news</option>
+				        <option value="Highly Confidential">Highly Confidential</option>
 				      </select>
 			      </td>
 			    </tr>
@@ -59,8 +66,8 @@
 							<div class="col-md-12" id="streetReportMsg"></div>
 						</div>
 						<br>
-						<a href="#" class="thumbnail">
-					      <img src="" alt="...">
+						<a href="#" class="thumbnail" style="pointer-events: none; cursor:default;">
+					      <img src="" alt="..." >
 					    </a>
 						<button type="button" id="locationView" class="btn btn-link">click here to see location</button> 
 					</div>

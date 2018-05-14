@@ -1,92 +1,166 @@
 <div class="col-md-12" ng-controller="SignUpCtrl as signup">
-	<form>
-		<div class="row form-group">
-			<div class="col-md-3 ">
-				<p>Username:</p>
-			</div>
-			<div class="col-md-3 ">
-				<input type="email" class="form-control" ng-model="signup.username" name="username">
-			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col-md-3 ">
-				<p>Password:</p>
-			</div>
-			<div class="col-md-3 col-offset-1">
-				<input type="text" class="form-control" ng-model="signup.password" name="password">
-			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col-md-3">
-				<p>Confirm Password:</p>
-			</div>
-			<div class="col-md-3 col-offset-1">
-				<input type="text" class="form-control"  ng-model="signup.confirmPassword" name="confirmPassword">
-			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col-md-3 col-offset-1">
-				<p>First Name:</p>
-			</div>
-			<div class="col-md-3 col-offset-1">
-				<input type="text" class="form-control"  ng-model="signup.firstName" name="firstName">
-			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col-md-3 col-offset-1">
-				<p>Middle Name:</p>
-			</div>
-			<div class="col-md-3 col-offset-1">
-				<input type="text" class="form-control"  ng-model="signup.middleName" name="middleName">
-			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col-md-3 ">
-				<p>Family Name:</p>
-			</div>
-			<div class="col-md-3 col-offset-1">
-				<input type="text" class="form-control"  ng-model="signup.familyName" name="familyName">
-			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col-md-3 ">
-				<p>Birth Date:</p>
-			</div>
-			<div class="col-md-3 col-offset-1">
-				<input type="date" class="form-control"  ng-model="signup.birthDate" name="birthDate">
-			</div>
-		</div>
-		<div class="row form-group" >
-			<div class="col-md-3 col-offset-1">
-				<p>Secret Question:</p>
-			</div>
-			<div class="col-md-3 col-offset-1">
-				<select class="form-control" id="secretQuestion">
-					<option value="0" selected>What's your favorite food?</option>
-					<option value="1">When did you graduate?</option>
-					<option value="2">Where did you graduate?</option>
-					<option value="3">What's your pets name?</option>
-					<option value="4">What's your favorite color?</option>
-					<option value="5">What's your favorite number?</option>
-				</select>
-			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col-md-3 col-offset-1">
-				<p>Secret Answer:</p>
-			</div>
-			<div class="col-md-3 col-offset-1">
-				<input type="text" class="form-control" ng-model="signup.secretAnswer" name="secretAnswer">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3 col-offset-1">
-			</div>
-			<div class="col-md-3 col-offset-1">
-				<button type="submit" class="btn btn-primary" ng-click="signup.createAccount(signup.username, 
-					signup.password, signup.confirmpassword,signup.firstName,signup.middleName, signup.familyName, 
-				signup.birthDate, signup.secretAnswer)">Save</button>
-			</div>
-		</div>
-	</form>
+	<table class="table " style="width: 55%;" ng-if="signup.level == 2">
+		<thead>
+			<tr class="bg-primary">
+				<th>Sign Up</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody >
+			<form>
+			<tr >
+				<td style="border-style: none;">Username:</td>
+				<td style="border-style: none;"><input type="text" id="username" class="form-control" ng-model="signup.username" name="username"></td>
+			</tr>
+			<tr >
+				<td style="border-style: none;">Password:</td>
+				<td style="border-style: none;"><input type="password" id="password" class="form-control" ng-model="signup.password" name="password"></td>
+			</tr>
+			<tr>
+				<td style="border-style: none;">Confirm Password:</td>
+				<td style="border-style: none;"><input type="password" id="confirmPassword" class="form-control"  ng-model="signup.confirmPassword" name="confirmPassword"></td>
+			</tr>
+			<tr>
+				<td style="border-style: none;">Admin Level:</td>
+				<td style="border-style: none;">
+					<select class="form-control" id="admin_level" name="admin_level">
+						<option value="0" selected>1</option>
+						<option value="1">2</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td style="border-style: none;">First Name:</td>
+				<td style="border-style: none;"><input type="text" id="firstName" class="form-control"  ng-model="signup.firstName" name="firstName"></td>
+			</tr>
+			<tr>
+				<td style="border-style: none;">Middle Name:</td>
+				<td style="border-style: none;"><input type="text" id="middleName" class="form-control"  ng-model="signup.middleName" name="middleName"></td>
+			</tr>
+			<tr>
+				<td style="border-style: none;">Family Name:</td>
+				<td style="border-style: none;"><input type="text" id="familyName" class="form-control"  ng-model="signup.familyName" name="familyName"></td>
+			</tr>
+			<tr>
+				<td style="border-style: none;">Birth Date:</td>
+				<td style="border-style: none;"><input type="date" id="birthDate" class="form-control"  ng-model="signup.birthDate" name="birthDate"></td>
+			</tr>
+			<tr>
+				<td style="border-style: none;">Secret Question:</td>
+				<td style="border-style: none;"><select class="form-control" id="secretQuestion">
+						<option value="0" selected>What's your favorite food?</option>
+						<option value="1">When did you graduate?</option>
+						<option value="2">Where did you graduate?</option>
+						<option value="3">What's your pets name?</option>
+						<option value="4">What's your favorite color?</option>
+						<option value="5">What's your favorite number?</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td style="border-style: none;">Secret Answer:</td>
+				<td style="border-style: none;"><input type="text" id="secretAnswer" class="form-control" ng-model="signup.secretAnswer" name="secretAnswer"></td>
+			</tr>
+
+			<tr>
+				<td style="border-style: none;"></td>
+				<td style="border-style: none;"><button type="submit" class="btn btn-primary" ng-click="signup.createAccount(signup.username, 
+					signup.password, signup.confirmPassword,signup.firstName,signup.middleName, signup.familyName, 
+					signup.birthDate, signup.secretAnswer)">Save</button>
+				</td>
+			</tr>
+		</form>
+		</tbody>
+	</table>
 </div>
+<!-- <div>
+		<form>
+			<div class="row form-group">
+				<div class="col-md-3 ">
+					<p>Username:</p>
+				</div>
+				<div class="col-md-3 col-offset-1">
+					<input type="email" class="form-control" ng-model="signup.username" name="username">
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-md-3 ">
+					<p>Password:</p>
+				</div>
+				<div class="col-md-3 col-offset-1">
+					<input type="text" class="form-control" ng-model="signup.password" name="password">
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-md-3">
+					<p>Confirm Password:</p>
+				</div>
+				<div class="col-md-3 col-offset-1">
+					<input type="text" class="form-control"  ng-model="signup.confirmPassword" name="confirmPassword">
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-md-3 col-offset-1">
+					<p>First Name:</p>
+				</div>
+				<div class="col-md-3 col-offset-1">
+					<input type="text" class="form-control"  ng-model="signup.firstName" name="firstName">
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-md-3 col-offset-1">
+					<p>Middle Name:</p>
+				</div>
+				<div class="col-md-3 col-offset-1">
+					<input type="text" class="form-control"  ng-model="signup.middleName" name="middleName">
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-md-3 ">
+					<p>Family Name:</p>
+				</div>
+				<div class="col-md-3 col-offset-1">
+					<input type="text" class="form-control"  ng-model="signup.familyName" name="familyName">
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-md-3 ">
+					<p>Birth Date:</p>
+				</div>
+				<div class="col-md-3 col-offset-1">
+					<input type="date" class="form-control"  ng-model="signup.birthDate" name="birthDate">
+				</div>
+			</div>
+			<div class="row form-group" >
+				<div class="col-md-3 col-offset-1">
+					<p>Secret Question:</p>
+				</div>
+				<div class="col-md-3 col-offset-1">
+					<select class="form-control" id="secretQuestion">
+						<option value="0" selected>What's your favorite food?</option>
+						<option value="1">When did you graduate?</option>
+						<option value="2">Where did you graduate?</option>
+						<option value="3">What's your pets name?</option>
+						<option value="4">What's your favorite color?</option>
+						<option value="5">What's your favorite number?</option>
+					</select>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-md-3 col-offset-1">
+					<p>Secret Answer:</p>
+				</div>
+				<div class="col-md-3 col-offset-1">
+					<input type="text" class="form-control" ng-model="signup.secretAnswer" name="secretAnswer">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 col-offset-1">
+				</div>
+				<div class="col-md-3 col-offset-1">
+					<button type="submit" class="btn btn-primary" ng-click="signup.createAccount(signup.username, 
+						signup.password, signup.confirmpassword,signup.firstName,signup.middleName, signup.familyName, 
+					signup.birthDate, signup.secretAnswer)">Save</button>
+				</div>
+			</div>
+		</form> -->

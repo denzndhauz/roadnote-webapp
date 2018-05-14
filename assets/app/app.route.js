@@ -48,19 +48,9 @@
         			}]
 			    }
 			}).state({
-			    name: 'history',
-			    url: '/history',
-			    templateUrl: './assets/app/views/history.html',
-			    resolve: {
-			    	"currentAuth": ["Auth", function(Auth) {
-			          // $waitForSignIn returns a promise so the resolve waits for it to complete
-			          return Auth.$requireSignIn();
-        			}]
-			    }
-			}).state({
-			    name: 'todelete',
-			    url: '/todelete',
-			    templateUrl: './assets/app/views/todelete.html',
+			    name: 'activity_logs',
+			    url: '/activity_logs',
+			    templateUrl: './assets/app/views/activity_logs.html',
 			    resolve: {
 			    	"currentAuth": ["Auth", function(Auth) {
 			          // $waitForSignIn returns a promise so the resolve waits for it to complete
@@ -78,7 +68,6 @@
         			}]
 			    }
 			});
-
 		$urlRouterProvider.otherwise('/login');
 	}
 })();
